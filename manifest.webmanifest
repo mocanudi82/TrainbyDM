@@ -1,6 +1,6 @@
 {
- "name": "Train by DM",
- "short_name": "Train",
+ "name": "Training Suite by DM",
+ "short_name": "DM Suite",
  "start_url": ".",
  "scope": ".",
  "display": "standalone",
