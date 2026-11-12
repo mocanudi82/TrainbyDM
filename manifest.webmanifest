@@ -1,10 +1,10 @@
 {
- "name": "Train",
+ "name": "Train by DM",
  "short_name": "Train",
  "start_url": ".",
  "scope": ".",
  "display": "standalone",
- "background_color": "#eaf4f4",
+ "background_color": "#d8f0ef",
  "theme_color": "#d8f0ef",
  "icons": [
   {
