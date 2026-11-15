@@ -861,7 +861,7 @@ html body .pin{z-index:30}
 .a6p{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-bottom:8px}
 .a6p i{display:block;height:7px;border-radius:99px;background:var(--line);overflow:hidden}
 .a6p u{display:block;height:100%;background:#ec4624;border-radius:99px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
-.a6r{display:grid;grid-template-columns:54px repeat(3,1fr);gap:6px;align-items:stretch;margin-bottom:6px}
+.a6r{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;align-items:stretch;margin-bottom:6px}
 .a6l{font-family:var(--fh);font-size:13px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);align-self:center}
 .a6r .tab{min-width:0;padding:8px 4px;text-align:center}
 /* home */
@@ -925,6 +925,7 @@ html body .pin{z-index:30}
 .chev{display:inline-block;transition:transform .25s}
 .blk.folded .chev{transform:rotate(-90deg)}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+#tabs .a6{width:100%;flex:1 1 100%}
 
 /* ---- V22 ---- */
 html{background-color:#d8f0ef}
@@ -1129,6 +1130,62 @@ input.kg{height:52px!important;font-size:18px!important}
 .cdx.muted{color:var(--muted,#6b8484)}
 
 .prbar .prm{margin-left:auto;font-family:var(--fm);font-size:13px;color:var(--mut,#8aa)}
+.ex[data-tok]{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.ex.dragging{position:relative;z-index:30;box-shadow:0 14px 34px #00000045!important;opacity:.97;transition:box-shadow .15s}
+.sets6{display:flex!important;align-items:flex-end;gap:10px;flex-wrap:nowrap}
+.setn{width:64px;height:64px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;background:conic-gradient(#4fbbbc calc(var(--p)*1%),var(--line) 0);font-family:var(--fm)}
+.setn i{width:50px;height:50px;border-radius:50%;background:var(--card);display:flex;align-items:baseline;justify-content:center;padding-top:12px;font-style:normal;color:var(--ink)}
+.setn b{font-size:20px}.setn small{font-size:11px;opacity:.7}.setn.on i{background:#4fbbbc;color:#0d1b2a}
+.sfd{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.sets6 .kgr{display:flex;flex-direction:column;gap:3px}.kgl{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.setn{width:50px;height:50px}.setn i{width:38px;height:38px;padding-top:8px}.setn b{font-size:16px}.setn small{font-size:10px}
+.sets6{gap:8px}.sfd .kg{width:100%}
+.sets6 .kgr{flex:1;min-width:0}.sets6 .kgr .kg{width:100%}
+.sets6{justify-content:flex-start}.sets6 .sfd,.sets6 .kgr{flex:0 0 78px;align-items:center}
+.sets6 .sfd .kg,.sets6 .kgr .kg{width:78px!important;height:44px!important;font-size:16px!important;margin:0!important;padding:0 6px}
+.sets6 .sfd>span,.sets6 .kgl{font:600 12px Oswald,sans-serif;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.sets6 .kgr{margin-left:0!important}.sets6 .sfd .kg{text-align:center}
+.rpw{margin:8px 0}
+.rpw{margin:8px 0}
+#sheetCal .crow>.field{flex:1 1 0;min-width:0}
+#sheetCal .crow>.field input{width:100%;box-sizing:border-box;min-width:0}
+.tlsc{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -2px}
+.tlsc::-webkit-scrollbar{display:none}
+.tlin{width:230%;min-width:230%}
+.tlin .tlm{display:flex;justify-content:space-between}
+/* Voyager-style cards (preview) */
+html:root:root:root:root body .blk,html:root:root:root:root body .blk.alt{border-left:0!important;background:var(--vcard,#ffffffd9)!important;border:1px solid #ffffff66!important;box-shadow:0 8px 24px #2b8f9126!important;border-radius:22px!important;padding:14px 14px 6px!important;margin:0 0 14px!important;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+html:root:root:root:root body .blk .sec,html:root:root:root:root body .blk .sec>span:first-child{background:none!important;color:var(--ink)!important;padding:0!important;border-radius:0!important;line-height:1.2!important;margin:0 0 6px;padding:0;background:none!important;border-radius:0;box-shadow:none;color:var(--ink);font:700 17px/1.2 Oswald,sans-serif;letter-spacing:.9px;text-transform:uppercase}
+html:root:root:root:root body .blk .ex{background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:12px 0!important;margin:0!important;border-bottom:1px dashed var(--line)!important}
+html:root:root:root:root body .blk .ex:last-child{border-bottom:0}
+html:root:root:root:root body .hero{background:linear-gradient(135deg,#2b8f91 0%,#4fbbbc 55%,#f39120 140%);border-radius:22px;padding:16px 16px 14px;margin:0 0 14px;color:#fff;box-shadow:0 8px 24px #2b8f9140}
+html:root:root:root:root body .hero .sess-row,html:root:root:root:root body .hero .sess-row *{color:#fff!important;text-shadow:none!important}
+html:root:root:root:root body .hero .prbar span{color:#fff}
+html:root:root:root:root body .hero .prbar button{background:#ffffff26;border:1px solid #ffffff80;color:#fff}
+html:root:root:root:root body .hero .prbar button.on{background:#fff;color:#124f53}
+html:root:root:root:root body .hero .prbar .prm{color:#fff}
+html:root:root:root:root body .hero .sclk button{background:#fff;color:#124f53}
+html:root:root:root:root body .add,html:root:root:root:root body .card{background:var(--vcard,#ffffffd9);border:1px solid #ffffff66;box-shadow:0 8px 24px #2b8f9126;border-radius:22px}
+html:root:root:root:root body .wk{border-radius:16px;box-shadow:0 4px 14px #2b8f9120;border:1px solid #ffffff80}
+@media (prefers-color-scheme:dark){:root{--vcard:#24403fcc}html:root:root:root:root body .blk,html:root:root:root:root body .card,html:root:root:root:root body .add{border-color:#ffffff1a;box-shadow:0 8px 24px #00000040}}
+html:root:root:root:root body .blk .sec{background:none!important;box-shadow:none!important;border:0!important;border-radius:0!important;padding:0 0 6px!important;margin:0!important;display:flex!important;align-items:center!important}
+html:root:root:root:root body .blk .sec *{color:var(--ink)!important;background:none!important;box-shadow:none!important}
+html:root:root:root:root body .blk .sec .cnt{margin-left:auto;font:600 14px Oswald,sans-serif;color:var(--mut)!important}
+html:root:root:root:root body .hero *{text-shadow:none!important}
+html:root:root:root:root body .hero .sess-row,html:root:root:root:root body .hero .sess-row *{color:#fff!important;-webkit-text-fill-color:#fff!important}
+html:root:root:root:root body .hero .sclk button{white-space:nowrap}
+html:root:root:root:root body .hero .sclk{flex-wrap:wrap;gap:8px}
+html:root:root:root:root body .hero .prbar{margin:10px 0 6px}
+html:root:root:root:root body .hero .prbar .prm{margin:0 0 0 auto;flex:0 0 auto;font-size:15px;opacity:.9}
+html:root:root:root:root body .hero .sclk{display:flex;flex-wrap:nowrap;gap:6px;margin-top:8px;align-items:center}
+html:root:root:root:root body .hero .sclk>*{flex:0 0 auto;min-width:0}
+html:root:root:root:root body .hero .sclk button{width:40px;height:40px;padding:0;font-size:18px;display:flex;align-items:center;justify-content:center}
+html:root:root:root:root body .hero .sclk button.go,html:root:root:root:root body .hero .sclk #goBtn{width:auto}
+html:root:root:root:root body .hero .sclk .fe{display:flex;gap:4px;margin-right:4px}
+html:root:root:root:root body .hero .sclk .fe button{width:36px;height:36px;min-width:36px}
+html:root:root:root:root body .hero .sclk button:not(.ckE):not(.nxt):not([class]){width:auto;padding:0 14px;height:40px;font-size:15px}
+html:root:root:root:root body .hero .sclk button.ckE,html:root:root:root:root body .hero .sclk button.nxt{width:38px;height:38px}
+html:root:root:root:root body .hero .sess-row .sess-title,html:root:root:root:root body .hero .sess-row h2,html:root:root:root:root body .hero .sess-row>*{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:22px!important;line-height:1.15!important}
 
 </style>
 
@@ -1725,7 +1782,7 @@ function loggedIn(p,wi,sid,mon){const st=getState(p),P=PROGS[p],k=wi+'|'+sid;let
   Object.entries(st.days||{}).forEach(([d,L])=>{if(L[k]&&L[k].done>0&&(!P.single||(d>=mon&&d<=addD(mon,6))))hit=true});
   const h=st.hist&&st.hist[k];if(!hit&&h&&h.done>0&&h.date&&(!P.single||(h.date>=mon&&h.date<=addD(mon,6))))hit=true;return hit}
 let PLANC=null;
-function planItems(){loadCal();const cache=JSON.stringify([CALY,CAL.trips,CAL.blocks,CAL.cfg,CAL.moves,CAL.skip,CAL.adel,CAL.noPre]);if(PLANC&&PLANC.k===cache)return PLANC.v;
+function planItems(){loadCal();const cache=JSON.stringify([CALY,CAL.trips,CAL.blocks,CAL.cfg,CAL.moves,CAL.skip,CAL.adel,CAL.noPre,CAL.noPost]);if(PLANC&&PLANC.k===cache)return PLANC.v;
   const out={},weeks=planWeeks();
   weeks.forEach(w=>weekSess(w).forEach(([dow,p,sid,wi])=>{const key=w.mon+'|'+p+'|'+sid;if((CAL.skip||{})[key])return;
     const date=(CAL.moves||{})[key]||addD(w.mon,dow);if(tripsOn(date).some(t=>!['other','easyw','cardio'].includes(t.kind)))return;
@@ -2139,9 +2196,10 @@ function planWeeks(){loadCal();const cfg=CAL.cfg||{};const ath0=cfg['ath'+CALY]|
   const nonOther=allTrips.filter(t=>t.kind!=='other'&&t.kind!=='rest');
   nonOther.filter(t=>t.kind==='ski').sort((a,b)=>a.from.localeCompare(b.from)).forEach(sk=>{
     const m0=monOf(sk.from);let lim='0000';nonOther.forEach(t=>{if(t!==sk&&t.to<sk.from){const e=addD(monOf(t.to),14);if(e>lim)lim=e}});
-    let st=addD(m0,-28);if(st<lim)st=lim;const lst=[];for(let m=st;m<=m0;m=addD(m,7))if(ws.includes(m)&&!T[m]&&!(CAL.noPre||[]).includes(sk.id))lst.push(m);
+    let st=m0,cnt=0;for(let m=m0;m>=lim&&cnt<5;m=addD(m,-7)){if(ws.includes(m)&&!T[m])cnt++;st=m}if(st<lim)st=lim;const lst=[];for(let m=st;m<=m0;m=addD(m,7))if(ws.includes(m)&&!T[m]&&!(CAL.noPre||[]).includes(sk.id))lst.push(m);
     lst.forEach((m,i)=>{T[m]={t:'ski',k:5-lst.length+i,name:sk.name,short:lst.length<5}})});
-  (CAL.blocks||[]).forEach((b,bi)=>{const m0=monOf(b.from);for(let i=0;i<(+b.weeks||1);i++){const m=addD(m0,7*i);if(ws.includes(m))T[m]={t:b.type,k:i,manual:true,bi}}});
+  nonOther.filter(t=>t.kind==='ski'&&!(CAL.noPost||[]).includes(t.id)).forEach(sk=>{const wk=ws.filter(m=>T[m]&&T[m].tid===sk.id);if(!wk.length)return;const m=addD(wk[wk.length-1],7);if(ws.includes(m)&&!T[m])T[m]={t:'easy',k:0,post:sk.id,name:'After '+(sk.name||'ski trip')}});
+  {const occ=new Set(Object.keys(T));(CAL.blocks||[]).map((b,bi)=>[b,bi]).sort((x,y)=>x[0].from.localeCompare(y[0].from)).forEach(([b,bi])=>{let m=monOf(b.from),n=+b.weeks||1,k=0;const last=ws[ws.length-1];while(k<n&&m<=last){if(ws.includes(m)&&!occ.has(m)){T[m]={t:b.type,k:k,manual:true,bi};occ.add(m);k++}m=addD(m,7)}})}
   let ak=0,sk=0,ck=0;
   {const seq=[];const free=ws.filter(m=>!T[m]);free.forEach(m=>{if(m<ath0)seq.push({t:'cond',k:ck++});else if(ak<16)seq.push({t:'athletic',k:ak++});else seq.push({t:'strength',k:sk++})});const del=CAL.adel||[];const keep=seq.filter(q=>!del.some(d=>d.t===q.t&&q.k>=d.k0&&q.k<=d.k1));free.forEach((m,i)=>{T[m]=keep[i]||{t:'empty',k:0}})}
   let run=0;return ws.map(m=>{const w=Object.assign({mon:m},T[m]);if(w.t==='trip'||w.t==='easy'||w.t==='rest')run++;else{if(run>=3)w.retest=true;run=0}if(w.t==='strength'&&(w.k||0)%8===4)w.deload=true;return w})}
@@ -2155,7 +2213,7 @@ function weekSess(w){const k=w.k||0;const NG=[[0,'nogym','A',0],[2,'nogym','B',0
   if(w.t==='easy')return [[1,'cardio','Z2',0],[3,'cardio','Z2',0],[5,'cardio','Z2',0]];
   if(w.t==='trip')return w.kind==='other'?NG:[];
   return []}
-function planItems(){loadCal();const cache=JSON.stringify([CALY,CAL.trips,CAL.blocks,CAL.cfg,CAL.moves,CAL.skip,CAL.adel,CAL.noPre]);if(PLANC&&PLANC.k===cache)return PLANC.v;
+function planItems(){loadCal();const cache=JSON.stringify([CALY,CAL.trips,CAL.blocks,CAL.cfg,CAL.moves,CAL.skip,CAL.adel,CAL.noPre,CAL.noPost]);if(PLANC&&PLANC.k===cache)return PLANC.v;
   const out={},weeks=planWeeks();
   weeks.forEach(w=>{const seen={};weekSess(w).forEach(([dow,p,sid,wi,opt])=>{const sk=p+'|'+sid;seen[sk]=(seen[sk]||0)+1;const key=w.mon+'|'+sk+(seen[sk]>1?'#'+dow:'');if((CAL.skip||{})[key])return;
     const date=(CAL.moves||{})[key]||addD(w.mon,dow);if(tripsOn(date).some(t=>!['other','easyw','cardio'].includes(t.kind)))return;
@@ -2173,7 +2231,7 @@ function wkText(w){if(!w)return '';const k=w.k||0;
   if(w.t==='rest')return 'Rest · program paused';
   if(w.t==='trip')return 'Trip'+(w.name?': '+w.name:'')+(w.kind==='other'?' · Travel Workout':' · program paused');return ''}
 function planBlocks(){planItems();const out=[];(PLANC.weeks||[]).forEach(w=>{const l=out[out.length-1];
-  if(l&&l.t===w.t&&l.name===w.name&&!w.manual===!l.manual&&l.bi===w.bi&&l.tid===w.tid){l.end=addD(w.mon,6);l.k1=w.k}else out.push({t:w.t,name:w.name,manual:w.manual,bi:w.bi,tid:w.tid,start:w.mon,end:addD(w.mon,6),k0:w.k,k1:w.k})});
+  if(l&&l.t===w.t&&l.name===w.name&&!w.manual===!l.manual&&l.bi===w.bi&&l.tid===w.tid){l.end=addD(w.mon,6);l.k1=w.k}else out.push({t:w.t,name:w.name,manual:w.manual,bi:w.bi,tid:w.tid,post:w.post,start:w.mon,end:addD(w.mon,6),k0:w.k,k1:w.k})});
   return out.map(b=>{let tx=BT19[b.t]||b.t;if(b.t==='athletic')tx+=' R'+(Math.floor(b.k0/2)+1)+(Math.floor(b.k1/2)!==Math.floor(b.k0/2)?'–R'+(Math.floor(b.k1/2)+1):'');if(b.t==='ski')tx+=' (weeks '+(b.k0+1)+'–'+(b.k1+1)+' of 5)';if(b.t==='ski8')tx+=' (weeks '+(b.k0+1)+'–'+(b.k1+1)+' of 7)';
     if(b.t==='trip'&&b.name)tx+=': '+b.name;if(b.t==='rest'&&b.name&&b.name!=='Rest')tx+=': '+b.name;return Object.assign({},b,{tx})})}
 function planCard(){const bl=planBlocks();
@@ -2441,12 +2499,11 @@ renderTabs=function(){
   if(!PLAN||PLAN.id!=='athletic'||PLAN.sessions.length!==6)return _renderTabs21();
   const wi=S.week,n=PLAN.weeks.length;
   const st=PLAN.sessions.map(s=>{const t=totals(s,wi);const fin=!!S.fin[wi+'|'+s.id];return {s,t,fin,p:fin?1:(t.t?t.d/t.t:0)}});
-  const btn=(o,i)=>`<button class="tab ${o.s.id===S.sess?'on':''} l${o.t.t?lvl(o.p):0}" data-s="${o.s.id}">Workout ${i+1}<small>${o.fin?'✓ done':o.t.d+'/'+o.t.t}</small></button>`;
+  const btn=(o,i)=>`<button class="tab ${o.s.id===S.sess?'on':''} l${o.t.t?lvl(o.p):0}" data-s="${o.s.id}">${i<3?"WA":"WB"} W${i+1}<small>${o.fin?'✓ done':o.t.d+'/'+o.t.t}</small></button>`;
   const doneN=st.filter(o=>o.fin).length;
-  $('tabs').innerHTML=`<div class="a6"><div class="a6h"><b>Rotation ${wi+1} of ${n}</b><span>2 weeks · 6 workouts · ${doneN} done</span></div>
-  <div class="a6p">${st.map(o=>`<i><u style="width:${Math.round(100*o.p)}%"></u></i>`).join('')}</div>
-  <div class="a6r"><span class="a6l">Week A</span>${st.slice(0,3).map((o,i)=>btn(o,i)).join('')}</div>
-  <div class="a6r"><span class="a6l">Week B</span>${st.slice(3).map((o,i)=>btn(o,i+3)).join('')}</div></div>`;
+  $('tabs').innerHTML=`<div class="a6">  <div class="a6p">${st.map(o=>`<i><u style="width:${Math.round(100*o.p)}%"></u></i>`).join('')}</div>
+  <div class="a6r">${st.slice(0,3).map((o,i)=>btn(o,i)).join('')}</div>
+  <div class="a6r">${st.slice(3).map((o,i)=>btn(o,i+3)).join('')}</div></div>`;
   $('tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.sess=b.dataset.s;save();renderAll();window.scrollTo(0,0)});
 };
 const _progStat21=progStat;
@@ -2537,14 +2594,14 @@ function cardioCardHtml(){return ''}
 const _vis21=visibleEx;
 visibleEx=function(sess,wi){if(PLAN.id==='cardio')return [{t:'sec',text:'Today'},{t:'ex',id:sess.id+'-ALL',n:'1',name:'Session',unit:'',rest:'—',tempo:null,w:PLAN.weeks.map(()=>({s:'1',kg:null})),kind:'AER',focus:null,note:'',syn:true}];return _vis21(sess,wi)};
 function cardioNewHtml(wi,ex){const sess=curSess();const mk=wi+'|'+sess.id,key=wi+'|'+ex.id;S.mode=S.mode||{};S.cq=S.cq||{};S.cmin=S.cmin||{};
-  const cur=S.mode[mk]||'Run',q=S.cq[mk]||{},M=numv(S.cmin[mk])||0,done=(S.done[key]||[])[0];
+  const cur=S.mode[mk]||'Run',q=S.cq[mk]||{},M=numv(S.cmin[mk])||((sess.id==='Z2'||sess.id==='TH')?45:0),done=(S.done[key]||[])[0];
   const km=numv(q.km);let pace='';if(km&&M){if(cur==='Swim'){const p=(M*60)/(km*10);pace=Math.floor(p/60)+':'+String(Math.round(p%60)).padStart(2,'0')+' /100 m'}else if(cur==='Bike'||cur==='Elliptical'){pace=(km/(M/60)).toFixed(1)+' km/h'}else{const p=M/km;pace=Math.floor(p)+':'+String(Math.round((p%1)*60)).padStart(2,'0')+' /km'}}
   const ops=M?cardioOpts(sess.id,cur,M):[];
   return `<div class="ex cnew" data-cn="${esc(mk)}">  <div class="cmodes">${CTYPES.map(o=>`<button data-cm="${o}" class="${o===cur?'on':''}">${o}</button>`).join('')}</div>
-  <div class="crow cqrow"><label class="field"><span>Minutes</span><input id="cmin" type="number" inputmode="numeric" min="0" max="600" placeholder="min" value="${esc(S.cmin[mk]||'')}"></label>
+  <div class="crow cqrow"><label class="field"><span>Minutes</span><input id="cmin" type="number" inputmode="numeric" min="0" max="600" placeholder="${(sess.id==='Z2'||sess.id==='TH')?'45-60':'min'}" value="${esc(S.cmin[mk]||'')}"></label>
   <label class="field"><span>Avg HR</span><input id="cqhr" type="number" inputmode="numeric" min="40" max="230" value="${esc(q.hr||'')}"></label>
   <label class="field"><span>Distance (km)</span><input id="cqkm" type="number" inputmode="decimal" step="0.01" value="${esc(q.km||'')}"></label></div>
-  <div class="cqq">${[30,40,50,60].map(m=>`<button data-qm="${m}" class="${M===m?'on':''}">${m} min</button>`).join('')}</div>
+  <div class="cqq">${((sess.id==='Z2'||sess.id==='TH')?[45,50,55,60]:[30,40,50,60]).map(m=>`<button data-qm="${m}" class="${M===m?'on':''}">${m} min</button>`).join('')}</div>
   ${pace?`<div class="small muted">Pace ${pace}</div>`:''}
   <div class="czl">${esc(cardioZoneLine(sess.id,cur))}</div>
   ${M?`<div class="copt-h">Options for ${M} min</div>`+ops.map(p=>`<button class="copt ${q.opt===p.id?'on':''}" data-op="${p.id}"><b>${p.id} · ${esc(p.title)}</b><span>${esc(p.text)}</span></button>`).join(''):'<div class="small muted copt-h">Enter your minutes, or tap 30, 40, 50 or 60, to see options for that length.</div>'}
@@ -2719,11 +2776,12 @@ function planRows(){const bl=planBlocks();const rows=bl.map((b,i)=>({b,i,start:b
   const inList=new Set(bl.filter(b=>b.tid).map(b=>b.tid));
   (CAL.trips||[]).forEach(t=>{if(inList.has(t.id)||t.from.slice(0,4)!==String(CALY))return;rows.push({t,start:t.from})});
   return rows.sort((a,b)=>a.start.localeCompare(b.start))}
-function rowDelKey(r){if(r.t)return 't:'+r.t.id;const b=r.b;if(b.tid)return 't:'+b.tid;if(b.manual&&b.bi!=null)return 'b:'+b.bi;if(b.t==='ski'||b.t==='ski8'){const tr=(CAL.trips||[]).filter(t=>t.kind==='ski'&&t.from>=b.start).sort((x,y)=>x.from.localeCompare(y.from))[0];return tr?'p:'+tr.id:''}
+function rowDelKey(r){if(r.t)return 't:'+r.t.id;const b=r.b;if(b.tid)return 't:'+b.tid;if(b.post&&!b.manual)return 'e:'+b.post;if(b.manual&&b.bi!=null)return 'b:'+b.bi;if(b.t==='ski'||b.t==='ski8'){const tr=(CAL.trips||[]).filter(t=>t.kind==='ski'&&t.from>=b.start).sort((x,y)=>x.from.localeCompare(y.from))[0];return tr?'p:'+tr.id:''}
   if(b.t==='cond'||b.t==='athletic'||b.t==='strength')return 'a:'+b.t+':'+b.k0+':'+b.k1;return ''}
 function planDelete(key){loadCal();const [k,a,b,c]=key.split(':');
   if(k==='t')CAL.trips=CAL.trips.filter(x=>x.id!==a);
   else if(k==='b')CAL.blocks.splice(+a,1);
+  else if(k==='e'){CAL.noPost=CAL.noPost||[];if(!CAL.noPost.includes(a))CAL.noPost.push(a)}
   else if(k==='p'){CAL.noPre=CAL.noPre||[];if(!CAL.noPre.includes(a))CAL.noPre.push(a)}
   else if(k==='a'){CAL.adel=CAL.adel||[];CAL.adel.push({t:a,k0:+b,k1:+c})}
   saveCal();PLANC=null;renderCal();const d=document.getElementById('planD');if(d)d.open=true}
@@ -3109,10 +3167,10 @@ exCard=function(ex,wi){let h=_ec.apply(this,arguments);
     if(lab)h=h.replace('<div class="nm">',`<div class="nm"><span class="prl">${lab}</span> `)}catch(e){}
   return h};
 const _rm=renderMain;
-renderMain=function(){FITC={};_rm.apply(this,arguments);
+renderMain=function(){FITC={};try{if(S.sh)for(const k in S.sh)if(S.sh[k]===30)S.sh[k]=45}catch(e){}_rm.apply(this,arguments);
   try{if(PLAN&&(PLAN.id==='mobility'||PLAN.id==='cardio'))return;const se=sess();if(!se)return;const k=S.week+'|'+se.id;const m=(S.sh&&S.sh[k])||0;
     const d=document.createElement('div');d.className='prbar';
-    d.innerHTML='<span>Time</span>'+[[0,'Full'],[60,'60 min'],[45,'45 min'],[30,'30 min']].map(([v,l])=>`<button type="button" data-sh="${v}" class="${m===v?'on':''}">${l}</button>`).join('')+(()=>{try{const f=fitSess(se,S.week,m);return `<b class="prm">≈ ${f.min} min</b>`}catch(e){return ''}})();
+    d.innerHTML='<span>Time</span>'+[[0,'Full'],[60,'60 min'],[45,'45 min']].map(([v,l])=>`<button type="button" data-sh="${v}" class="${m===v?'on':''}">${l}</button>`).join('')+(()=>{try{const f=fitSess(se,S.week,m);return `<b class="prm">≈ ${f.min} min</b>`}catch(e){return ''}})();
     const mn=document.getElementById('main');const t=mn.querySelector('.sess-meta,.sclk,.sess-row,.sess-title');
     (t?t.parentNode:mn).insertBefore(d,t&&t.nextSibling)}catch(e){}};
 document.addEventListener('click',e=>{const d=e.target.closest&&e.target.closest('[data-pr]');
@@ -3304,7 +3362,7 @@ function recentPain(){const t=localToday(),lim=addD(t,-2);let best=null;
 function recordsHtml(){let st={};try{st=JSON.parse(localStorage.getItem('trn.pr')||'{}')}catch(e){}
   const rows=Object.entries(st).filter(([k,v])=>v&&v.best).sort((a,b)=>(b[1].best.date||'').localeCompare(a[1].best.date||''));
   return `<details class="card" id="recC"><summary class="sec0" style="margin:0;cursor:pointer">Records · ${rows.length}</summary>`+(rows.length?rows.map(([k,v])=>`<div class="cev"><i style="background:#f39120"></i><span style="flex:1"><b>${esc(k)}</b><br><small class="muted">${esc(fmtDate(v.best.date))}${v.hist&&v.hist.length>1?' · '+v.hist.length+' entries':''}</small></span><b>${v.best.kg} kg</b><small class="muted" style="margin-left:8px">1RM ~${Math.round(v.best.e1)}</small></div>`).join(''):'<div class="small muted">No records yet.</div>')+`</details>`}
-(function(){const _rh=renderHome;renderHome=function(){_rh.apply(this,arguments);try{const m=document.getElementById('main');m.insertAdjacentHTML('beforeend',recordsHtml())}catch(e){}}})();
+(function(){const _rh=renderHome;renderHome=function(){_rh.apply(this,arguments);try{const m=document.getElementById('main');void 0}catch(e){}}})();
 
 // plan: week strip
 (function(){const _pd=planDecor;planDecor=function(){_pd.apply(this,arguments);try{const d=document.getElementById('planD');if(!d)return;d.querySelectorAll('.wkst').forEach(e=>e.remove());loadCal();
@@ -3340,7 +3398,7 @@ const _wk=wkText;wkText=function(w){if(w&&w.t==='easy')return 'Easy week: two Zo
 
 // ================= Protocol: weekly cycle as a compact grid
 (function(){
-const PMAP={'Power & Stability':'athletic','Heavy Strength':'strength','Ski Training 7 Weeks':'ski8','Ski Training 5 Weeks':'ski','F4R Engine Base + Cardio':'conditioning','No-Gym Bodyweight':'nogym','Mobility':'mobility','Cardio & VO₂ block':'cardio','Easy week':'cardio','Rest':null};
+const PMAP={'Power & Stability':'athletic','Heavy Strength':'strength','Ski Training 7 Weeks':'ski8','Ski Training 5 Weeks':'ski','F4R Engine Base + Cardio':'conditioning','F4R Engine Complete':'conditioning','No-Gym Bodyweight':'nogym','Mobility':'mobility','Cardio & VO₂ block':'cardio','Easy week':'cardio','Rest':null};
 const CC={Z2:['#ec4624','#fff'],TH:['#ec4624','#fff'],'VO₂':['#ec4624','#fff']};
 const GC={athletic:['#e58ab0','#3a0f22'],strength:['#d6b02f','#2b2200'],ski8:['#2f6fa8','#fff'],ski:['#7fb2e0','#0f2a40'],conditioning:['#8a6fb3','#fff'],nogym:['#6fa86f','#14301a'],mobility:['#6fa86f','#14301a'],cardio:['#e2dac2','#222a2a']};
 function chip(prog,x){let t=String(x||''),opt=/optional/i.test(t),lab=t,cl='n',link='',bg='',fg='';
@@ -3349,7 +3407,7 @@ function chip(prog,x){let t=String(x||''),opt=/optional/i.test(t),lab=t,cl='n',l
   else if(/Cardio, Threshold/.test(t)){lab='TH';cl='c';link='cardio:TH';[bg,fg]=CC.TH}
   else if(/Cardio, VO/.test(t)){lab='VO₂';cl='c';link='cardio:VO2';[bg,fg]=CC['VO₂']}
   else if((m=/^(?:Session|Workout) ([A-F])(?: \/ ([A-F]))?$/.exec(t))&&(prog==='athletic'||prog==='strength'||prog==='nogym')){lab=m[2]?m[1]+'/'+m[2]:m[1];cl='w';link=prog+':'+m[1]}
-  else if((m=/^Session (\d)$/.exec(t))&&prog==='conditioning'){lab='S'+m[1];cl='w';link='conditioning:S'+m[1]}
+  else if((m=/^Session (\d)(?: \(optional\))?$/.exec(t))&&prog==='conditioning'){lab='S'+m[1];cl='w';link='conditioning:S'+m[1]}
   else if((m=/^Session ([A-C])$/.exec(t))&&prog==='nogym'){lab=m[1];cl='w';link='nogym:'+m[1]}
   else if(m=/^Ski Day (\d)/.exec(t)){lab='D'+m[1];cl='w';link=prog+':D'+m[1]}
   else if(/^Morning/.test(t)){lab='AM';cl='m';link='mobility:AM'}
@@ -3364,6 +3422,7 @@ function chip(prog,x){let t=String(x||''),opt=/optional/i.test(t),lab=t,cl='n',l
   return {lab,cl,opt,link,bg,fg}}
 const _ri=renderInfo;renderInfo=function(){
   if(!PLAN||PLAN.id!=='protocol')return _ri.apply(this,arguments);
+  try{const rr=PLAN.blocks[0].rows;if(rr&&!rr.some(r=>r[0]==='F4R Engine Complete')){const i=rr.findIndex(r=>r[0]==='F4R Engine Base + Cardio');rr.splice(i<0?rr.length:i+1,0,['F4R Engine Complete','Session 1','Session 4 (optional)','Session 2','Session 5 (optional)','Session 3','Session 6 (optional)'])}}catch(e){}
   let h='';PLAN.blocks.forEach(b=>{h+=`<div class="card infoc"><h2>${esc(b.title)}</h2>`;
     if(b.kind==='cards'){
       h+=`<div class="pcyc"><div class="pcyc-h"><span></span>${['M','T','W','T','F','S / S'].map(d=>`<span>${d}</span>`).join('')}</div>`;
@@ -3374,6 +3433,12 @@ const _ri=renderInfo;renderInfo=function(){
     else b.rows.forEach(r=>{h+=`<div class="icard"><b>${esc(r[0])}</b>${r[1]?` <span class="ik">${esc(r[1])}</span>`:''}${r[2]?`<div class="small muted">${esc(r[2])}</div>`:''}</div>`});
     h+='</div>'});
   $('main').innerHTML=h;
+  $('main').querySelectorAll('.card.infoc').forEach((c,i)=>{if(i===0)return;const h2=c.querySelector('h2');if(!h2)return;const key='pro_col_'+h2.textContent.trim().slice(0,24);
+    c.classList.add('fold');const body=document.createElement('div');body.className='fb';while(h2.nextSibling)body.appendChild(h2.nextSibling);c.appendChild(body);
+    const btn=document.createElement('button');btn.type='button';btn.className='chev2';btn.setAttribute('aria-label','Fold or unfold');btn.textContent='▾';c.appendChild(btn);
+    let col=true;try{const v=localStorage.getItem(key);if(v!==null)col=v==='1'}catch(e){}
+    const ap=()=>{c.classList.toggle('closed',col);btn.setAttribute('aria-expanded',col?'false':'true')};ap();
+    const tg=()=>{col=!col;try{localStorage.setItem(key,col?'1':'0')}catch(e){}ap()};btn.onclick=tg;h2.style.cursor='pointer';h2.onclick=tg});
   $('main').querySelectorAll('[data-pl]').forEach(b=>b.onclick=()=>cycDetail(b.dataset.pl,b.closest('.pcyc-r').previousElementSibling.innerText.trim()))}})();
 function cycDetail(link,rowName){const [p,sid]=link.split(':');const P=PROGS[p];if(!P)return;const se=P.sessions.find(z=>z.id===sid);if(!se)return;
   const nm=p==='cardio'&&!/block|week/i.test(rowName)?(se.tab||sid)+' · '+(se.heading||''):rowName+' · '+((se.pre||'').replace(/\s*·\s*$/,'')||se.tab||se.day||sid);
@@ -3391,6 +3456,121 @@ function cycDetail(link,rowName){const [p,sid]=link.split(':');const P=PROGS[p];
 
 // no-gym bodyweight: Saturday cardio is Threshold
 (function(){const _ws=weekSess;weekSess=function(w){const a=_ws.apply(this,arguments);if(w&&w.t==='away')return a.map(x=>(x[1]==='cardio'&&x[2]==='Z2')?[x[0],'cardio','TH',0,x[4]]:x);return a}})();
+
+// ---- v28: hold anywhere on an exercise to move it
+(function(){
+const INT='button,input,select,textarea,a,label,summary,.set,.kg';
+setupDrag=function(xk){
+  const main=$('main');let drag=null,timer=null,sx=0,sy=0,lx=0,ly=0,raf=0;
+  const cards=()=>[...main.querySelectorAll('.ex[data-tok]')];
+  const save2=()=>{const o=[];main.querySelectorAll('.blk').forEach(b=>{if(b.dataset.tok!=='s_')o.push(b.dataset.tok);b.querySelectorAll(':scope > .ex[data-tok]').forEach(c=>o.push(c.dataset.tok))});S.ord=S.ord||{};S.ord[xk]=o;save()};
+  const start=el=>{drag=el;el.classList.add('dragging');document.body.classList.add('dnd');if(navigator.vibrate)try{navigator.vibrate(18)}catch(e){};loop()};
+  const loop=()=>{if(!drag)return;const y=ly;let d=0;if(y<110)d=-Math.round((110-y)/5);else if(y>innerHeight-110)d=Math.round((y-(innerHeight-110))/5);
+    if(d){scrollBy(0,d);sy-=d}raf=requestAnimationFrame(loop)};
+  const move=(x,y)=>{if(!drag)return;lx=x;ly=y;drag.style.transform='translateY('+(y-sy)+'px) scale(1.02)';
+    drag.style.pointerEvents='none';const t=document.elementFromPoint(x,y);drag.style.pointerEvents='';
+    if(!t)return;const oc=t.closest('.ex[data-tok]');
+    if(oc&&oc!==drag){const r=oc.getBoundingClientRect();const before=y<r.top+r.height/2;const ref=before?oc:oc.nextSibling;const prev=drag.getBoundingClientRect().top;oc.parentNode.insertBefore(drag,ref);const now=drag.getBoundingClientRect().top;sy+=now-prev;drag.style.transform='translateY('+(y-sy)+'px) scale(1.02)'}
+    else{const sec=t.closest('.blk > .sec');if(sec){const b=sec.parentNode;const prev=drag.getBoundingClientRect().top;b.insertBefore(drag,sec.nextSibling);const now=drag.getBoundingClientRect().top;sy+=now-prev;drag.style.transform='translateY('+(y-sy)+'px) scale(1.02)'}}};
+  const end=()=>{clearTimeout(timer);cancelAnimationFrame(raf);if(!drag)return;const d=drag;drag=null;d.classList.remove('dragging');d.style.transform='';document.body.classList.remove('dnd');save2();renderMainKeepScroll()};
+  const arm=(c,x,y)=>{sx=x;sy=y;lx=x;ly=y;clearTimeout(timer);timer=setTimeout(()=>start(c),320)};
+  cards().forEach(c=>{
+    c.addEventListener('touchstart',e=>{if(e.target.closest(INT))return;const t=e.touches[0];arm(c,t.clientX,t.clientY)},{passive:true});
+    c.addEventListener('touchmove',e=>{const t=e.touches[0];if(!drag){if(Math.abs(t.clientY-sy)>10||Math.abs(t.clientX-sx)>10)clearTimeout(timer);return}e.preventDefault();move(t.clientX,t.clientY)},{passive:false});
+    c.addEventListener('touchend',end);c.addEventListener('touchcancel',end);
+    c.addEventListener('contextmenu',e=>{if(drag)e.preventDefault()});
+    c.addEventListener('mousedown',e=>{if(e.target.closest(INT))return;arm(c,e.clientX,e.clientY)});
+  });
+  window.onmousemove=e=>{if(drag)move(e.clientX,e.clientY);else if(timer&&(Math.abs(e.clientX-sx)>10||Math.abs(e.clientY-sy)>10))clearTimeout(timer)};
+  window.onmouseup=end;
+};
+})();
+
+// ---- v28b: more than 4 sets -> ring + Sets + Reps + Kg row
+(function(){
+const unitR=(ex,wi)=>{const m=/^\d+(?:-\d+)?\s*×\s*(\d+)/.exec(String(ex.w[wi].s));return m?+m[1]:1};
+const doneN=(key,n)=>{const a=S.done[key]||[];let c=0;for(let i=0;i<n;i++)if(a[i])c++;return c};
+const _ec2=exCard;
+exCard=function(ex,wi){let h=_ec2.apply(this,arguments);
+  try{const n=nSets(ex,wi);if(n<=4)return h;const key=wi+'|'+ex.id;
+    const d=doneN(key,n),R=unitR(ex,wi);
+    h=h.replace(/<button class="set[^"]*" data-i="\d+"[^>]*>\d+<\/button>/g,'');
+    h=h.replace(/<div class="tjt"><label>Reps done[\s\S]*?<\/label><\/div>/,'');
+    const rv=S.th[key+'|r']||'';
+    const row=`<div class="setn ${d>=n?'on':''}" data-n="${n}" style="--p:${Math.round(d/n*100)}"><i><b>${d}</b><small>/${n}</small></i></div>`+
+      `<label class="sfd"><span>Sets</span><input class="kg" type="number" inputmode="numeric" data-sn="1" min="0" max="${n}" placeholder="${n}" value="${d||''}"></label>`+
+      `<label class="sfd"><span>Reps</span><input class="kg" type="number" inputmode="numeric" data-rd="1" placeholder="${n*R}" value="${esc(rv)}"></label>`;
+    h=h.replace('<div class="sets">','<div class="sets sets6">'+row);h=h.replace(/<div class="kgr">(<input class="kg")/,'<div class="kgr"><span class="kgl">Kg</span>$1')}catch(e){}
+  return h};
+const upd=(c,k,n)=>{const sn=c.querySelector('.setn');if(!sn)return;sn.style.setProperty('--p',Math.round(k/n*100));sn.querySelector('b').textContent=k;sn.classList.toggle('on',k>=n);c.classList.toggle('fin',k>=n);try{renderTabs()}catch(x){}};
+const setDone=(c,k,n)=>{S.done[c.dataset.k]=Array.from({length:n},(_,i)=>i<k?1:0);save();upd(c,k,n)};
+document.addEventListener('input',e=>{const t=e.target;if(!t.closest)return;const c=t.closest('.ex[data-k]');if(!c)return;const sn=c.querySelector('.setn');if(!sn)return;const n=+sn.dataset.n;
+  if(t.matches('[data-sn]')){const v=parseInt(t.value,10);const k=isNaN(v)?0:Math.max(0,Math.min(n,v));setDone(c,k,n)}
+  else if(t.matches('[data-rd]')){const se=typeof curSess==='function'?curSess():PLAN.sessions.find(z=>z.id===S.sess);const ex=se&&se.items.find(z=>z.id===c.dataset.tok);if(!ex)return;
+    const v=parseFloat(t.value);const R=unitR(ex,S.week);const k=isNaN(v)?0:Math.max(0,Math.min(n,Math.floor(v/R+1e-9)));setDone(c,k,n);const si=c.querySelector('[data-sn]');if(si)si.value=k||''}});
+})();
+
+// ---- v29: calendar month keeps scroll, days tinted by block colour
+(function(){
+const _rc3=renderCal;renderCal=function(){_rc3.apply(this,arguments);
+  try{planItems();const W=(PLANC&&PLANC.weeks)||[];const col=w=>w.t==='trip'?(TKC[w.kind]||BCOL.trip):w.t==='rest'?null:(BCOL[w.t]||null);
+    document.querySelectorAll('#main .cd[data-d]').forEach(b=>{if(b.classList.contains('ts')||b.classList.contains('to'))return;const ds=b.dataset.d;
+      const w=W.find(x=>x.mon<=ds&&ds<=addD(x.mon,6));if(!w)return;const c=col(w);if(!c)return;
+      b.style.background=`color-mix(in srgb, ${c} 34%, var(--card))`;b.style.borderColor=`color-mix(in srgb, ${c} 70%, var(--line))`});
+    {const g=document.querySelector('#main .cg');if(g){const cells=g.querySelectorAll('.cd').length;const rows=Math.round(cells/7);const c0=g.querySelector('.cd');if(c0&&rows<6){const sp=document.createElement('div');sp.style.cssText='grid-column:1/-1;height:'+((6-rows)*(c0.getBoundingClientRect().height+3))+'px';sp.setAttribute('aria-hidden','true');g.appendChild(sp)}}}
+    const LN={'Athletic Power':'Power & Stability','Strength':'Heavy Strength','Conditioning · Fit 4 Racing':'F4R Engine Conditioning','Travel Workout':'No-Gym Bodyweight','Cardio & VO2':'Cardio & VO₂'};
+    document.querySelectorAll('#main .cleg span').forEach(sp=>{const t=sp.lastChild;if(t&&t.nodeType===3){const k=t.textContent.trim();if(LN[k])t.textContent=LN[k]}});
+    ['mP','mN'].forEach(id=>{const el=document.getElementById(id);if(!el||!el.onclick)return;const f=el.onclick;el.onclick=function(){const y=window.scrollY;f.apply(this,arguments);window.scrollTo({top:y,left:0,behavior:'instant'});}})}catch(e){}};
+})();
+
+// ---- v30: block sheet with calendar picker + week number, end fixed before a trip, ski 5 -> 7 moves the start
+(function(){const _ob=openBlock;openBlock=function(i){_ob.apply(this,arguments);
+  try{const f=document.getElementById('bF'),w=document.getElementById('bW'),sel=document.getElementById('bT');if(!f||!w||!sel)return;loadCal();
+    const b=i==null?null:planBlocks()[i];if(b&&(b.t==='trip'||b.t==='rest'))return;
+    let trip=null;if(b){const nb=planBlocks().find(x=>x.t==='trip'&&x.start===addD(b.end,1));trip=nb?(CAL.trips||[]).find(t=>t.id===nb.tid)||null:null}
+    const fixEnd=b?b.end:null;
+    const host=document.createElement('div');host.id='bRp';host.className='rpw';const row=f.closest('.crow');row.parentNode.insertBefore(host,row);
+    let clicks=0,skip=false;
+    const cur=()=>{const s=monOf(f.value||(b?b.start:firstMonY()));const n=Math.max(1,+w.value||1);return {s,n,e:addD(s,7*n-1)}};
+    const sync=()=>{const c=cur();clicks=0;rangePicker(host,c.s,c.e,cb)};
+    const cb=(a,z)=>{clicks++;const s=monOf(a);const n=Math.max(1,Math.round(dDiff(s,monOf(z))/7)+1);f.value=s;w.value=clicks%2===0?n:1;if(f.onchange){skip=true;f.onchange();skip=false}
+      if(clicks%2===0){const c=cur();clicks=0;rangePicker(host,c.s,c.e,cb)}};
+    const oc=f.onchange;f.onchange=function(){if(oc)oc.apply(this,arguments);if(!skip)sync()};
+    const anchor=()=>{if(!fixEnd||!trip)return;const n=Math.max(1,+w.value||1);f.value=addD(fixEnd,1-7*n);if(f.onchange)f.onchange()};
+    w.addEventListener('input',()=>{anchor();setTimeout(sync,0)});
+    sel.addEventListener('change',()=>{const n=PLN.WK[sel.value];if(n){w.value=n;anchor();if(w.oninput)w.oninput();setTimeout(sync,0)}});
+    sync();
+    const sv=document.getElementById('bS');if(sv&&b&&!b.manual&&trip&&trip.kind==='ski'){const o=sv.onclick;sv.onclick=()=>{CAL.noPre=CAL.noPre||[];if(!CAL.noPre.includes(trip.id))CAL.noPre.push(trip.id);o()}}
+  }catch(e){}};})();
+
+// ---- v31: year timeline scrolls sideways
+(function(){const _t=timelineHtml;timelineHtml=function(){let h=_t.apply(this,arguments);const i=h.indexOf('<div class="tlg">');const a=i<0?h:h.slice(0,i),l=i<0?'':h.slice(i);
+  const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];let k=0;
+  const a2=a.replace(/<div class="tlm">[\s\S]*$/,'<div class="tlm">'+M.map(x=>`<span>${x}</span>`).join('')+'</div>');
+  return '<div class="tlsc"><div class="tlin">'+a2+'</div></div>'+l}})();
+(function(){const _pw=planWire;planWire=function(){_pw.apply(this,arguments);try{const e=document.querySelector('.tlsc');if(!e)return;const t=new Date(localToday()+'T12:00:00');const f=(t.getFullYear()===CALY?t.getMonth():0)/12;e.scrollLeft=Math.max(0,f*e.scrollWidth-24)}catch(_){}}})();
+
+// ---- v32: F4R sessions: use the minutes written in the exercise name (OMEM 12min, EMOM 20min, 3x 5min AMRAP ...)
+(function(){const _em=exMin;exMin=function(ex,wi){let v=_em.apply(this,arguments);try{if(typeof PLAN!=='undefined'&&PLAN&&PLAN.id==='conditioning'&&ex&&ex.name){
+  const n=String(ex.name);let m=/(\d+)\s*x\s*(\d+)\s*min/i.exec(n),t=0;
+  if(m)t=(+m[1])*(+m[2]);else if(m=/(\d+)(?:\s*\/\s*(\d+))*\s*min/i.exec(n)){const a=n.slice(m.index).match(/\d+/g).map(Number);t=a.length>1&&a[0]!==a[1]&&/AMRAP/i.test(n)?a[Math.min(wi>7?2:wi>3?1:0,a.length-2>=0?Math.min(a.length-1,2):0)]:a[0]}
+  if(t>0&&t<=60)v=Math.max(v,t*60)}}catch(e){}return v}})();
+
+// ---- v33: F4R sessions 1-5 get a stated full length (S6 unchanged)
+(function(){const _f=fitSess;const BASE={S1:60,S2:60,S3:60,S4:45,S5:45};
+  fitSess=function(se,wi,target){if(!(PLAN&&PLAN.id==='conditioning'&&se&&BASE[se.id]))return _f.apply(this,arguments);
+    const B=BASE[se.id];if(!target||target>=B)return {full:B,map:{},min:B};
+    const map={};let sec='';const g1=[],g2=[];visibleEx(se,wi).forEach(it=>{if(it.t==='sec')sec=it.text||'';else if(/core|finisher|grip|optional|extra/i.test(sec))g1.push(it.id);else if(/assist/i.test(sec))g2.push(it.id)});
+    g1.forEach(i=>map[i]=0);
+    if(target<55){const cand=[];let sc='';visibleEx(se,wi).forEach(it=>{if(it.t==='sec')sc=it.text||'';else if(/assist|metcon|engine|ladder|omem/i.test(sc)&&!/warm/i.test(sc))cand.push(it)});
+      if(cand.length>1){cand.sort((a,b)=>exMin(a,wi)-exMin(b,wi));map[cand[0].id]=0}}
+    return {full:B,map,min:target}};
+  window.fitSess=fitSess})();
+
+// ---- v34: Voyager-style hero card on session screens
+(function(){const _r=renderMain;renderMain=function(){_r.apply(this,arguments);try{const m=document.getElementById('main');if(!m||m.querySelector(':scope>.hero'))return;
+  const a=[...m.children].slice(0,3);if(!a.length||!a[0].classList.contains('sess-row'))return;
+  const h=document.createElement('div');h.className='hero';m.insertBefore(h,a[0]);a.forEach(x=>h.appendChild(x))}catch(e){}}})();
 
 /*END V21*/
 renderAll();
