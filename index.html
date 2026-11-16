@@ -1208,6 +1208,9 @@ body .blk[data-bc='3']>.sec{--bb:#222a2a;--bt:#fff}
 body .blk[data-bc='w']>.sec{--bb:#bfe3e3;--bt:#124f53}
 html:root:root:root:root body .blk[data-bc]>.sec,html:root:root:root:root body .blk[data-bc]>.sec{background:var(--bb)!important}
 html:root:root:root:root body .blk[data-bc]>.sec *,html:root:root:root:root body .blk[data-bc]>.sec .cnt,html:root:root:root:root body .blk[data-bc]>.sec *{color:var(--bt)!important}
+html:root body .wkst{overflow-x:auto;scrollbar-width:none;padding:3px 3px 2px;margin-left:-3px;margin-right:-3px}
+.wkst::-webkit-scrollbar{display:none}
+html:root body .wkst .wc{flex:0 0 22px;min-width:22px}
 
 </style>
 
@@ -2207,7 +2210,7 @@ const _startTimerFor=startTimerFor;startTimerFor=function(ex,wi){const sp=ivlSpe
 const BT19={athletic:'Athletic Power',strength:'Strength',ski8:'Ski Training 7 Weeks',ski:'Ski Training 5 Weeks',cond:'Conditioning',cardio:'Cardio & VO₂ block',away:'Travel Workout',easy:'Easy week',trip:'Trip',rest:'Rest'};
 const BCOL={athletic:'#ec4624',strength:'#f39120',ski:'#4fbbbc',ski8:'#2f9a9c',cond:'#8a6fb3',cardio:'#b0a47e',away:'#6fa86f',easy:'#d9cfae',trip:'#2b8f91',rest:'#9aa3a3'};
 const tripDays=t=>Math.round((new Date((t.to||t.from)+'T12:00:00')-new Date(t.from+'T12:00:00'))/864e5)+1;
-function planWeeks(){loadCal();const cfg=CAL.cfg||{};const ath0=cfg['ath'+CALY]||addD(firstMonY(),7);
+function planWeeks(){loadCal();const cfg=CAL.cfg||{};const ath0=cfg['ath'+CALY]||firstMonY();
   const ws=[];for(let m=firstMonY();m<=CALY+'-12-31';m=addD(m,7))ws.push(m);
   const T={};const ovl=(m,t)=>{let n=0;for(let i=0;i<7;i++){const d=addD(m,i);if(d>=t.from&&d<=t.to)n++}return n};
   const allTrips=CAL.trips.map(t=>Object.assign({},t,{to:t.to||t.from}));
@@ -2218,10 +2221,10 @@ function planWeeks(){loadCal();const cfg=CAL.cfg||{};const ath0=cfg['ath'+CALY]|
   const nonOther=allTrips.filter(t=>t.kind!=='other'&&t.kind!=='rest');
   nonOther.filter(t=>t.kind==='ski').sort((a,b)=>a.from.localeCompare(b.from)).forEach(sk=>{
     const m0=monOf(sk.from);let lim='0000';nonOther.forEach(t=>{if(t!==sk&&t.to<sk.from){const e=addD(monOf(t.to),14);if(e>lim)lim=e}});
-    let st=m0,cnt=0;for(let m=m0;m>=lim&&cnt<5;m=addD(m,-7)){if(ws.includes(m)&&!T[m])cnt++;st=m}if(st<lim)st=lim;const lst=[];for(let m=st;m<=m0;m=addD(m,7))if(ws.includes(m)&&!T[m]&&!(CAL.noPre||[]).includes(sk.id))lst.push(m);
-    lst.forEach((m,i)=>{T[m]={t:'ski',k:5-lst.length+i,name:sk.name,short:lst.length<5}})});
+    const NP=sk.pre||5;let st=m0,cnt=0;for(let m=m0;m>=lim&&m>=ws[0]&&cnt<NP;m=addD(m,-7)){if(ws.includes(m)&&!T[m])cnt++;st=m}if(st<lim)st=lim;const lst=[];for(let m=st;m<=m0;m=addD(m,7))if(ws.includes(m)&&!T[m]&&!(CAL.noPre||[]).includes(sk.id))lst.push(m);
+    lst.forEach((m,i)=>{T[m]={t:NP>=7?'ski8':'ski',k:NP-lst.length+i,name:sk.name,short:lst.length<NP}})});
   nonOther.filter(t=>t.kind==='ski'&&!(CAL.noPost||[]).includes(t.id)).forEach(sk=>{const wk=ws.filter(m=>T[m]&&T[m].tid===sk.id);if(!wk.length)return;const m=addD(wk[wk.length-1],7);if(ws.includes(m)&&!T[m])T[m]={t:'easy',k:0,post:sk.id,name:'After '+(sk.name||'ski trip')}});
-  {const occ=new Set(Object.keys(T));(CAL.blocks||[]).map((b,bi)=>[b,bi]).sort((x,y)=>x[0].from.localeCompare(y[0].from)).forEach(([b,bi])=>{let m=monOf(b.from),n=+b.weeks||1,k=0;const last=ws[ws.length-1];while(k<n&&m<=last){if(ws.includes(m)&&!occ.has(m)){T[m]={t:b.type,k:k,manual:true,bi};occ.add(m);k++}m=addD(m,7)}})}
+  {const occ=new Set(Object.keys(T));(CAL.blocks||[]).map((b,bi)=>[b,bi]).sort((x,y)=>x[0].from.localeCompare(y[0].from)).forEach(([b,bi])=>{let m=monOf(b.from),n=+b.weeks||1,k=0;const last=ws[ws.length-1];while(k<n&&m<=last){if(m<ws[0])k++;else if(ws.includes(m)&&!occ.has(m)){T[m]={t:b.type,k:k,manual:true,bi};occ.add(m);k++}m=addD(m,7)}})}
   let ak=0,sk=0,ck=0;
   {const seq=[];const free=ws.filter(m=>!T[m]);free.forEach(m=>{if(m<ath0)seq.push({t:'cond',k:ck++});else if(ak<16)seq.push({t:'athletic',k:ak++});else seq.push({t:'strength',k:sk++})});const del=CAL.adel||[];const keep=seq.filter(q=>!del.some(d=>d.t===q.t&&q.k>=d.k0&&q.k<=d.k1));free.forEach((m,i)=>{T[m]=keep[i]||{t:'empty',k:0}})}
   let run=0;return ws.map(m=>{const w=Object.assign({mon:m},T[m]);if(w.t==='trip'||w.t==='easy'||w.t==='rest')run++;else{if(run>=3)w.retest=true;run=0}if(w.t==='strength'&&(w.k||0)%8===4)w.deload=true;return w})}
@@ -2259,7 +2262,7 @@ function planBlocks(){planItems();const out=[];(PLANC.weeks||[]).forEach(w=>{con
 function planCard(){const bl=planBlocks();
   return `<details class="card" id="planD" style="padding:10px 12px"><summary style="cursor:pointer"><span class="sess-title" style="display:inline">Plan ${CALY}</span> <span class="muted small">· ${bl.length} blocks · tap one to change it</span></summary>`+
    bl.map((b,i)=>`<button class="cev pbk" data-pb="${i}"><i style="background:${BCOL[b.t]||'#999'}"></i><span style="text-align:left"><b>${esc(b.tx)}</b>${b.manual?' <small class="muted">(set by you)</small>':''}<br><small class="muted">${fmtDate(b.start)} – ${fmtDate(b.end)}</small></span><span class="pgo" style="margin-left:auto">›</span></button>`).join('')+
-   `<div class="small muted" style="margin:8px 0 4px">Athletic Power starts on (a Monday)</div><input type="date" id="pAth" value="${(CAL.cfg&&CAL.cfg['ath'+CALY])||addD(firstMonY(),7)}">
+   `<div class="small muted" style="margin:8px 0 4px">Athletic Power starts on (a Monday)</div><input type="date" id="pAth" value="${(CAL.cfg&&CAL.cfg['ath'+CALY])||firstMonY()}">
     <div class="crow" style="margin-top:8px"><button class="btn" id="pbAdd">+ Add block</button><button class="btn alt" id="pbRest">+ Rest</button><button class="btn alt" id="pbReset">Reset plan</button></div><div style="margin-top:6px"><button class="btn alt" id="pbIcs">Export plan to Calendar (.ics)</button></div></details>`}
 function openBlock(i){loadCal();const bl=planBlocks();const b=i==null?null:bl[i];
   if(b&&(b.t==='trip'||b.t==='rest')&&b.tid){openTrip(b.tid);return}
@@ -2811,7 +2814,7 @@ planCard=function(){const rows=planRows();
   return `<details class="card" id="planD" style="padding:10px 12px"><summary style="cursor:pointer"><span class="sess-title" style="display:inline">Plan ${CALY}</span> <span class="muted small">· ${rows.length} blocks</span></summary>`+
    rows.map(r=>{const key=rowDelKey(r);if(r.t){const t=r.t,tx=(TKN[t.kind]||'Trip')+(t.name?': '+t.name:'');return `<div class="pbw"><button class="dbtn" data-del="${esc(key)}">Delete</button><button class="cev pbk" data-pt="${esc(t.id)}"><i style="background:${TKC[t.kind]||'#999'}"></i><span style="text-align:left"><b>${esc(tx)}</b> <small class="muted">(trip)</small><br><small class="muted">${fmtDate(t.from)} – ${fmtDate(t.to||t.from)} · ${tripDays(t)} day${tripDays(t)===1?'':'s'}</small></span><span class="pgo" style="margin-left:auto">›</span></button></div>`}
      const b=r.b;return `<div class="pbw"><button class="dbtn" data-del="${esc(key)}"${key?'':' disabled'}>Delete</button><button class="cev pbk" data-pb="${r.i}"><i style="background:${BCOL[b.t]||'#999'}"></i><span style="text-align:left"><b>${esc(b.tx)}</b>${b.manual?' <small class="muted">(set by you)</small>':''}<br><small class="muted">${fmtDate(b.start)} – ${fmtDate(b.end)}</small></span><span class="pgo" style="margin-left:auto">›</span></button></div>`}).join('')+
-   `<div class="small muted" style="margin:8px 0 4px">Athletic Power starts on (a Monday)</div><input type="date" id="pAth" value="${(CAL.cfg&&CAL.cfg['ath'+CALY])||addD(firstMonY(),7)}">
+   `<div class="small muted" style="margin:8px 0 4px">Athletic Power starts on (a Monday)</div><input type="date" id="pAth" value="${(CAL.cfg&&CAL.cfg['ath'+CALY])||firstMonY()}">
     <div class="crow" style="margin-top:8px"><button class="btn" id="pbAdd">+ Add block</button><button class="btn alt" id="pbRest">+ Rest</button><button class="btn alt" id="pbReset">Reset plan</button></div><div style="margin-top:6px"><button class="btn alt" id="pbIcs">Export plan to Calendar (.ics)</button></div></details>`};
 const _planWire22=planWire;
 planWire=function(){_planWire22();
@@ -3220,9 +3223,9 @@ const _rh=renderHome;renderHome=function(){_rh.apply(this,arguments);try{
       const tg=()=>{col=!col;try{localStorage.setItem('wkC_col',col?'1':'0')}catch(e){}ap()};btn.onclick=tg;h2.style.cursor='pointer';h2.onclick=tg}}}catch(e){}};
 // trip types
 Object.assign(TKC,{ski:'#3b82c4',sport:'#2f9a9c',other:'#d9a21b',easyw:'#9ccf8a',cardio:'#c9b98a',rest:'#e58ab0',tango:'#8a4fd0',work:'#8a949a'});
-Object.assign(TKN,{ski:'Ski Trip',sport:'Sport Trip',other:'No-Gym Bodyweight',easyw:'Easy Week',cardio:'Cardio & VO₂',rest:'Relax Trip',tango:'Tango Trip',work:'Work Trip'});
+Object.assign(TKN,{ski:'Ski Trip',sport:'Sport Trip',other:'No-Gym Bodyweight',easyw:'Easy Week',cardio:'Cardio & VO₂',rest:'Rest',tango:'Tango Trip',work:'Work Trip'});
 const _ot=openTrip;openTrip=function(){_ot.apply(this,arguments);try{const sel=document.getElementById('tK');if(!sel)return;const cur=sel.value;
-  sel.innerHTML=[['ski','Ski Trip'],['sport','Sport Trip'],['other','No-Gym Bodyweight'],['cardio','Cardio & VO₂'],['rest','Relax Trip'],['tango','Tango Trip'],['work','Work Trip']].map(([v,l])=>`<option value="${v}" ${cur===v?'selected':''}>${l}</option>`).join('')}catch(e){}};
+  sel.innerHTML=[['ski','Ski Trip'],['sport','Sport Trip'],['other','No-Gym Bodyweight'],['cardio','Cardio & VO₂'],['rest','Rest'],['tango','Tango Trip'],['work','Work Trip']].map(([v,l])=>`<option value="${v}" ${cur===v?'selected':''}>${l}</option>`).join('')}catch(e){}};
 const _ws=weekSess;weekSess=function(w){if(w&&w.t==='trip'){if(w.kind==='easyw')return [[1,'cardio','Z2',0],[3,'cardio','Z2',0],[5,'cardio','Z2',0]];if(w.kind==='cardio')return [[0,'cardio','Z2',0],[1,'cardio','VO2',0],[3,'cardio','TH',0],[5,'cardio','Z2',0]]}return _ws.apply(this,arguments)};
 function recolor(){document.querySelectorAll('.cd[data-d]').forEach(c=>{try{const t=tripsOn(c.dataset.d)[0];if(t&&t.kind==='sport'){c.classList.remove('k-ski');c.classList.add('k-sport')}}catch(e){}});
   document.querySelectorAll('.ctr[data-t]').forEach(c=>{const t=CAL.trips.find(x=>x.id===c.dataset.t);if(t&&t.kind==='sport'){c.classList.remove('k-ski');c.classList.add('k-sport')}})}
@@ -3388,10 +3391,10 @@ function recordsHtml(){let st={};try{st=JSON.parse(localStorage.getItem('trn.pr'
 
 // plan: week strip
 (function(){const _pd=planDecor;planDecor=function(){_pd.apply(this,arguments);try{const d=document.getElementById('planD');if(!d)return;d.querySelectorAll('.wkst').forEach(e=>e.remove());loadCal();
-  const ws=planWeeks(),cm=monOf(localToday());const i0=Math.max(0,ws.findIndex(w=>w.mon>=cm));const cells=ws.slice(i0,i0+16);if(!cells.length)return;
+  const ws=planWeeks(),cm=monOf(localToday());const i0=Math.max(0,ws.findIndex(w=>w.mon>=cm));const cells=ws;if(!cells.length)return;
   const col=w=>w.t==='trip'||w.t==='rest'?(w.t==='rest'?BCOL.rest:(TKC[w.kind]||BCOL.trip)):(BCOL[w.t]||'#999');
   const el=document.createElement('div');el.className='wkst';el.innerHTML=cells.map((w,i)=>{const dd=+w.mon.slice(8,10);const mn=dd<=7?new Date(w.mon+'T12:00:00').toLocaleDateString('en-GB',{month:'short'}):'';return `<div class="wc"><i style="background:${col(w)}"${w.mon===cm?' class="now"':''} title="${esc(fmtDate(w.mon))}"></i><small>${mn}</small></div>`}).join('');
-  const sm=d.querySelector('.cdn')||d.querySelector('summary');sm.after(el)}catch(e){}}})();
+  const sm=d.querySelector('.cdn')||d.querySelector('summary');sm.after(el);const nw=ws.findIndex(w=>w.mon>=cm);el.scrollLeft=Math.max(0,(nw<0?0:nw)*(el.scrollWidth/ws.length)-8)}catch(e){}}})();
 
 // trip: packing list
 (function(){const _ot=openTrip;openTrip=function(id){_ot.apply(this,arguments);try{if(!id)return;loadCal();const t=CAL.trips.find(x=>x.id===id);if(!t||t.kind==='rest'||t.kind==='ski')return;
@@ -3598,6 +3601,40 @@ const _rc3=renderCal;renderCal=function(){_rc3.apply(this,arguments);
 (function(){const _r=renderMain;renderMain=function(){_r.apply(this,arguments);try{['weeks','tabs'].forEach(id=>{const c=document.getElementById(id);const s=c&&c.querySelector('.on');if(!s)return;const x=s.offsetLeft-(c.clientWidth-s.offsetWidth)/2;c.scrollLeft=Math.max(0,x)})}catch(e){}}})();
 (function(){const _r=renderMain;renderMain=function(){_r.apply(this,arguments);try{document.body.dataset.prog=PLAN&&PLAN.id||''}catch(e){}}})();
 (function(){const _r=renderMain;renderMain=function(){_r.apply(this,arguments);try{document.querySelectorAll('.blk').forEach(b=>{const t=(b.querySelector('.sec')||{}).textContent||'';const m=/BLOCK\s*(\d+)/i.exec(t);b.dataset.bc=m?String((+m[1]-1)%4):'w'})}catch(e){}}})();
+
+// ---- v36: Import from a backup file (Files / Drive picker)
+(function(){function add(){try{const b=document.getElementById('bkImp');if(!b||document.getElementById('bkOpen'))return;
+  const o=document.createElement('button');o.className='btn alt';o.id='bkOpen';o.textContent='Import from file';b.parentNode.insertBefore(o,b.nextSibling);
+  const f=document.createElement('input');f.type='file';f.style.display='none';b.parentNode.appendChild(f);
+  o.onclick=()=>f.click();
+  f.onchange=async()=>{const fl=f.files&&f.files[0];if(!fl)return;try{const t=await fl.text();document.getElementById('bk').value=t;b.click()}catch(e){document.getElementById('bkMsg').textContent='Could not read that file.'}f.value=''}}catch(e){}}
+  const p=document.getElementById('setPanel');if(p)new MutationObserver(add).observe(p,{childList:true})})();
+
+// ---- v37: export the ski log for the separate Ski Training app
+(function(){function add(){try{const b=document.getElementById('bkOpen');if(!b||document.getElementById('bkSki'))return;
+  const o=document.createElement('button');o.className='btn alt';o.id='bkSki';o.textContent='Save ski log for Ski app';b.parentNode.insertBefore(o,b.nextSibling);
+  o.onclick=()=>{try{const st=getState('ski'),x={};['done','kg','pain','tjt','extra','notes','ov','swap','hist','fin','morn','dur','th','ord'].forEach(f=>{if(st[f]!=null)x[f]=st[f]});{const u=URL.createObjectURL(new Blob([JSON.stringify(x)],{type:'application/json'}));const a=document.createElement('a');a.href=u;a.download='ski5week-backup-'+localToday()+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(u);a.remove()},1500);document.getElementById('bkMsg').textContent='Saved as '+a.download+' (check your Downloads / Files app).'}}catch(e){document.getElementById('bkMsg').textContent='Could not save.'}}}catch(e){}}
+  const p=document.getElementById('setPanel');if(p)new MutationObserver(add).observe(p,{childList:true})})();
+
+// ---- v38: a Rest entry is just Rest: no trip type, no hint line
+(function(){const _o=openTrip;openTrip=function(){_o.apply(this,arguments);try{const sel=document.getElementById('tK');if(!sel||sel.value!=='rest')return;sel.style.display='none';
+  document.querySelectorAll('#calPanel .small').forEach(e=>{if(/Sessions on these days/.test(e.textContent))e.style.display='none'})}catch(e){}}})();
+
+// ---- v39: Suggest a year plan (Saturday-to-Saturday trips: ski Dec (7 wk training) + Mar, relax May + Aug)
+(function(){const _pd=planDecor;planDecor=function(){_pd.apply(this,arguments);try{const d=document.getElementById('planD');if(!d||document.getElementById('pbSug'))return;const row=document.getElementById('pbReset');if(!row)return;
+  const b=document.createElement('button');b.className='btn alt';b.id='pbSug';b.textContent='Suggest year plan';row.parentNode.after(b);b.style.marginTop='6px';
+  b.onclick=()=>{loadCal();CAL.trips=CAL.trips||[];const y=+CALY,td=localToday();
+    const sat=(m,dd)=>{const t=new Date(y,m-1,dd,12);t.setDate(t.getDate()-((t.getDay()+1)%7));return t};
+    const f=t=>t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');const ad=(t,n)=>{const x=new Date(t);x.setDate(x.getDate()+n);return x};
+    const S=[];const dec=sat(12,20);S.push({name:'Ski Trip',from:f(ad(dec,-7)),to:f(dec),kind:'ski',pre:7});
+    const mar=sat(3,15);S.push({name:'Ski Trip',from:f(mar),to:f(ad(mar,7)),kind:'ski'});
+    const may=sat(5,15);S.push({name:'Rest',from:f(may),to:f(ad(may,7)),kind:'rest'});
+    const aug=sat(8,15);S.push({name:'Rest',from:f(aug),to:f(ad(aug,7)),kind:'rest'});
+    {const rm=addD(monOf(f(ad(mar,3))),-42),rf=ad(new Date(rm+'T12:00:00'),-2);S.push({name:'Rest',from:f(rf),to:f(ad(rf,7)),kind:'rest'})}
+    let n=0;S.forEach((t,i)=>{if(t.to<td)return;if(CAL.trips.some(x=>x.from<=addD(t.to,14)&&(x.to||x.from)>=addD(t.from,-14)))return;CAL.trips.push(Object.assign({id:'t'+Date.now()+i},t));n++});
+    CAL.blocks=CAL.blocks||[];const mw=monOf(f(ad(mar,3))),df=addD(monOf(f(dec)),14);
+    [[df,1]].forEach(([fr,w])=>{if(fr>=td&&!CAL.blocks.some(x=>x.from===fr))CAL.blocks.push({type:'cond',from:fr,weeks:w})});
+    saveCal();PLANC=null;renderAll&&renderAll();try{openProg('cal')}catch(e){}}}catch(e){}}})();
 
 /*END V21*/
 renderAll();
