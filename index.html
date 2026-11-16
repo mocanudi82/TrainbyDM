@@ -1167,7 +1167,8 @@ html:root:root:root:root body .hero .prbar .prm{color:#fff}
 html:root:root:root:root body .hero .sclk button{background:#fff;color:#124f53}
 html:root:root:root:root body .add,html:root:root:root:root body .card{background:var(--vcard,#ffffffd9);border:1px solid #ffffff66;box-shadow:0 8px 24px #2b8f9126;border-radius:22px}
 html:root:root:root:root body .wk{border-radius:16px;box-shadow:0 4px 14px #2b8f9120;border:1px solid #ffffff80}
-@media (prefers-color-scheme:dark){:root{--vcard:#24403fcc}html:root:root:root:root body .blk,html:root:root:root:root body .card,html:root:root:root:root body .add{border-color:#ffffff1a;box-shadow:0 8px 24px #00000040}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--vcard:#24403fcc}html:root:root:root:root:not([data-theme="light"]) body .blk,html:root:root:root:root:not([data-theme="light"]) body .card,html:root:root:root:root:not([data-theme="light"]) body .add{border-color:#ffffff1a;box-shadow:0 8px 24px #00000040}}
+:root[data-theme="dark"]{--vcard:#24403fcc}
 html:root:root:root:root body .blk .sec{background:none!important;box-shadow:none!important;border:0!important;border-radius:0!important;padding:0 0 6px!important;margin:0!important;display:flex!important;align-items:center!important}
 html:root:root:root:root body .blk .sec *{color:var(--ink)!important;background:none!important;box-shadow:none!important}
 html:root:root:root:root body .blk .sec .cnt{margin-left:auto;font:600 14px Oswald,sans-serif;color:var(--mut)!important}
@@ -1199,7 +1200,7 @@ html:root:root:root:root body .blk>.sec{background:#2b8f91!important;border-radi
 html:root:root:root:root body .blk>.sec *,html:root:root:root:root body .blk>.sec .cnt{color:#fff!important}
 html:root:root:root:root body .blk:first-of-type>.sec{background:#bfe3e3!important}
 html:root:root:root:root body .blk:first-of-type>.sec *,html:root:root:root:root body .blk:first-of-type>.sec .cnt{color:#124f53!important}
-@media (prefers-color-scheme:dark){html:root:root:root:root body .blk>.sec{background:#2f7f80!important}html:root:root:root:root body .blk:first-of-type>.sec{background:#1f5557!important}html:root:root:root:root body .blk:first-of-type>.sec *{color:#fff!important}}
+@media (prefers-color-scheme:dark){html:root:root:root:root:not([data-theme="light"]) body .blk>.sec{background:#2f7f80!important}html:root:root:root:root:not([data-theme="light"]) body .blk:first-of-type>.sec{background:#1f5557!important}html:root:root:root:root:not([data-theme="light"]) body .blk:first-of-type>.sec *{color:#fff!important}}
 /* block title bar: colour of the program */
 body .blk[data-bc='0']>.sec{--bb:#ec4624;--bt:#fff}
 body .blk[data-bc='1']>.sec{--bb:#f39120;--bt:#2a1800}
@@ -1211,6 +1212,75 @@ html:root:root:root:root body .blk[data-bc]>.sec *,html:root:root:root:root body
 html:root body .wkst{overflow-x:auto;scrollbar-width:none;padding:3px 3px 2px;margin-left:-3px;margin-right:-3px}
 .wkst::-webkit-scrollbar{display:none}
 html:root body .wkst .wc{flex:0 0 22px;min-width:22px}
+
+/* header title: single clean look, no stacked shadows */
+/* smaller Done button everywhere */
+html:root:root:root:root body .set.one{min-height:0!important;height:34px!important;width:auto!important;min-width:84px!important;padding:0 18px!important;font-size:14px!important;border-radius:17px!important}
+/* smaller set circles */
+html:root:root:root:root body .set:not(.one){width:38px!important;height:38px!important;font-size:15px!important}
+/* smaller kg box */
+html:root:root:root:root body .ex input.kg,html:root:root:root:root body input.kg{width:64px!important;height:36px!important;font-size:16px!important;border-radius:10px!important;padding:0 6px!important}
+html:root:root:root:root body .ex .kg{font-size:16px!important}
+html:root:root:root:root body .sets6 .sfd .kg,html:root:root:root:root body .sets6 .kgr .kg{width:60px!important;height:36px!important;font-size:15px!important}
+/* very light tint of the block-name colour over the whole block */
+body .blk[data-bc='0']{--tn:#ec4624}body .blk[data-bc='1']{--tn:#f39120}body .blk[data-bc='2']{--tn:#4fbbbc}body .blk[data-bc='3']{--tn:#5a6b6b}body .blk[data-bc='w']{--tn:#4fbbbc}
+html:root:root:root:root body .blk[data-bc]{background:color-mix(in srgb,var(--tn) 9%,#fff)!important;border-color:color-mix(in srgb,var(--tn) 28%,#fff)!important}
+@media (prefers-color-scheme:dark){html:root:root:root:root:not([data-theme="light"]) body .blk[data-bc]{background:color-mix(in srgb,var(--tn) 16%,#1e2b2b)!important;border-color:color-mix(in srgb,var(--tn) 35%,#1e2b2b)!important}}
+html:root:root:root:root[data-theme="dark"] body .blk[data-bc]{background:color-mix(in srgb,var(--tn) 16%,#1e2b2b)!important;border-color:color-mix(in srgb,var(--tn) 35%,#1e2b2b)!important}
+/* multi-colour stacked titles (app title + day title) kept as before */
+html:root:root:root:root body #main .hero .sess-row .sess-title{text-shadow:1px 1px 0 var(--e1),2px 2px 0 var(--e2),3px 3px 0 var(--e3),4px 4px 0 var(--e4)!important}
+/* kg value centred in its box */
+html:root:root:root:root body .ex input.kg,html:root:root:root:root body input.kg{text-align:center!important;line-height:36px!important;padding:0 4px!important;display:block}
+.rnds .rl{font:600 13px Oswald,sans-serif;letter-spacing:.6px;text-transform:uppercase;color:var(--mut);display:block;margin:2px 0 6px}
+.rr.rnds{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 6px;flex:1}
+.rnds .rnd{width:34px;height:34px;border-radius:50%;border:2px solid #4fbbbc;background:#fff;color:#124f53;font:700 13px Oswald,sans-serif;padding:0}
+.rnds .rnd.on{background:#2b8f91;border-color:#2b8f91;color:#fff}
+.rnds input.tjh{width:80px;height:36px;text-align:center}
+.tjr{width:130px;height:36px;border-radius:10px;border:2px solid #124f53;background:#fff;color:#124f53;font:700 16px Oswald,sans-serif;text-align:center;padding:0 6px}
+.tjr::placeholder{font-weight:500;color:#6d8a8a}
+/* ---- Settings: colourful, compact, reordered ---- */
+#setPanel.in{display:flex;flex-direction:column;gap:10px}
+#setPanel.in>*{margin:0!important}
+#setPanel.in>h2{order:0}#setPanel.in>#lastBk{order:1}#setPanel.in>#profC{order:2}
+#setPanel.in>div:nth-of-type(6){order:3}/* theme */
+#setPanel.in>div:nth-of-type(3){order:4}/* backup */
+#setPanel.in>div:nth-of-type(5){order:5}/* rest timer */
+#setPanel.in>div:nth-of-type(4){order:6}/* sheet sync */
+#setPanel.in>div:nth-of-type(7){order:7}/* install */
+#setPanel.in>div:nth-of-type(8){order:8}/* start over */
+#setPanel.in>#closeSet{order:9}
+html:root:root:root:root body #setPanel .card{padding:8px 10px 10px!important;border-radius:16px!important;background:color-mix(in srgb,var(--tn) 9%,#fff)!important;border:1px solid color-mix(in srgb,var(--tn) 30%,#fff)!important;box-shadow:none!important}
+html:root:root:root:root body #setPanel.in>#profC{--tn:#4fbbbc;--bb:#4fbbbc;--bt:#0e3335}
+html:root:root:root:root body #setPanel.in>div:nth-of-type(3){--tn:#f39120;--bb:#f39120;--bt:#2a1800}
+html:root:root:root:root body #setPanel.in>div:nth-of-type(4){--tn:#5a6b6b;--bb:#222a2a;--bt:#fff}
+html:root:root:root:root body #setPanel.in>div:nth-of-type(5){--tn:#ec4624;--bb:#ec4624;--bt:#fff}
+html:root:root:root:root body #setPanel.in>div:nth-of-type(6){--tn:#4fbbbc;--bb:#2b8f91;--bt:#fff}
+html:root:root:root:root body #setPanel.in>div:nth-of-type(7){--tn:#f39120;--bb:#f39120;--bt:#2a1800}
+html:root:root:root:root body #setPanel.in>div:nth-of-type(8){--tn:#ec4624;--bb:#ec4624;--bt:#fff}
+html:root:root:root:root body #setPanel .card>h2{background:var(--bb)!important;color:var(--bt)!important;border-radius:11px;padding:7px 12px!important;margin:0 0 8px!important;font-size:16px!important;display:flex;align-items:center;border:0!important;text-shadow:none!important}
+html:root:root:root:root body #setPanel .card>h2 *{color:var(--bt)!important}
+html:root:root:root:root body #setPanel .card>h2::after,html:root:root:root:root body #setPanel .card>h2::before{border-color:transparent!important}
+html:root:root:root:root body #setPanel .pfh{background:color-mix(in srgb,var(--tn) 22%,#fff);color:#124f53;border-left:5px solid var(--bb);border-radius:8px;padding:5px 10px!important;margin:10px 0 6px!important;font-size:14px!important}
+#setPanel label,#setPanel .card label{font-size:12px!important;margin:0 0 2px!important;line-height:1.15}
+#setPanel input:not([type=checkbox]):not([type=radio]),#setPanel select{height:32px!important;min-height:0!important;font-size:15px!important;border-radius:9px!important;padding:0 8px!important;border-width:1.5px!important}
+#setPanel .btn,#setPanel button.btn{height:34px!important;min-height:0!important;padding:0 14px!important;font-size:14px!important;border-radius:17px!important}
+#setPanel .small,#setPanel .muted{font-size:12px!important;line-height:1.25!important;margin:2px 0!important}
+#setPanel .ichips{gap:5px}#setPanel .ichip{padding:4px 10px!important;font-size:13px!important}
+html:root:root:root:root body #setPanel label,html:root:root:root:root body #setPanel .card label,html:root:root:root:root body #setPanel .card label *{font-size:12.5px!important;line-height:1.1!important;letter-spacing:.3px}
+html:root:root:root:root body #setPanel .card{display:block}
+html:root:root:root:root body #setPanel .card>div,html:root:root:root:root body #setPanel .card .row{margin-top:4px}
+html:root:root:root:root body #setPanel .pfh{border-left:0!important;color:#fff!important;border-radius:10px!important;padding:6px 12px!important;margin:12px 0 6px!important;font-size:14px!important;letter-spacing:.8px}
+html:root:root:root:root body #setPanel .pfh[data-pc='1']{background:#f39120!important;color:#2a1800!important}
+html:root:root:root:root body #setPanel .pfh[data-pc='2']{background:#ec4624!important}
+html:root:root:root:root body #setPanel .pfh[data-pc='3']{background:#222a2a!important}
+html:root:root:root:root body #setPanel .pfh[data-pc='4']{background:#2b8f91!important}
+html:root:root:root:root body #setPanel .card>h2{font-size:17px!important;letter-spacing:1px}
+html:root:root:root:root body #setPanel{background:linear-gradient(180deg,#e8f6f6,#fff3e6)!important}
+
+#setPanel.in>div:nth-of-type(3),#setPanel.in>div:nth-of-type(4){display:grid!important;grid-template-columns:1fr 1fr;gap:6px}
+#setPanel.in>div:nth-of-type(3)>h2,#setPanel.in>div:nth-of-type(3)>.small,#setPanel.in>div:nth-of-type(3)>textarea,#setPanel.in>div:nth-of-type(3)>#bkMsg,#setPanel.in>div:nth-of-type(4)>h2,#setPanel.in>div:nth-of-type(4)>.small,#setPanel.in>div:nth-of-type(4)>label,#setPanel.in>div:nth-of-type(4)>input{grid-column:1/-1}
+#setPanel.in>div:nth-of-type(3)>.btn,#setPanel.in>div:nth-of-type(4)>.btn{width:100%;margin:0!important;padding:0 6px!important;font-size:13px!important}
+#setPanel.in>div:nth-of-type(6) .btn,#setPanel.in>div:nth-of-type(6) button{min-width:0}
 
 </style>
 
@@ -2221,7 +2291,7 @@ function planWeeks(){loadCal();const cfg=CAL.cfg||{};const ath0=cfg['ath'+CALY]|
   const nonOther=allTrips.filter(t=>t.kind!=='other'&&t.kind!=='rest');
   nonOther.filter(t=>t.kind==='ski').sort((a,b)=>a.from.localeCompare(b.from)).forEach(sk=>{
     const m0=monOf(sk.from);let lim='0000';nonOther.forEach(t=>{if(t!==sk&&t.to<sk.from){const e=addD(monOf(t.to),14);if(e>lim)lim=e}});
-    const NP=sk.pre||5;let st=m0,cnt=0;for(let m=m0;m>=lim&&m>=ws[0]&&cnt<NP;m=addD(m,-7)){if(ws.includes(m)&&!T[m])cnt++;st=m}if(st<lim)st=lim;const lst=[];for(let m=st;m<=m0;m=addD(m,7))if(ws.includes(m)&&!T[m]&&!(CAL.noPre||[]).includes(sk.id))lst.push(m);
+    const NP=sk.pre||5;let st=m0,cnt=0;for(let m=m0,g=0;m>=lim&&g++<60&&cnt<NP;m=addD(m,-7)){if(!ws.includes(m)||!T[m])cnt++;st=m}if(st<lim)st=lim;const lst=[];for(let m=st;m<=m0;m=addD(m,7))if(ws.includes(m)&&!T[m]&&!(CAL.noPre||[]).includes(sk.id))lst.push(m);
     lst.forEach((m,i)=>{T[m]={t:NP>=7?'ski8':'ski',k:NP-lst.length+i,name:sk.name,short:lst.length<NP}})});
   nonOther.filter(t=>t.kind==='ski'&&!(CAL.noPost||[]).includes(t.id)).forEach(sk=>{const wk=ws.filter(m=>T[m]&&T[m].tid===sk.id);if(!wk.length)return;const m=addD(wk[wk.length-1],7);if(ws.includes(m)&&!T[m])T[m]={t:'easy',k:0,post:sk.id,name:'After '+(sk.name||'ski trip')}});
   {const occ=new Set(Object.keys(T));(CAL.blocks||[]).map((b,bi)=>[b,bi]).sort((x,y)=>x[0].from.localeCompare(y[0].from)).forEach(([b,bi])=>{let m=monOf(b.from),n=+b.weeks||1,k=0;const last=ws[ws.length-1];while(k<n&&m<=last){if(m<ws[0])k++;else if(ws.includes(m)&&!occ.has(m)){T[m]={t:b.type,k:k,manual:true,bi};occ.add(m);k++}m=addD(m,7)}})}
@@ -2935,12 +3005,12 @@ function estSess(p,si,items){try{return withProg(p.id,()=>{const sess=Object.ass
    let tot=0;gs.forEach(g=>{const pr=parseSec(g.sec.text);if(pr.minTxt){const n=pr.minTxt.split('–').map(Number);tot+=n[n.length-1]}else{const est=g.exs.reduce((x,e)=>x+exMin(e,wi),0)*1.1/60;if(est>=1&&est<=120)tot+=Math.round(est)}});
    if(tot>best)best=tot}
   return best})}catch(e){return 0}}
-function trimBase(p,si,items){let it=items.slice();let cur=estSess(p,si,it);if(cur<=CAPM)return items;
-  const LOW=/assist|isolation|core|trunk|stability|hamstring|finisher|calves|shoulder health/i;
+function trimBase(p,si,items,cap){let it=items.slice();let cur=estSess(p,si,it);const CP=cap||(/^ski/.test(p.id)?65:CAPM);if(cur<=CP)return items;
+  const LOW=/assist|isolation|core|trunk|stability|hamstring|finisher|calves|shoulder health|chassis|accessor|injury-proofing/i;
   const low=()=>{const idx=[];let on=false;it.forEach((x,i)=>{if(x.t==='sec'){on=LOW.test(x.text)}else if(on)idx.push(i)});return idx};
   const mins=(x)=>{let m=0;for(let wi=0;wi<p.weeks.length;wi++){try{m=Math.max(m,withProg(p.id,()=>exMin(x,wi)))}catch(e){}}return m};
   let guard=20;
-  while(cur>CAPM&&guard--){const idx=low();let pick=-1,pm=0;
+  while(cur>CP&&guard--){const idx=low();let pick=-1,pm=0;
     idx.forEach(i=>{const x=it[i];if(!x.w||!x.w[0])return;const m0=/^(\d+)×/.exec(String(x.w[0].s));if(m0&&+m0[1]>2){const m=mins(x);if(m>pm){pm=m;pick=i}}});
     const prev=it.slice();
     if(pick>=0){const x=it[pick];it[pick]=Object.assign({},x,{w:x.w.map(o=>{const m=/^(\d+)×(.*)$/.exec(String(o.s));return m&&+m[1]>2?Object.assign({},o,{s:(+m[1]-1)+'×'+m[2]}):o})})}
@@ -3620,10 +3690,9 @@ const _rc3=renderCal;renderCal=function(){_rc3.apply(this,arguments);
 (function(){const _o=openTrip;openTrip=function(){_o.apply(this,arguments);try{const sel=document.getElementById('tK');if(!sel||sel.value!=='rest')return;sel.style.display='none';
   document.querySelectorAll('#calPanel .small').forEach(e=>{if(/Sessions on these days/.test(e.textContent))e.style.display='none'})}catch(e){}}})();
 
-// ---- v39: Suggest a year plan (Saturday-to-Saturday trips: ski Dec (7 wk training) + Mar, relax May + Aug)
-(function(){const _pd=planDecor;planDecor=function(){_pd.apply(this,arguments);try{const d=document.getElementById('planD');if(!d||document.getElementById('pbSug'))return;const row=document.getElementById('pbReset');if(!row)return;
-  const b=document.createElement('button');b.className='btn alt';b.id='pbSug';b.textContent='Suggest year plan';row.parentNode.after(b);b.style.marginTop='6px';
-  b.onclick=()=>{loadCal();CAL.trips=CAL.trips||[];const y=+CALY,td=localToday();
+// ---- v39: Suggest a year plan (Saturday-to-Saturday trips: ski Dec (7 wk training) + Mar, relax May + Aug, rest early Feb, F4R after Christmas)
+function sugYear(y){
+    CAL.trips=CAL.trips||[];const td=localToday();
     const sat=(m,dd)=>{const t=new Date(y,m-1,dd,12);t.setDate(t.getDate()-((t.getDay()+1)%7));return t};
     const f=t=>t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');const ad=(t,n)=>{const x=new Date(t);x.setDate(x.getDate()+n);return x};
     const S=[];const dec=sat(12,20);S.push({name:'Ski Trip',from:f(ad(dec,-7)),to:f(dec),kind:'ski',pre:7});
@@ -3631,10 +3700,86 @@ const _rc3=renderCal;renderCal=function(){_rc3.apply(this,arguments);
     const may=sat(5,15);S.push({name:'Rest',from:f(may),to:f(ad(may,7)),kind:'rest'});
     const aug=sat(8,15);S.push({name:'Rest',from:f(aug),to:f(ad(aug,7)),kind:'rest'});
     {const rm=addD(monOf(f(ad(mar,3))),-42),rf=ad(new Date(rm+'T12:00:00'),-2);S.push({name:'Rest',from:f(rf),to:f(ad(rf,7)),kind:'rest'})}
-    let n=0;S.forEach((t,i)=>{if(t.to<td)return;if(CAL.trips.some(x=>x.from<=addD(t.to,14)&&(x.to||x.from)>=addD(t.from,-14)))return;CAL.trips.push(Object.assign({id:'t'+Date.now()+i},t));n++});
+    let n=0;S.forEach((t,i)=>{if(t.to<td)return;if(CAL.trips.some(x=>x.from<=addD(t.to,14)&&(x.to||x.from)>=addD(t.from,-14)))return;CAL.trips.push(Object.assign({id:'t'+y+'_'+Date.now()+i},t));n++});
     CAL.blocks=CAL.blocks||[];const mw=monOf(f(ad(mar,3))),df=addD(monOf(f(dec)),14);
     [[df,1]].forEach(([fr,w])=>{if(fr>=td&&!CAL.blocks.some(x=>x.from===fr))CAL.blocks.push({type:'cond',from:fr,weeks:w})});
-    saveCal();PLANC=null;renderAll&&renderAll();try{openProg('cal')}catch(e){}}}catch(e){}}})();
+    return n}
+(function(){const _pd=planDecor;planDecor=function(){_pd.apply(this,arguments);try{const d=document.getElementById('planD');if(!d||document.getElementById('pbSug'))return;const row=document.getElementById('pbReset');if(!row)return;
+  const b=document.createElement('button');b.className='btn alt';b.id='pbSug';b.textContent='Suggest year plan';row.parentNode.after(b);b.style.marginTop='6px';
+  b.onclick=()=>{loadCal();sugYear(+CALY);saveCal();PLANC=null;renderAll&&renderAll();try{openProg('cal')}catch(e){}}}catch(e){}}})();
+
+// seed the suggested plan once for this year and the next (own trips are never overwritten; a deleted suggested entry stays deleted)
+(function(){const _l=loadCal;let busy=0;loadCal=function(){const r=_l.apply(this,arguments);if(busy||!r)return r;busy=1;try{r.seed=r.seed||{};const y0=new Date().getFullYear();let ch=0;[y0,y0+1].forEach(y=>{if(!r.seed[y]){r.seed[y]=1;sugYear(y);ch=1}});if(ch){PLANC=null;saveCal()}}catch(e){}busy=0;return r}})();
+
+// ---- v40: injury work at the START and END of every session, lower volume on the loading exercises
+try{
+INJD.knee.ex.push(['Pole-Band Knee Extension','3×12','reps/side','band','Isolation','REHAB · Quad & knee control','Band anchored to a pole at knee height, loop behind the knee. Start with the knee slightly bent, straighten the leg fully against the band, squeeze the quad 2 s, return in 3 s. Pain under 3/10.']);
+const INJF={knee:['Pole-Band Knee Extension','Spanish Squat — isometric hold','Lateral Band Walk','Short Foot — arch doming'],
+ shoulder:['Band Pull-Apart','Band External Rotation','Scapular Wall Slide','Prone Y-T Raise'],
+ back:['Dead Bug','Side Plank','Bird Dog','Cat–Camel'],
+ ankle:['Tibialis Raise — wall','Single-Leg Balance — eyes open','Banded Ankle Mobilisation','Calf Raise — slow'],
+ achilles:['Isometric Calf Hold','Soleus Raise — bent knee','Calf Stretch — wall','Tibialis Raise — wall'],
+ hip:['Clamshell — band','Side-Lying Hip Abduction','Glute Bridge','Couch Stretch']};
+const INJL={knee:/squat|lunge|split|step|jump|jack|blaster|leg press|box|bound|skater|wall sit|hop|scotty|touch/i,
+ shoulder:/press|push|dip|pull-?up|raise|fly|bench|row|chin/i,
+ back:/deadlift|good morning|rdl|swing|row|squat|hinge|clean/i,
+ ankle:/jump|hop|skip|run|calf|lunge|bound/i,achilles:/jump|hop|skip|run|calf|bound/i,
+ hip:/squat|lunge|split|deadlift|thrust|step|skater|bound/i};
+const _ai40=applyInj;
+applyInj=function(){_ai40();const a=injSel();
+ // ski D3 is the short day: top it up with adductor + balance work taken from D1
+ ['ski','ski8'].forEach(id=>{const p=PROGS[id];if(!p||!p.sessions||p.sessions.length<3)return;const d1=p.sessions[0].items,s3=p.sessions[2];
+  const cl=nm=>{const x=d1.find(y=>y.t==='ex'&&y.name===nm&&!/^RH-/.test(y.id||''));return x?Object.assign({},x,{id:x.id+'-d3'}):null};
+  const add=['Copenhagen Adduction — long lever','Single-Leg Balance — perturbed'].map(cl).filter(Boolean);
+  if(add.length&&!s3.items.some(x=>/-d3$/.test(x.id||'')))s3.items=s3.items.concat([{t:'sec',text:'ADDUCTORS + BALANCE — second weekly dose (~6 min)'}],add)});
+ if(!a.length)return;
+ Object.keys(PROGS).forEach(id=>{const p=PROGS[id];if(!p||!p.sessions||['protocol','mobility','cardio'].includes(id))return;const nw=p.weeks.length;
+  p.sessions.forEach((s,si)=>{if(!s.items||!s.items.length)return;
+   const rx=new RegExp(a.map(k=>INJL[k].source).join('|'),'i');
+   // lower volume: -1 set (min 2) on the loading exercises of the middle blocks
+   let it=s.items.map((x,i)=>{if(x.t!=='ex'||/^RH-/.test(x.id||'')||i<2||!rx.test(x.name||''))return x;
+    return Object.assign({},x,{w:x.w.map(o=>{const m=/^(\d+)×(.*)$/.exec(String(o.s));return m&&+m[1]>2?Object.assign({},o,{s:(+m[1]-1)+'×'+m[2]}):o})})});
+   // finishing rehab block
+   if(/^ski/.test(id))it=trimBase(p,si,it,56);
+   const have=new Set(it.map(x=>x.name));const pick=[];
+   a.forEach((k,j)=>{const F=INJF[k],n=a.length===1?2:1;let c=0;const rot=(A,o)=>A.map((_,i)=>A[(i+o)%A.length]);const L=k==='knee'?[F[0]].concat(rot(F.slice(1),si)):rot(F,si+j);for(let q=0;q<L.length&&c<n;q++){const nm=L[q];if(have.has(nm))continue;const e=INJD[k].ex.find(x=>x[0]===nm);if(e){have.add(nm);pick.push({k,e});c++}}});
+   const add=cnt=>[{t:'sec',text:'REHAB FINISH — '+a.map(INJS).join(' + ')}].concat(pick.slice(0,cnt).map((x,n)=>injEx(p,s,x,100+n,nw)));
+   let cnt=pick.length;let res=it.concat(add(cnt));
+   while(cnt>1&&estSess(p,si,res)>(/^ski/.test(id)?68:CAPM+8)){cnt--;res=it.concat(add(cnt))}
+   s.items=res})});
+ try{LIBC=null;PLANC=null}catch(e){}};
+applyInj();
+}catch(e){console.error('v40',e)}
+
+// ---- v41: Touch-Jump-Touch EMOM card: rounds to tick, total reps, clear test wording
+try{
+const _st41=specText;
+specText=function(ex,wi){const r=_st41.apply(this,arguments);
+ if(r&&r.main==='Do the 2-min test first'){const m=/(\d+)/.exec(r.sub||'');return {main:m?m[1]+' rounds × 1 min':'EMOM',sub:'after the 2-min test'}}
+ if(r&&/reps \/ min$/.test(r.main||'')&&/Touch-Jump-Touch/.test(ex.name)){const m=/(\d+)/.exec(r.sub||'');return {main:m?m[1]+' rounds × 1 min':r.main,sub:r.main}}
+ return r};
+const _ec41=exCard;
+exCard=function(ex,wi,pn){let h=_ec41.apply(this,arguments);
+ try{const key=wi+'|'+ex.id;if(S.swap&&S.swap[key])return h;
+  if(/^TJT to Box/i.test(ex.name)){h=h.replace(/<div class="tjt"><label>Reps done[\s\S]*?<\/label><\/div>/,'')}
+  else if(/^Touch-Jump-Touch to Box/i.test(ex.name)){
+   const mm=/×\s*(\d+)\s*$/.exec(String(ex.w[wi].s));const n=mm?+mm[1]:15;
+   const done=String(S.th[key+'|rn']||'').split(',').filter(Boolean);
+   const dots=Array.from({length:n},(_,i)=>`<button type="button" class="rnd${done.includes(String(i))?' on':''}" data-rn="${i}">${i+1}</button>`).join('');
+   h=h.replace(/<div class="tjt"><label>Reps done[\s\S]*?<\/label><\/div>/,'');
+   h=h.replace(/<button class="set one([^"]*)"([^>]*)>([^<]*)<\/button>/,(m0,c,a,t)=>`<button class="set one${c}" ${a} style="display:none">${t}</button><input class="tjh tjr" type="number" inputmode="numeric" data-rd="1" placeholder="Reps done" value="${esc(S.th[key+'|r']||'')}">`)}}catch(e){}
+ return h};
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-rn]');if(!b)return;const c=b.closest('[data-k]');if(!c)return;
+ const k=c.dataset.k+'|rn';const a=String(S.th[k]||'').split(',').filter(Boolean),i=b.dataset.rn;
+ const j=a.indexOf(i);if(j>=0)a.splice(j,1);else a.push(i);S.th[k]=a.join(',');b.classList.toggle('on',j<0);save();
+ const all=c.querySelectorAll('[data-rn]').length,hid=c.querySelector('.set.one');if(hid){const on=hid.classList.contains('on');if((a.length===all&&!on)||(a.length<all&&on))hid.click()}});
+}catch(e){console.error('v41',e)}
+
+document.addEventListener('input',e=>{const r=e.target.closest&&e.target.closest('.tjr');if(!r)return;const c=r.closest('[data-k]');const hid=c&&c.querySelector('.set.one');if(!hid)return;const on=hid.classList.contains('on'),has=r.value!==''&&+r.value>0;if(has!==on)hid.click()});
+
+// ---- v42: colour-code the settings sub-sections
+(function(){function tag(){try{document.querySelectorAll('#setPanel .pfh').forEach(e=>{const t=e.textContent.toLowerCase();e.dataset.pc=/body/.test(t)?'1':/strength/.test(t)?'2':/injury/.test(t)?'3':/training/.test(t)?'4':'0'})}catch(e){}}
+const p=document.getElementById('setPanel');if(p){new MutationObserver(tag).observe(p,{childList:true,subtree:true});tag()}})();
 
 /*END V21*/
 renderAll();
