@@ -1376,12 +1376,35 @@ html body .cd.k-relax{background:#dcefe3!important;border-color:#4fa57a!importan
 .cd[data-d]{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 .cd.dnd-src{opacity:.35}
 .cd.dnd-over{outline:3px solid #2f9a9c;outline-offset:1px}
-.cd.dnd-ghost{box-shadow:0 10px 24px rgba(0,0,0,.28);transform:scale(1.1);opacity:.95}
+.cd.dnd-ghost{box-shadow:0 10px 24px rgba(0,0,0,.28);opacity:.95;transition:none;backface-visibility:hidden}
+.cd.dnd-src,.cd.dnd-over{transition:opacity .12s,outline-color .12s}
 
 /* v66 */
 #calPanel .cev{flex-wrap:wrap;row-gap:6px}
 #calPanel .cev>span{min-width:60%}
 #calPanel .mdw .btn{flex:1;min-width:0}
+
+/* v70 */
+.sbr{margin:8px 0 2px}
+.sbd{height:34px;min-width:84px;padding:0 18px;border:2px solid #4fbbbc;border-radius:17px;background:rgba(255,255,255,.72);color:#173a3c;font:inherit;font-size:14px;cursor:pointer}
+.sbd.on{background:#2b8f91;border-color:#2b8f91;color:#fff}
+
+/* v76 injury colour */
+html body .ex.injx{border-left:4px solid #d6336c!important}
+html body .ex.injx .nm,html body .ex.injx .kso{color:#d6336c!important}
+html body .prl.injl,html body .prl.ksl{background:#d6336c!important;color:#fff!important}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) html body .ex.injx .nm,:root:not([data-theme="light"]) .ex.injx .kso{color:#ff8fb3!important}}
+:root[data-theme="dark"] .ex.injx .nm,:root[data-theme="dark"] .ex.injx .kso{color:#ff8fb3!important}
+
+/* v78 */
+html:root:root:root:root body input.kg::placeholder,html:root:root:root:root body .ex input.kg::placeholder{font-size:16px!important;font-weight:700!important;font-family:inherit!important;color:rgba(23,58,60,.38)!important;opacity:1!important}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) input.kg::placeholder{color:rgba(230,245,245,.4)!important}}
+:root[data-theme="dark"] input.kg::placeholder{color:rgba(230,245,245,.4)!important}
+.pbar{position:fixed}
+.pbar .ptr{position:absolute;right:12px;bottom:100%;margin-bottom:6px;display:flex;gap:4px;padding:3px 6px;border-radius:12px;background:rgba(255,255,255,.82);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.pbar .ptr[hidden]{display:none}
+.pt{min-width:20px;height:20px;border-radius:10px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;color:#fff;background:#4fbbbc}
+.pt.mid{background:#f39120}.pt.hi{background:#ec4624}
 /*DARKX-START*/
 html[data-theme="dark"]{background-color:#10302f}
 :root[data-theme="dark"] .ex.added .nm{color:#8ab4ff}:root[data-theme="dark"] .ex.added{border-left-color:#8ab4ff}
@@ -1403,6 +1426,8 @@ html:root:root:root:root[data-theme="dark"] body #setPanel .ichip.on{background:
 html:root:root:root:root[data-theme="dark"] body #setPanel>h2,html:root:root:root:root[data-theme="dark"] body #setPanel h2:not(.card h2){color:#e2dac2}
 
 html:root:root:root:root[data-theme="dark"] body .blk>.sec,html:root:root:root:root[data-theme="dark"] body .blk>.sec *{color:#f1f7f6!important}html:root:root:root:root[data-theme="dark"] body .blk>.sec .cnt,html:root:root:root:root[data-theme="dark"] body .blk>.sec>.cnt{color:#f1f7f6!important}
+:root[data-theme="dark"] html body .ex.injx .nm,:root[data-theme="dark"] .ex.injx .kso{color:#ff8fb3!important}
+:root[data-theme="dark"] input.kg::placeholder{color:rgba(230,245,245,.4)!important}
 /*DARKX-END*/
 
 </style>
@@ -4118,7 +4143,7 @@ const dbl=n=>{n=String(n||'');if(/kettlebell|\bKB\b/i.test(n)&&!/dumbbell|\bDB\b
  if(/(one|single)[- ]arm|goblet|y-balance|single-leg reach|side-lying/i.test(n))return 'one hand';
  if(/lateral raise|curl|fly/i.test(n))return 'each hand';
  return 'both hands'};
-const tag=()=>{try{document.querySelectorAll('#main .ex').forEach(e=>{const k=e.querySelector('.kgr');if(!k||k.querySelector('.kgu'))return;const nm=e.querySelector('.nm');const t=nm&&dbl(nm.textContent);if(t){const sp=document.createElement('span');sp.className='kgu';sp.textContent='kg · '+t;k.appendChild(sp)}})}catch(e){}};
+const tag=()=>{try{document.querySelectorAll('#main .ex').forEach(e=>{const k=e.querySelector('.kgr');if(!k||k.querySelector('.kgu'))return;if(/kg (in each hand|one dumbbell|one weight|both dumbbells)/.test((e.querySelector('.spec')||{}).textContent||''))return;const nm=e.querySelector('.nm');const t=nm&&dbl(nm.textContent);if(t){const sp=document.createElement('span');sp.className='kgu';sp.textContent='kg · '+t;k.appendChild(sp)}})}catch(e){}};
 const mo=new MutationObserver(tag);const mm=document.getElementById('main');if(mm)mo.observe(mm,{childList:true,subtree:true});tag();
 }catch(e){console.error('v52',e)}
 // ---- v53: Plan rows show the block length in weeks
@@ -4264,13 +4289,15 @@ const canDrag=d=>{const it=items(d);return it.length>0&&!it.some(x=>x.done)};
 const okTarget=(a,b)=>{if(!b||a===b)return false;if(items(b).some(x=>x.done)||tripDay(b))return false;const k=blockOf(a);return !!k&&b>=k.start&&b<=k.end};
 const swapDays=(a,b)=>{loadCal();const P=planItems(),A=(P[a]||[]).slice(),B=(P[b]||[]).slice();CAL.moves=CAL.moves||{};A.forEach(x=>{CAL.moves[x.key]=b});B.forEach(x=>{CAL.moves[x.key]=a});saveCal();PLANC=null;renderCal()};
 const pt=e=>{const t=(e.touches&&e.touches[0])||(e.changedTouches&&e.changedTouches[0])||e;return{x:t.clientX,y:t.clientY}};
-const clear=()=>{if(st&&st.timer)clearTimeout(st.timer);if(st&&st.cell)st.cell.classList.remove('dnd-src');if(over){over.classList.remove('dnd-over');over=null}if(ghost){ghost.remove();ghost=null}st=null};
-const activate=()=>{if(!st||st.active)return;st.active=true;const c=st.cell,r=c.getBoundingClientRect();c.classList.add('dnd-src');ghost=c.cloneNode(true);ghost.classList.add('dnd-ghost');ghost.removeAttribute('data-d');ghost.style.cssText='position:fixed;left:'+r.left+'px;top:'+r.top+'px;width:'+r.width+'px;height:'+r.height+'px;margin:0;pointer-events:none;z-index:9999';document.body.appendChild(ghost);try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}};
+const clear=()=>{if(st&&st.timer)clearTimeout(st.timer);if(st&&st.raf)cancelAnimationFrame(st.raf);if(st&&st.cell)st.cell.classList.remove('dnd-src');if(over){over.classList.remove('dnd-over');over=null}if(ghost){ghost.remove();ghost=null}st=null};
+const activate=()=>{if(!st||st.active)return;st.active=true;const c=st.cell,r=c.getBoundingClientRect();c.classList.add('dnd-src');ghost=c.cloneNode(true);ghost.classList.add('dnd-ghost');ghost.removeAttribute('data-d');ghost.style.cssText='position:fixed;left:0;top:0;width:'+r.width+'px;height:'+r.height+'px;margin:0;pointer-events:none;z-index:9999;will-change:transform;transform:translate3d('+r.left+'px,'+r.top+'px,0) scale(1.1)';st.w=r.width;st.h=r.height;document.body.appendChild(ghost);try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}};
 const start=e=>{if(st)return;if(e.type==='mousedown'&&e.button!==0)return;const c=cellOf(e.target);if(!c||!canDrag(c.dataset.d))return;const p=pt(e);st={cell:c,d:c.dataset.d,x:p.x,y:p.y,active:false,touch:e.type==='touchstart'};if(st.touch)st.timer=setTimeout(activate,300)};
 const move=e=>{if(!st)return;const p=pt(e);if(!st.active){const dd=Math.hypot(p.x-st.x,p.y-st.y);if(st.touch){if(dd>10)clear();return}if(dd>6)activate();else return}
- if(e.cancelable)e.preventDefault();const r=st.cell.getBoundingClientRect();if(ghost){ghost.style.left=(p.x-r.width/2)+'px';ghost.style.top=(p.y-r.height/2)+'px'}
- let tg=null;try{ghost&&(ghost.style.display='none');tg=cellOf(document.elementFromPoint(p.x,p.y))}catch(x){}finally{ghost&&(ghost.style.display='')}
- const ok=tg&&okTarget(st.d,tg.dataset.d)?tg:null;if(over&&over!==ok)over.classList.remove('dnd-over');over=ok;if(ok)ok.classList.add('dnd-over')};
+ if(e.cancelable)e.preventDefault();st.px=p.x;st.py=p.y;if(st.raf)return;
+ st.raf=requestAnimationFrame(()=>{const s0=st;if(!s0){return}s0.raf=0;const x=s0.px,y=s0.py;
+  if(ghost)ghost.style.transform='translate3d('+(x-s0.w/2)+'px,'+(y-s0.h/2)+'px,0) scale(1.1)';
+  let tg=null;try{tg=cellOf(document.elementFromPoint(x,y))}catch(e){}
+  const ok=tg&&okTarget(s0.d,tg.dataset.d)?tg:null;if(over&&over!==ok)over.classList.remove('dnd-over');over=ok;if(ok)ok.classList.add('dnd-over')})};
 const end=e=>{if(!st)return;if(st.active){sup=1;setTimeout(()=>{sup=0},450);const a=st.d,b=over&&over.dataset.d;const good=b&&okTarget(a,b);clear();if(good)swapDays(a,b);return}clear()};
 document.addEventListener('touchstart',start,{passive:true});document.addEventListener('touchmove',move,{passive:false});document.addEventListener('touchend',end);document.addEventListener('touchcancel',()=>clear());
 document.addEventListener('mousedown',start);document.addEventListener('mousemove',move);document.addEventListener('mouseup',end);
@@ -4321,6 +4348,131 @@ const _od66=openDay;openDay=function(d){_od66.apply(this,arguments);try{
 
 // ---- v67: tell the Sheet how many sessions are finished, so it saves a Drive backup after each one
 try{const _sp67=syncPayload;syncPayload=function(){const p=_sp67.apply(this,arguments);try{let n=0;PORDER.forEach(id=>{if(id==='protocol')return;withProg(id,()=>{Object.keys(S.hist||{}).forEach(k=>{const h=S.hist[k];if(h&&(h.fin||h.manual)&&h.done>0)n++})})});p.sessFin=n}catch(e){}return p};}catch(e){console.error('v67',e)}
+
+// ---- v68: Plan <year> lists only that year's blocks and trips (dates clipped to the year)
+try{const _pr68=planRows;planRows=function(){const y=String(CALY),a=y+'-01-01',z=y+'-12-31';const bl=planBlocks();const rows=[];
+ bl.forEach((b,i)=>{if(b.end<a||b.start>z)return;const c=Object.assign({},b);if(c.start<a)c.start=a;if(c.end>z)c.end=z;rows.push({b:c,i,start:c.start})});
+ const inList=new Set(bl.filter(b=>b.tid).map(b=>b.tid));
+ (CAL.trips||[]).forEach(t=>{if(inList.has(t.id))return;if((t.to||t.from)<a||t.from>z)return;rows.push({t,start:t.from})});
+ return rows.sort((p,q)=>p.start.localeCompare(q.start))};}catch(e){console.error('v68',e)}
+
+// ---- v69: keep the screen where it was when the calendar re-renders: the month arrows stay under the finger
+try{const _rc69=renderCal;renderCal=function(){const a0=document.getElementById('mP'),t0=a0?a0.getBoundingClientRect().top:null,y=window.scrollY;
+ const r=_rc69.apply(this,arguments);
+ const go=()=>{const a1=document.getElementById('mP');if(t0!=null&&a1){const d=a1.getBoundingClientRect().top-t0;if(Math.abs(d)>1)window.scrollBy(0,d)}else if(y>0&&Math.abs(window.scrollY-y)>2)window.scrollTo(0,y)};
+ go();requestAnimationFrame(go);setTimeout(go,60);return r};}catch(e){console.error('v69',e)}
+
+// ---- v70: Scotty Bob "Done" button (ticks the whole circuit) and no rest timer between the exercises of a circuit
+try{
+const lb=ex=>ex&&ex.unit==='rounds'&&/Leg Blaster/i.test(ex.name), sb=ex=>ex&&/^Scotty Bob$/i.test(ex.name);
+const _ar70=autoRest;autoRest=function(ex){if(lb(ex))return;return _ar70.apply(this,arguments)};
+const _ec70=exCard;exCard=function(ex,wi){let h=_ec70.apply(this,arguments);
+ try{if(sb(ex)){const n=nSets(ex,wi),key=wi+'|'+ex.id,a=S.done[key]||[],all=a.slice(0,n).filter(Boolean).length>=n;
+  h=h.replace(/(<div class="links">)/,'<div class="sbr"><button type="button" class="sbd'+(all?' on':'')+'">Done</button></div>$1')}}catch(e){}
+ return h};
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.sbd');if(!b)return;e.stopPropagation();
+ const card=b.closest('.ex');if(!card)return;const cards=[card];let p=card.previousElementSibling;
+ while(p&&p.classList.contains('ex')&&/Leg Blaster/i.test((p.querySelector('.nm')||{}).textContent||'')){cards.unshift(p);p=p.previousElementSibling}
+ const info=cards.map(c=>{const sn=c.querySelector('.setn');const n=sn?+sn.dataset.n:0;const a=S.done[c.dataset.k]||[];return {c,sn,n,d:a.slice(0,n).filter(Boolean).length}});
+ const allDone=info.every(x=>x.d>=x.n);const on=!allDone;
+ info.forEach(x=>{if(!x.sn||!x.n)return;const k=on?x.n:0;S.done[x.c.dataset.k]=Array.from({length:x.n},(_,i)=>i<k?1:0);
+  x.sn.style.setProperty('--p',Math.round(k/x.n*100));x.sn.querySelector('b').textContent=k;x.sn.classList.toggle('on',k>=x.n);x.c.classList.toggle('fin',k>=x.n);
+  const inp=x.c.querySelector('[data-sn]');if(inp)inp.value=k||''});
+ b.classList.toggle('on',on);try{buzz(12)}catch(_){}try{save()}catch(_){}try{renderTabs()}catch(_){}},true);
+}catch(e){console.error('v70',e)}
+
+// ---- v71: Sandbag Getup is counted per side
+try{['ski','ski8'].forEach(id=>{const P=PROGS[id];if(!P)return;P.sessions.forEach(s=>s.items.forEach(x=>{if(/^Sandbag Getup$/i.test(x.name)){x.unit='reps/side';x.note='Bag on the shoulder, lie down with it, then get up any way you can. Do the reps on one shoulder, then switch: the reps shown are for each side.'}}))})}catch(e){console.error('v71',e)}
+
+// ---- v72: ski programs use only the weights he owns: sandbags 10 / 20 / 30 kg, dumbbells in 2 kg steps
+try{const SBK={'Backwards Sandbag Drag':30,'Sandbag Good Morning':30,'Sandbag Getup':20,'Sandbag Cross Clean':20,'Sandbag Toss & Chase':20,'Sandbag Get-Up & Run':20},
+ DBK={'Scotty Bob':12,'Mr. Spectacular':12,'Renegade Man Maker':12,'Kneeling Slasher':10,'Dumbbell Crawl':10,'Dumbbell Pass Through':10};
+ ['ski','ski8'].forEach(id=>{const P=PROGS[id];if(!P)return;P.sessions.forEach(s=>s.items.forEach(x=>{const v=SBK[x.name]!=null?SBK[x.name]:DBK[x.name];if(v==null||!x.w)return;x.w.forEach(w=>{if(w&&w.kg!=null)w.kg=v})}))})}catch(e){console.error('v72',e)}
+
+// ---- v73: never two Pigeon Stretches in one workout (the standalone one drops out in weeks where "Hip Flexor / Pigeon Stretch" is already done)
+try{PORDER.forEach(id=>{const P=PROGS[id];if(!P||!P.sessions)return;P.sessions.forEach(s=>{const act=(x,wi)=>{const w=x.w&&x.w[wi];if(!w)return false;const t=String(w.s==null?'':w.s);return !(t===''||t==='—'||t==='-')};
+ const nw=Math.max((P.weeks||[]).length,1);const pg=s.items.filter(x=>x.name&&/pigeon/i.test(x.name));if(pg.length<2)return;
+ for(let wi=0;wi<nw;wi++){const on=pg.filter(x=>act(x,wi));if(on.length>1){const keep=on.find(x=>/hip flexor/i.test(x.name))||on[0];on.forEach(x=>{if(x!==keep){x.w[wi].s='—';x.w[wi].kg=null}})}}})})}catch(e){console.error('v73',e)}
+
+// ---- v74: a rehab exercise is dropped when the workout already has the same exercise (e.g. Side Plank next to Side Plank — top-leg lift)
+try{const _ai74=applyInj;applyInj=function(){const r=_ai74.apply(this,arguments);try{Object.keys(PROGS).forEach(id=>{const P=PROGS[id];if(!P||!P.sessions)return;P.sessions.forEach(s=>{const base=s.items.filter(x=>!/^RH-/.test(x.id||'')&&x.name).map(x=>x.name.toLowerCase());
+ s.items=s.items.filter(x=>{if(!/^RH-/.test(x.id||''))return true;const n=String(x.name).toLowerCase();return !base.some(b=>b===n||b.startsWith(n+' —')||b.startsWith(n+' -')||b.startsWith(n+' ('))})})})}catch(e){console.error('v74',e)}return r};}catch(e){console.error('v74',e)}
+
+// ---- v75: one side / each side and one hand / both hands, stated on every card
+try{
+ // sets that were counted for one side but not marked as such
+ const fixSide=(id,re)=>{const P=PROGS[id];if(!P)return;P.sessions.forEach(s=>s.items.forEach(x=>{if(re.test(x.name)&&x.w)x.w.forEach(w=>{if(w&&/^\d+×[\d–-]+$/.test(String(w.s)))w.s=w.s+'/side'})}))};
+ fixSide('strength',/^One Arm Dumbbell Overhead Press$|^One-Arm Cable Lat Raise$/);fixSide('ski',/^Kneeling Slasher$/);fixSide('ski8',/^Kneeling Slasher$/);
+ ['ski','ski8'].forEach(id=>{const P=PROGS[id];if(!P)return;P.sessions.forEach(s=>s.items.forEach(x=>{if(/^Sandbag Get-Up & Run$/.test(x.name))x.unit='get-ups · one on each shoulder'}))});
+ const EACH=/^(Scotty Bob|Mr\. Spectacular|Renegade Man Maker|Dumbbell Crawl|Renegade Row|Dumbbell Lateral Raise)\b/i,
+  ONE=/^(Standing Single-Arm Dumbbell Press|One-Arm Dumbbell Snatch|Single Arm DB Row|Suitcase Carry|Single Leg RDL|Single-Leg Reach|One Arm Dumbbell Overhead Press|Dumbbell Pass Through|Kneeling Slasher|Side-Lying External Rotation)\b/i,
+  TOT=/^(Incline Dumbbell Press|Farmer Carry)\b/i;
+ const _ec75=exCard;exCard=function(ex,wi){let h=_ec75.apply(this,arguments);
+  try{if(!['athletic','strength','ski','ski8'].includes(PLAN.id))return h;const nm=String(ex.name||'');let lab='';
+   if(EACH.test(nm))lab='kg in each hand';else if(/^Kneeling Slasher/i.test(nm))lab='kg one weight, held with both hands';else if(ONE.test(nm))lab='kg one dumbbell, one hand';
+   else if(TOT.test(nm)){const m=/placeholder="(\d+(?:\.\d+)?)"/.exec(h);const t=m?+m[1]:0;lab='kg both dumbbells together'+(t?' ('+(t/2)+' each)':'')}
+   if(lab&&!/class="kgu"/.test(h)&&!/<span class="muted">[^<]*kg (in each|one dumbbell|both)/.test(h))h=h.replace(/(<div class="spec">[\s\S]*?<span class="muted">)([^<]*)(<\/span>)/,(m0,a,b,c)=>a+(b?b+' · ':'')+lab+c)}catch(e){}
+  return h};
+}catch(e){console.error('v75',e)}
+
+// ---- v76: injury-specific exercises and exercises replaced because of pain share one colour and a label
+try{const INJN={knee:'knee',shoulder:'shoulder',back:'lower back',ankle:'ankle',achilles:'Achilles',hip:'hip'};
+ const _ec76=exCard;exCard=function(ex,wi){let h=_ec76.apply(this,arguments);
+  try{const m=/^RH-[a-z0-9]+-[A-Za-z0-9]+-([a-z]+)-/.exec(ex.id||'');
+   if(m){h=h.replace(/<div class="ex /,'<div class="ex injx ');h=h.replace('<div class="nm">','<div class="nm"><span class="prl injl">rehab · '+(INJN[m[1]]||m[1])+'</span> ')}
+   else if(/class="ex kswap/.test(h)){h=h.replace(/<div class="ex kswap/,'<div class="ex injx kswap').replace('<span class="prl ksl">knee swap</span>','<span class="prl injl">replaced · knee</span>')}}catch(e){}
+  return h};
+}catch(e){console.error('v76',e)}
+
+// ---- v77: pain above 3 -> exercises that load the injured area show about 20% less weight (pink "-20% load" chip)
+try{const AREA={knee:/squat|lunge|step-?up|step-?down|leg press|leg extension|sled|jump|hop|bound|blaster|wall sit|deadlift|thrust|box/i,
+  shoulder:/press|push-?up|pull-?up|chin-?up|raise|dip|snatch|overhead|landmine|thruster|row|fly|carry|burpee|clean/i,
+  back:/deadlift|squat|row|good morning|rdl|carry|swing|hinge|clean|snatch|thruster|slasher|drag/i,
+  ankle:/jump|hop|bound|calf|run|skip|lunge|step-?up|sled|squat|box/i,
+  achilles:/jump|hop|bound|calf|run|skip|sled|box|lunge|step-?up/i,
+  hip:/squat|lunge|deadlift|bridge|thrust|step-?up|step-?down|sled|jump|bound|cossack|copenhagen|rdl/i};
+ const BAGS=[10,20,30];
+ const lower=(kg,nm)=>{if(/sandbag/i.test(nm)){const c=BAGS.filter(b=>b<kg);return c.length?c[c.length-1]:kg}
+  const t=kg*0.8;if(/dumbbell|\bdb\b|scotty|slasher|crawl|renegade|spectacular|snatch|goblet|suitcase|single[- ]arm|one[- ]arm/i.test(nm))return Math.max(2,Math.round(t/2)*2);
+  if(/kettlebell|\bkb\b|swing/i.test(nm)){const ks=[4,6,8,10,12,14,16,18,20,22,24,32];const c=ks.filter(k=>k<=t);return c.length?c[c.length-1]:ks[0]}
+  return Math.max(2.5,Math.round(t/2.5)*2.5)};
+ const _ec77=exCard;exCard=function(ex,wi){let h=_ec77.apply(this,arguments);
+  try{const pn=S.pain&&S.pain[painKey(S.week,S.sess)];if(pn==null||pn<=3)return h;
+   if(/class="ex[^"]*kswap/.test(h)){const q=/placeholder="(\d+(?:\.\d+)?)"/.exec(h);if(q&&+q[1]>0){const nk=Math.max(2.5,Math.round(+q[1]*0.6/2.5)*2.5);h=h.replace('placeholder="'+q[1]+'"','placeholder="'+nk+'"').replace('replaced · knee','replaced · knee · 60% load')}return h}
+   if(/^RH-/.test(ex.id||''))return h;
+   const inj=(PROF.inj||[]);if(!inj.length)return h;const nm=String(ex.name||'');
+   if(!inj.some(k=>AREA[k]&&AREA[k].test(nm)))return h;
+   const m=/placeholder="(\d+(?:\.\d+)?)"/.exec(h);if(!m)return h;const kg=+m[1];if(!(kg>0))return h;const nk=lower(kg,nm);if(nk>=kg)return h;
+   h=h.replace('placeholder="'+m[1]+'"','placeholder="'+nk+'"');
+   h=h.replace('<div class="nm">','<div class="nm"><span class="prl injl">'+(/sandbag/i.test(nm)?'lighter bag':'−20% load')+'</span> ')}catch(e){}
+  return h};
+}catch(e){console.error('v77',e)}
+
+// ---- v78: no weight increase after a painful session, pain trend beside the bar, dropped warm-up drills named on the first rehab card
+try{
+ // 1) suggested weight: if the last logged session of this lift had pain above 3, keep that weight instead of the planned step up
+ const _sk78=sugKg;sugKg=function(ex,wi){let r=_sk78.apply(this,arguments);
+  try{const pl=ex.w[wi]&&ex.w[wi].kg;if(typeof pl!=='number')return r;
+   for(let q=wi-1;q>=0;q--){const lg=parseFloat(String(S.kg[q+'|'+ex.id]||'').replace(',','.'));if(!(lg>0))continue;
+    const pn=S.pain&&S.pain[painKey(q,S.sess)];
+    if(pn!=null&&pn>3&&lg<pl){const v=Math.round(lg*2)/2;return {v,why:'no increase after a painful session ('+PLAN.weeks[q].label+', pain '+pn+')'}}
+    break}}catch(e){}
+  return r};
+ // 2) pain trend: the last 4 recorded pain scores of this program, floating above the pain bar
+ const _rp78=renderPbar;renderPbar=function(){_rp78.apply(this,arguments);
+  try{const wrap=document.getElementById('pbar').parentElement;let t=wrap.querySelector('.ptr');if(!t){t=document.createElement('div');t.className='ptr';wrap.appendChild(t)}
+   const o=painOrder().slice(-4);t.innerHTML=o.map(x=>'<span class="pt '+(x.v>5?'hi':x.v>3?'mid':'ok')+'">'+x.v+'</span>').join('');t.hidden=!o.length}catch(e){}};
+ // 3) first rehab card names the warm-up drills that were dropped to make room
+ const _ec78=exCard;exCard=function(ex,wi){let h=_ec78.apply(this,arguments);
+  try{if(!/^RH-[a-z0-9]+-[A-Za-z0-9]+-[a-z]+-1$/.test(ex.id||''))return h;
+   const si=PLAN.sessions.findIndex(s=>s.id===S.sess);const o=PLAN.__o&&PLAN.__o[si];if(!o)return h;
+   let i=0;if(o[0]&&o[0].t==='sec'){if(/warm|ramp|mobil/i.test(o[0].text)&&!/core/i.test(o[0].text))i=1;else return h}
+   let end=i;while(end<o.length&&o[end].t!=='sec')end++;
+   const now=new Set(PLAN.sessions[si].items.filter(x=>x.t==='ex').map(x=>x.name));
+   const gone=o.slice(i,end).filter(x=>x.t==='ex'&&!now.has(x.name)).map(x=>parseName(x.name).title);
+   if(gone.length)h=h.replace('<div class="spec">','<div class="swp kso">dropped from the warm-up: '+esc(gone.join(' · '))+'</div><div class="spec">')}catch(e){}
+  return h};
+}catch(e){console.error('v78',e)}
 
 /*END V21*/
 renderAll();
