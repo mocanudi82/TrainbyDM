@@ -3108,7 +3108,7 @@ function injPick(a,si){const out=[],seen={};
   a.forEach(k=>{const P=INJP[k],g=P.r[si%P.r.length],pick=P.d.concat(a.length===1?g:g.slice(0,1));
     pick.forEach(nm=>{if(seen[nm])return;seen[nm]=1;const e=INJD[k].ex.find(x=>x[0]===nm)||Object.values(INJD).map(d=>d.ex.find(x=>x[0]===nm)).find(Boolean);if(e)out.push({k,e})})});
   return out}
-function injEx(p,s,x,n,nw){const e=x.e;return {t:'ex',id:'RH-'+p.id+'-'+s.id+'-'+x.k+'-'+n,n:'R'+n,name:e[0],unit:e[2],rest:'—',tempo:'—',w:Array.from({length:nw},()=>({s:e[1],kg:e[3]||null})),kind:e[4],focus:e[5],note:e[6],video:'https://www.youtube.com/results?search_query='+encodeURIComponent(e[0].split(' — ')[0]+' rehab')}}
+function injEx(p,s,x,n,nw){const e=x.e;return {t:'ex',id:'RH-'+p.id+'-'+s.id+'-'+x.k+'-'+n,n:'R'+n,name:e[0],unit:e[2],rest:'—',tempo:'—',w:Array.from({length:nw},()=>({s:e[1],kg:e[3]||null})),kind:e[4],focus:e[5],note:e[6],video:'https://www.youtube.com/results?search_query='+encodeURIComponent(e[7]||(e[0].split(' — ')[0]+' rehab'))}}
 const CAPM=80;
 // session length exactly as the app shows it: only the exercises active in each week, block minutes as stated in the plan, else estimated from sets, tempo and rest
 function estSess(p,si,items){try{return withProg(p.id,()=>{const sess=Object.assign({},p.sessions[si],{items});let best=0;
@@ -3829,7 +3829,7 @@ function sugYear(y){
 // ---- v40: injury work at the START and END of every session, lower volume on the loading exercises
 try{
 INJD.knee.ex.push(['Pole-Band Knee Extension','3×12','reps/side','band','Isolation','REHAB · Quad & knee control','Band anchored to a pole at knee height, loop behind the knee. Start with the knee slightly bent, straighten the leg fully against the band, squeeze the quad 2 s, return in 3 s. Pain under 3/10.']);
-const INJF={knee:['Pole-Band Knee Extension','Spanish Squat — isometric hold','Lateral Band Walk','Short Foot — arch doming'],
+const INJF={knee:['Pole-Band Knee Extension','Spanish Squat — isometric hold','Lateral Band Walk','Short Foot — arch doming','Single-Leg Stance — band press-out','Hamstring Slider Curl'],
  shoulder:['Band Pull-Apart','Band External Rotation','Scapular Wall Slide','Prone Y-T Raise'],
  back:['Dead Bug','Side Plank','Bird Dog','Cat–Camel'],
  ankle:['Tibialis Raise — wall','Single-Leg Balance — eyes open','Banded Ankle Mobilisation','Calf Raise — slow'],
@@ -3857,7 +3857,7 @@ applyInj=function(){_ai40();const a=injSel();
    // finishing rehab block
    if(/^ski/.test(id))it=trimBase(p,si,it,56);
    const have=new Set(it.map(x=>x.name));const pick=[];
-   a.forEach((k,j)=>{const F=INJF[k],n=a.length===1?2:1;let c=0;const rot=(A,o)=>A.map((_,i)=>A[(i+o)%A.length]);const L=k==='knee'?[F[0]].concat(rot(F.slice(1),si)):rot(F,si+j);for(let q=0;q<L.length&&c<n;q++){const nm=L[q];if(have.has(nm))continue;const e=INJD[k].ex.find(x=>x[0]===nm);if(e){have.add(nm);pick.push({k,e});c++}}});
+   a.forEach((k,j)=>{const F=INJF[k],n=a.length===1?2:1;let c=0;const rot=(A,o)=>A.map((_,i)=>A[(i+o)%A.length]);const L=rot(F,si+j);for(let q=0;q<L.length&&c<n;q++){const nm=L[q];if(have.has(nm))continue;const e=INJD[k].ex.find(x=>x[0]===nm);if(e){have.add(nm);pick.push({k,e});c++}}});
    const add=cnt=>[{t:'sec',text:'REHAB FINISH — '+a.map(INJS).join(' + ')}].concat(pick.slice(0,cnt).map((x,n)=>injEx(p,s,x,100+n,nw)));
    let cnt=pick.length;let res=it.concat(add(cnt));
    while(cnt>1&&estSess(p,si,res)>(/^ski/.test(id)?68:CAPM+8)){cnt--;res=it.concat(add(cnt))}
@@ -4035,7 +4035,13 @@ const SP=INJD.knee.ex.find(x=>x[0]==='Spanish Squat — isometric hold');if(SP){
 INJD.knee.ex.push(
  ['Single-Leg Box Squat — sandbag 10 kg','2×6','reps/side · sandbag',10,'Unilateral Lower','REHAB · Knee control under load','Sandbag (10 kg) held at the chest. Sit back to your box on one leg, 3 s down, knee over the 2nd toe, arch up, stand without a push-off. Weaker leg first. Pain above 3/10: drop the sandbag or raise the box.'],
  ['Single-Leg Kettlebell Orbit','2×5','orbits each way/side','KB','Balance','REHAB · Knee & arch stability','Stand on one leg, soft knee over the 2nd toe, arch up. Pass the kettlebell around your waist, 5 circles each way, hips level and still. Weaker leg first.']);
-const KB=si=>{const R=['Step-Up — fast knee drive','Eccentric Step-Down — forward reach',si%2?'Pole-Band Knee Extension':'Terminal Knee Extension — band','Single-Leg Balance — soft knee','Single-Leg Box Squat','Single-Leg Box Squat — sandbag 10 kg','Single-Leg Kettlebell Orbit'];const o=(si*3)%7;return [si%2?'Wall Sit — isometric hold':'Spanish Squat — isometric hold'].concat([0,1,2].map(k=>R[(o+k)%7]))};
+INJD.knee.ex.push(
+ ['Heel-Elevated Squat — 3 s tempo','3×10','reps','BW','Bilateral Lower','REHAB · Patellar tendon load','Heels on a 2–3 cm plate or board, feet shoulder width. Sit down for 3 s, knees over the 2nd toes, arches up, stand up smoothly. Pain under 3/10.'],
+ ['Slider Reverse Lunge — controlled','2×10','reps/side','BW','Unilateral Lower','REHAB · Quad & knee control','Front foot flat, back foot on a slider or towel. Slide back for 3 s, keep the front knee over the 2nd toe, drive back up through the front heel. Hold a rail if needed.'],
+ ['Single-Leg RDL — bodyweight','2×10','reps/side','BW','Lower Hinge','REHAB · Hamstrings & balance','Soft standing knee, hinge at the hips with the free leg reaching back, flat back, hips level. Return by squeezing the glute. Weaker leg first.'],
+ ['Hamstring Slider Curl','2×10','reps','BW','Lower Hinge','REHAB · Hamstrings (knee support)','On your back, heels on sliders or towels, hips lifted. Slide the heels out slowly, then curl them back in without dropping the hips.']);
+const PNM='Single-Leg Stance — band press-out';
+const KB=si=>{const R=['Step-Up — fast knee drive',si%2?'Pole-Band Knee Extension':'Terminal Knee Extension — band','Single-Leg Balance — soft knee','Single-Leg Box Squat','Heel-Elevated Squat — 3 s tempo','Single-Leg Kettlebell Orbit','Slider Reverse Lunge — controlled','Single-Leg Box Squat — sandbag 10 kg','Single-Leg RDL — bodyweight','Loaded Single-Leg Reach & Drag',PNM,'Hamstring Slider Curl','Lateral Band Walk','Short Foot — arch doming'];const o=(si*2)%R.length;return [si%2?'Wall Sit — isometric hold':'Spanish Squat — isometric hold','Eccentric Step-Down — forward reach'].concat([0,1].map(k=>R[(o+k)%R.length]))};
 // merge Ankle + Achilles into one injury type
 try{
 const AK=INJD.achilles;if(AK&&INJD.ankle){AK.ex.forEach(e=>{if(!INJD.ankle.ex.some(x=>x[0]===e[0]))INJD.ankle.ex.push(e)});INJD.ankle.n='Ankle & Achilles';INJP.ankle={d:['Banded Ankle Mobilisation','Isometric Calf Hold'],r:[['Slow Calf Raise — 3 s down','Tibialis Raise — wall'],['Single-Leg Balance — eyes open','Ankle Alphabet'],['Soleus Raise — bent knee','Calf Stretch — wall']]}}
@@ -4066,6 +4072,12 @@ const POOL={shoulder:['Band External Rotation','Scapular Wall Slide','Band Pull-
  hip:['Glute Bridge','Clamshell — band','Side-Lying Hip Abduction','90/90 Hip Switch','Single-Leg Glute Bridge','Copenhagen Plank — short lever','Fire Hydrant','Couch Stretch']};
 const WX={knee:/jump|hop|bound|skater|lunge|box/i,shoulder:/press|push|dip|pull-?up|raise|fly|bench|row|chin|hang/i,back:/deadlift|good morning|rdl|swing|row|squat|hinge|clean|bear crawl|inchworm/i,ankle:/jump|hop|skip|run|calf|lunge|bound|box/i,hip:/squat|lunge|split|deadlift|thrust|step|skater|bound|cossack/i};
 const namesFor=(k,si)=>{if(k==='knee')return KB(si);const P=POOL[k];if(!P)return [];const o=(si*2)%P.length;return [0,1,2,3].map(q=>P[(o+q)%P.length])};
+{const P=INJD.knee.ex.find(x=>x[0]==='Single-Leg Pallof Press');if(P){P[0]=PNM;P[5]='REHAB · Knee & arch stability';P[7]='single leg pallof press band'}}
+// every rehab exercise counted in reps: at least 10 reps; single-leg box squats always 3 sets
+Object.values(INJD).forEach(g=>g.ex.forEach(e=>{try{const m=/^(\d+)×(\d+)$/.exec(e[1]);if(!m)return;const u=String(e[2]||'');
+ if(/^(reps|orbits)/i.test(u)){let r=+m[2];if(r<10)r=10;e[1]=m[1]+'×'+r}
+ if(/^Single-Leg Box Squat/.test(e[0])){e[1]='3×10'}
+ if(/Orbit/.test(e[0]))e[6]=String(e[6]).replace('5 circles each way','10 circles each way')}catch(x){}}));
 const _ai51=applyInj;
 applyInj=function(){_ai51();const a=injSel();if(!a.length)return;
  ['ski','ski8','strength','athletic'].forEach(id=>{const p=PROGS[id];if(!p||!p.sessions)return;const nw=p.weeks.length;
@@ -4082,7 +4094,7 @@ applyInj=function(){_ai51();const a=injSel();if(!a.length)return;
    const cap=/^ski/.test(id)?66:88;let rest=mk(warm);while(warm.length>1&&estSess(p,si,rest)>cap){warm=warm.slice(0,-1);rest=mk(warm)}
    // the finishing rehab block must not repeat the first block
    const fi=rest.findIndex(x=>x.t==='sec'&&/^REHAB FINISH/.test(x.text));
-   if(fi>=0){const head=rest.slice(0,fi),tail=rest.slice(fi+1).filter(x=>x.t!=='ex'||!names.includes(x.name));
+   if(fi>=0){const head=rest.slice(0,fi),tail=rest.slice(fi+1).filter(x=>x.t!=='ex'||(!names.includes(x.name)&&!(/Knee Extension/.test(x.name)&&names.some(n=>/Knee Extension/.test(n)))));
     const left=tail.filter(x=>x.t==='ex').length;rest=left?head.concat([rest[fi]],tail):head}
    s.items=rest}catch(e){console.error('v51',id,si,e)}})});
  try{LIBC=null;PLANC=null}catch(e){}};
@@ -4185,6 +4197,16 @@ exCard=function(ex,wi){let h=_ec60.apply(this,arguments);
  return h};
 document.addEventListener('input',e=>{const t=e.target;if(!t.matches||!t.matches('input[data-f4]'))return;S.th[t.dataset.f4]=t.value;try{save()}catch(x){}});
 }catch(e){console.error('v60',e)}
+// ---- v61: day sheet — every Trip / Rest line shows its dates and an "Edit dates" button (opens the trip editor)
+try{
+const _od61=openDay;openDay=function(d){_od61.apply(this,arguments);try{const P=document.getElementById('calPanel');if(!P)return;const tr=tripsOn(d);if(!tr.length)return;
+ const rows=[...P.children].filter(x=>x.classList&&x.classList.contains('small')&&x.classList.contains('muted')&&/^(Trip|Ski trip|Sport trip):/.test(x.textContent.trim()));
+ const fm=s=>new Date(s+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+ rows.forEach((r,q)=>{const t=tr[q];if(!t)return;const kind=t.kind==='rest'?'Rest':t.kind==='ski'?'Ski trip':t.kind==='sport'?'Sport trip':'Trip';
+  const nm=t.kind==='rest'?'':(t.name?' · '+esc(t.name):'');const to=t.to||t.from;
+  const w=document.createElement('div');w.className='cev';w.innerHTML='<span style="flex:1"><b>'+kind+'</b>'+nm+(t.maybe?' (maybe)':'')+'<br><small class="muted">'+fm(t.from)+(to!==t.from?' – '+fm(to):'')+'</small></span><button class="ctr" data-et="'+t.id+'">Edit dates</button>';
+  r.replaceWith(w);w.querySelector('[data-et]').onclick=()=>openTrip(t.id,d)})}catch(e){}};
+}catch(e){console.error('v61',e)}
 
 /*END V21*/
 renderAll();
