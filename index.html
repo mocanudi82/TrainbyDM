@@ -4474,6 +4474,118 @@ try{
   return h};
 }catch(e){console.error('v78',e)}
 
+
+// ---- v79: input from the Google Sheet (weights, exercises, year plan) and output workbook written to Drive
+try{
+ const INP_K='trn.inp',INP_IDS=()=>PORDER.filter(id=>id!=='protocol'&&PROGS[id]&&PROGS[id].sessions);
+ const baseItems=(p,si)=>(p.__o&&p.__o[si])||p.sessions[si].items;
+ const nm=x=>String(x==null?'':x).trim();
+ const kgv=x=>{if(x===''||x==null)return null;const v=parseFloat(String(x).replace(',','.'));return isFinite(v)?v:null};
+ // snapshot of the current programs and plan, as rows (this is what the sheet's input tabs are made from)
+ window.inpSnapshot=function(){const progs={};
+  INP_IDS().forEach(id=>{const p=PROGS[id],rows=[];
+   p.sessions.forEach((s,si)=>{let sec='';baseItems(p,si).forEach(it=>{
+     if(it.t==='sec'){sec=String(it.text||'');return}
+     if(it.t!=='ex'||/^RH-/.test(it.id||''))return;
+     const r=[s.id,sec,it.id,it.name,it.unit||''];
+     for(let wi=0;wi<p.weeks.length;wi++){const o=(it.w&&it.w[wi])||{};r.push(o.s==null?'':o.s,o.kg==null?'':o.kg)}
+     rows.push(r)})});
+   progs[id]={name:({ski8:'Ski Training 7 Weeks',ski:'Ski Training 5 Weeks',conditioning:'F4R Engine'})[id]||p.head||p.name,weeks:p.weeks.map(w=>w.label),rows}});
+  loadCal();
+  return {programs:progs,plan:{blocks:(CAL.blocks||[]).map(b=>[b.type,b.from,b.weeks]),trips:(CAL.trips||[]).map(t=>[t.name||'',t.from,t.to||t.from,t.kind||'',t.maybe?'Maybe':'',t.pre||''])}}};
+ // diff of the sheet's input against the built-in programs
+ function inpDiff(inp){const d={};
+  Object.keys(inp.programs||{}).forEach(id=>{const p=PROGS[id],pr=PRIS&&PRIS.programs[id];if(!p||!pr)return;const rows=inp.programs[id].rows||[],nw=p.weeks.length,out={};
+   const known={};pr.rows.forEach(r=>{known[r[0]+'|'+r[2]]=r});
+   rows.forEach(r=>{const sid=nm(r[0]),iid=nm(r[2]),name=nm(r[3]),unit=nm(r[4]);if(!sid)return;
+    const w=[];for(let wi=0;wi<nw;wi++)w.push([nm(r[5+wi*2]),kgv(r[6+wi*2])]);
+    const b=known[sid+'|'+iid];
+    if(b){const c={};
+     if(!name){c.del=1}else{
+      if(name!==nm(b[3]))c.name=name;if(unit!==nm(b[4]))c.unit=unit;
+      const wd={};w.forEach((x,wi)=>{const s0=nm(b[5+wi*2]),k0=kgv(b[6+wi*2]);if((x[0]&&x[0]!==s0)||x[1]!==k0){wd[wi]=[x[0]||s0,x[1]]}});
+      if(Object.keys(wd).length)c.w=wd}
+     if(Object.keys(c).length)(out[sid+'|'+iid]=c)}
+    else if(name){const key=sid+'|IN-'+name.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40);
+     out[key]={add:1,sid,name,unit,sec:nm(r[1]),w}}});
+   if(Object.keys(out).length)d[id]=out});
+  return d}
+ function inpApply(d){if(!d)return 0;let n=0;
+  Object.keys(d).forEach(id=>{const p=PROGS[id];if(!p||!p.sessions)return;
+   Object.keys(d[id]).forEach(key=>{const c=d[id][key];
+    if(c.add){const si=p.sessions.findIndex(s=>s.id===c.sid);if(si<0)return;const arr=baseItems(p,si);const iid=key.split('|')[1];if(arr.some(x=>x.id===iid))return;
+     arr.push({t:'ex',id:iid,n:'—',name:c.name,unit:c.unit||'',rest:'60s',tempo:'—',w:c.w.map((x,wi)=>({s:x[0]||'—',kg:x[1]})),kind:'Added',focus:'Added in the sheet',note:'',video:''});n++;return}
+    const sp=key.split('|');const si=p.sessions.findIndex(s=>s.id===sp[0]);if(si<0)return;const it=baseItems(p,si).find(x=>x.id===sp[1]);if(!it)return;
+    if(c.del){(it.w||[]).forEach(o=>{o.s='—'});n++;return}
+    if(c.name){it.name=c.name;n++}if(c.unit!=null){it.unit=c.unit;n++}
+    if(c.w)Object.keys(c.w).forEach(wi=>{it.w=it.w||[];const o=it.w[+wi]=it.w[+wi]||{};o.s=c.w[wi][0];o.kg=c.w[wi][1];n++})}) });
+  return n}
+ // apply what was loaded earlier (always on top of the built-in programs)
+ const PRIS=inpSnapshot();let INP=null;try{INP=JSON.parse(localStorage.getItem(INP_K)||'null')}catch(e){}
+ if(INP&&INP.d){try{inpApply(INP.d);try{applyInj()}catch(e){}try{LIBC=null;PLANC=null}catch(e){}}catch(e){console.error('v79 apply',e)}}
+ // year plan from the sheet
+ function planApply(pl){loadCal();let n=0;
+  const old=CAL.trips||[];
+  CAL.blocks=(pl.blocks||[]).filter(r=>r[0]&&r[1]).map(r=>({type:nm(r[0]),from:nm(r[1]),weeks:Math.max(1,parseInt(r[2])||1)}));
+  CAL.trips=(pl.trips||[]).filter(r=>r[1]).map((r,i)=>{const name=nm(r[0]),from=nm(r[1]),to=nm(r[2])||from;const ex=old.find(t=>(t.name||'')===name&&t.from===from);
+   const t=Object.assign({},ex||{},{id:(ex&&ex.id)||('t'+from.slice(0,4)+'_'+Date.now()+i),name,from,to,kind:nm(r[3])||'other'});
+   if(/maybe/i.test(nm(r[4])))t.maybe=1;else delete t.maybe;const pre=parseInt(r[5]);if(pre>0)t.pre=pre;else delete t.pre;return t});
+  saveCal();PLANC=null;return CAL.blocks.length+CAL.trips.length}
+ async function call(act,body){if(!G.syncUrl)throw new Error('Paste the web address first.');
+  if(body){const r=await fetch(G.syncUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({action:act},body))});return await r.json()}
+  const r=await fetch(G.syncUrl+(G.syncUrl.indexOf('?')<0?'?':'&')+'action='+act);return await r.json()}
+ window.inpCreate=async function(over){const j=await call('makeInput',{overwrite:!!over,input:inpSnapshot()});if(!j||!j.ok)throw new Error((j&&j.error)||'refused');return j};
+ window.inpLoad=async function(){const j=await call('input');if(!j||!j.ok)throw new Error((j&&j.error)||'The sheet has no input yet');
+  const d=inpDiff(j),n=Object.keys(d).reduce((a,id)=>a+Object.keys(d[id]).length,0);
+  localStorage.setItem(INP_K,JSON.stringify({at:Date.now(),d}));
+  let pn=0;if(j.plan&&(j.plan.blocks||j.plan.trips)){pn=planApply(j.plan)}
+  return {n,pn}};
+ // sync payload: switch for the output workbook and the logged weights it needs
+ const _sp79=syncPayload;syncPayload=function(){const p=_sp79.apply(this,arguments);
+  try{if(G.outOn){p.out=1;if(G.outForce)p.outForce=G.outForce;const u={};INP_IDS().forEach(id=>withProg(id,()=>{const o={};Object.keys(S.kg||{}).forEach(k=>{const v=kgv(S.kg[k]);if(v!=null)o[k]=v});if(Object.keys(o).length)u[id]=o}));p.used=u}}catch(e){}
+  return p};
+
+ try{const st=document.createElement('style');st.textContent=`html:root:root:root:root body #setPanel.in>#inpCard{order:6;--tn:#4fbbbc;--bb:#2b8f91;--bt:#fff;display:grid!important;grid-template-columns:1fr 1fr;gap:6px}
+html:root:root:root:root body #setPanel.in>#inpCard>h2,html:root:root:root:root body #setPanel.in>#inpCard>.small{grid-column:1/-1}
+html:root:root:root:root body #setPanel.in>#inpCard>.btn{width:100%;margin:0!important;padding:0 6px!important;font-size:13px!important;min-width:0}`;document.head.appendChild(st)}catch(e){}
+ // settings card
+ const _bs79=$('btnSet').onclick;
+ $('btnSet').onclick=function(){_bs79.apply(this,arguments);
+  try{const anchor=$('closeSet');if(!anchor||$('inpCard'))return;
+   const c=document.createElement('div');c.className='card';c.id='inpCard';
+   c.innerHTML=`<h2>Input and output</h2><div class="small muted">Input: weights, exercises and the year plan live in your sheet. Output: a workbook in Drive, updated after every workout.</div>
+   <button class="btn" id="inCr">Create input in sheet</button><button class="btn" id="inLd">Load input from sheet</button><button class="btn alt" id="outT">${G.outOn?'Output workbook: ON':'Output workbook: OFF'}</button><button class="btn alt" id="outNow">Update output now</button>
+   <div class="small muted" id="inMsg" style="margin-top:6px"></div><div class="small muted" id="outMsg" style="margin-top:4px"></div>`;
+   anchor.before(c);const m=t=>{const e=$('inMsg');if(e)e.textContent=t};
+   const stat=async()=>{try{if(!G.syncUrl)return;const j=await call('status');const e=$('outMsg');if(!e||!j||!j.ok)return;e.textContent=j.out?('Output: '+j.out.name+' · updated '+String(j.out.at||'').slice(0,16).replace('T',' ')):(G.outOn?'Output: waiting for the next finished workout.':'')}catch(e){}};stat();
+   {let armed=false;$('inCr').onclick=async()=>{if(!G.syncUrl){m('Paste the web address first.');return}
+     try{m('Creating...');let j=await inpCreate(false);
+      if(j.exists){if(!armed){armed=true;m('The sheet already has input tabs. Press again to replace them with the current programs.');setTimeout(()=>{armed=false},8000);return}
+       armed=false;m('Replacing...');j=await inpCreate(true)}
+      m('Input created in the sheet: '+(j.tabs||0)+' tabs.')}catch(e){m('Could not create: '+(e&&e.message||e))}}}
+   $('inLd').onclick=async()=>{try{m('Loading...');const r=await inpLoad();m('Loaded: '+r.n+' change'+(r.n===1?'':'s')+' in weights and exercises'+(r.pn?', year plan updated':'')+'.');setTimeout(()=>location.reload(),900)}catch(e){m('Could not load: '+(e&&e.message||e))}};
+   $('outT').onclick=()=>{G.outOn=!G.outOn;G.syncHash='';saveG();$('outT').textContent=G.outOn?'Output workbook: ON':'Output workbook: OFF';if(G.outOn&&G.syncUrl)syncNow(true);stat()};
+   $('outNow').onclick=async()=>{if(!G.syncUrl){m('Paste the web address first.');return}G.outOn=true;G.outForce=Date.now();saveG();$('outT').textContent='Output workbook: ON';m('Updating the output...');await syncNow(true);setTimeout(stat,2500);m('Sent.')}
+  }catch(e){console.error('v79 card',e)}};
+}catch(e){console.error('v79',e)}
+
+
+// ---- v80: a finished workout keeps its exercises when an injury is switched on or off; exercises already done in a partly done workout stay
+try{
+ const fin80=(wi,sid)=>{const h=S.hist&&S.hist[wi+'|'+sid];return !!(h&&(h.fin||h.manual))};
+ const _v80=visibleEx;visibleEx=function(sess,wi){
+  try{const p=PLAN;if(p&&p.__o&&sess&&Array.isArray(sess.items)){const si=p.sessions.indexOf(sess),base=si>=0?p.__o[si]:null;
+    if(base&&base!==sess.items){
+     if(fin80(wi,sess.id))return _v80.call(this,Object.assign({},sess,{items:base}),wi);
+     const have=new Set(sess.items.map(x=>x.id).filter(Boolean));
+     const keep=base.filter(x=>x.t==='ex'&&x.id&&!have.has(x.id)&&((S.done&&S.done[wi+'|'+x.id])||[]).some(Boolean));
+     if(keep.length){const it=sess.items.slice(),at=it[0]&&it[0].t==='sec'?1:0;it.splice(at,0,...keep);return _v80.call(this,Object.assign({},sess,{items:it}),wi)}}}}catch(e){}
+  return _v80.apply(this,arguments)};
+ // no pain-driven swap, pink chip or lighter load on the cards of a finished workout
+ const _ec80=exCard;exCard=function(ex,wi){const k=painKey(S.week,S.sess);let sv=null;
+  try{if(fin80(S.week,S.sess)&&S.pain&&S.pain[k]!=null){sv=S.pain[k];delete S.pain[k]}}catch(e){}
+  try{return _ec80.apply(this,arguments)}finally{if(sv!=null)S.pain[k]=sv}};
+}catch(e){console.error('v80',e)}
 /*END V21*/
 renderAll();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
