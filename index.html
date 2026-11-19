@@ -4139,11 +4139,13 @@ const P0=document.getElementById('setPanel');if(P0){new MutationObserver(arr).ob
 // ---- v59: Leg Blasters = rounds only (no Reps box), shown as one circuit with Scotty Bob
 try{
 const isLB=ex=>ex&&ex.unit==='rounds'&&/Leg Blaster/i.test(ex.name), isSB=ex=>ex&&/^Scotty Bob$/i.test(ex.name);
+const CCOL=['#ec4624','#1d8f93','#f39120','#7a4fb5'];
+const cc=ex=>{try{const se=typeof curSess==='function'?curSess():PLAN.sessions.find(z=>z.id===S.sess);let g=0;for(const it of se.items){if(it===ex||it.id===ex.id)return CCOL[g%CCOL.length];if(isSB(it))g++}}catch(e){}return CCOL[0]};
 const _ec59=exCard;
 exCard=function(ex,wi){let h=_ec59.apply(this,arguments);
  try{ if(isLB(ex)||isSB(ex))h=h.replace(/<div class="tjt"><label>Reps done[\s\S]*?<\/label><\/div>/,'');
-  if(isLB(ex)){h=h.replace(/<label class="sfd"><span>Reps<\/span>[\s\S]*?<\/label>/,'');h=h.replace(/(<div class="sets)/,'<div class="circ">⟲ Circuit with Scotty Bob</div>$1')}
-  else if(isSB(ex)){h=h.replace(/<label class="sfd"><span>Reps<\/span>[\s\S]*?<\/label>/,'');let nm='Leg Blaster';try{const se=typeof curSess==='function'?curSess():PLAN.sessions.find(z=>z.id===S.sess);const L=se.items.filter(x=>isLB(x)&&/^\d+$/.test(String(x.w[wi].s))).map(x=>/^Mini/i.test(x.name)?'Mini':/^Full/i.test(x.name)?'Full':'');if(L.length>1)nm=L.join(' + ')+' Leg Blaster'}catch(e){}h=h.replace(/(<div class="sets)/,'<div class="circ">⟲ Circuit with '+nm+'</div>$1')}}catch(e){}
+  if(isLB(ex)){h=h.replace(/<label class="sfd"><span>Reps<\/span>[\s\S]*?<\/label>/,'');h=h.replace(/(<div class="sets)/,'<div class="circ" style="background:'+cc(ex)+'">⟲ Circuit with Scotty Bob</div>$1')}
+  else if(isSB(ex)){h=h.replace(/<label class="sfd"><span>Reps<\/span>[\s\S]*?<\/label>/,'');let nm='Leg Blaster';try{const se=typeof curSess==='function'?curSess():PLAN.sessions.find(z=>z.id===S.sess);const L=se.items.filter(x=>isLB(x)&&/^\d+$/.test(String(x.w[wi].s))).map(x=>/^Mini/i.test(x.name)?'Mini':/^Full/i.test(x.name)?'Full':'');if(L.length>1)nm=L.join(' + ')+' Leg Blaster'}catch(e){}h=h.replace(/(<div class="sets)/,'<div class="circ" style="background:'+cc(ex)+'">⟲ Circuit with '+nm+'</div>$1')}}catch(e){}
  return h};
 }catch(e){console.error('v59',e)}
 // ---- v60: F4R cards — the plan's own prescription (from the F4R PDFs) + done-vs-target boxes per movement
