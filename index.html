@@ -1371,6 +1371,17 @@ html:root:root:root:root body .ex .f4l .sfd span{white-space:normal;line-height:
 .ex .rxb .rxh{font-weight:700;font-size:18px;margin-bottom:4px}
 .ex .rxb .rxn{font-weight:600}
 .ex .rxb>div+div{margin-top:3px}
+html body .cd.k-relax{background:#dcefe3!important;border-color:#4fa57a!important}html body .ctr.k-relax{border-color:#4fa57a!important;color:#2f7d58}
+
+.cd[data-d]{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.cd.dnd-src{opacity:.35}
+.cd.dnd-over{outline:3px solid #2f9a9c;outline-offset:1px}
+.cd.dnd-ghost{box-shadow:0 10px 24px rgba(0,0,0,.28);transform:scale(1.1);opacity:.95}
+
+/* v66 */
+#calPanel .cev{flex-wrap:wrap;row-gap:6px}
+#calPanel .cev>span{min-width:60%}
+#calPanel .mdw .btn{flex:1;min-width:0}
 /*DARKX-START*/
 html[data-theme="dark"]{background-color:#10302f}
 :root[data-theme="dark"] .ex.added .nm{color:#8ab4ff}:root[data-theme="dark"] .ex.added{border-left-color:#8ab4ff}
@@ -3812,9 +3823,9 @@ function sugYear(y){
     const f=t=>t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');const ad=(t,n)=>{const x=new Date(t);x.setDate(x.getDate()+n);return x};
     const S=[];const dec=sat(12,20);S.push({name:'Ski Trip',from:f(ad(dec,-7)),to:f(dec),kind:'ski',pre:7});
     const mar=sat(3,15);S.push({name:'Ski Trip',from:f(mar),to:f(ad(mar,7)),kind:'ski'});
-    const may=sat(5,15);S.push({name:'Rest',from:f(may),to:f(ad(may,7)),kind:'rest'});
-    const aug=sat(8,15);S.push({name:'Rest',from:f(aug),to:f(ad(aug,7)),kind:'rest'});
-    {const rm=addD(monOf(f(ad(mar,3))),-42),rf=ad(new Date(rm+'T12:00:00'),-2);S.push({name:'Rest',from:f(rf),to:f(ad(rf,7)),kind:'rest'})}
+    const may=sat(5,15);S.push({name:'Relax Trip',from:f(may),to:f(ad(may,7)),kind:'relax'});
+    const aug=sat(8,15);S.push({name:'Relax Trip',from:f(aug),to:f(ad(aug,7)),kind:'relax'});
+    {const rm=addD(monOf(f(ad(mar,3))),-42),rf=ad(new Date(rm+'T12:00:00'),-2);S.push({name:'Relax Trip',from:f(rf),to:f(ad(rf,7)),kind:'relax'})}
     let n=0;S.forEach((t,i)=>{if(t.to<td)return;if(CAL.trips.some(x=>x.from<=addD(t.to,14)&&(x.to||x.from)>=addD(t.from,-14)))return;CAL.trips.push(Object.assign({id:'t'+y+'_'+Date.now()+i},t));n++});
     CAL.blocks=CAL.blocks||[];const mw=monOf(f(ad(mar,3))),df=addD(monOf(f(dec)),14);
     [[df,1]].forEach(([fr,w])=>{if(fr>=td&&!CAL.blocks.some(x=>x.from===fr))CAL.blocks.push({type:'cond',from:fr,weeks:w})});
@@ -4202,11 +4213,114 @@ try{
 const _od61=openDay;openDay=function(d){_od61.apply(this,arguments);try{const P=document.getElementById('calPanel');if(!P)return;const tr=tripsOn(d);if(!tr.length)return;
  const rows=[...P.children].filter(x=>x.classList&&x.classList.contains('small')&&x.classList.contains('muted')&&/^(Trip|Ski trip|Sport trip):/.test(x.textContent.trim()));
  const fm=s=>new Date(s+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});
- rows.forEach((r,q)=>{const t=tr[q];if(!t)return;const kind=t.kind==='rest'?'Rest':t.kind==='ski'?'Ski trip':t.kind==='sport'?'Sport trip':'Trip';
-  const nm=t.kind==='rest'?'':(t.name?' · '+esc(t.name):'');const to=t.to||t.from;
+ rows.forEach((r,q)=>{const t=tr[q];if(!t)return;const kind=t.kind==='rest'?'Rest':t.kind==='ski'?'Ski trip':t.kind==='sport'?'Sport trip':t.kind==='relax'?'Relax trip':'Trip';
+  const nm=(t.kind==='rest'||t.kind==='relax')?'':(t.name?' · '+esc(t.name):'');const to=t.to||t.from;
   const w=document.createElement('div');w.className='cev';w.innerHTML='<span style="flex:1"><b>'+kind+'</b>'+nm+(t.maybe?' (maybe)':'')+'<br><small class="muted">'+fm(t.from)+(to!==t.from?' – '+fm(to):'')+'</small></span><button class="ctr" data-et="'+t.id+'">Edit dates</button>';
   r.replaceWith(w);w.querySelector('[data-et]').onclick=()=>openTrip(t.id,d)})}catch(e){}};
 }catch(e){console.error('v61',e)}
+// ---- v62: Reset plan clears the whole year (after a confirmation); Suggest year plan replaces the year with the agreed plan (after a confirmation)
+try{
+const clearYear=(y,flag)=>{loadCal();const td=localToday(),ys=y+'-01-01',ye=y+'-12-31',lim=monOf(td);
+ CAL.trips=(CAL.trips||[]).filter(t=>{const to=t.to||t.from;return !(t.from<=ye&&to>=ys)||to<td});
+ CAL.blocks=(CAL.blocks||[]).filter(b=>String(b.from).slice(0,4)!==String(y)||b.from<td);
+ ['moves','skip'].forEach(n=>{const o=CAL[n]||{};Object.keys(o).forEach(k=>{if(String(k).slice(0,4)===String(y)&&String(k).slice(0,10)>=lim)delete o[k]});CAL[n]=o});
+ CAL.adel=[];const ids=new Set(CAL.trips.map(t=>t.id));CAL.noPre=(CAL.noPre||[]).filter(i=>ids.has(i));CAL.noPost=(CAL.noPost||[]).filter(i=>ids.has(i));
+ CAL.cfg=CAL.cfg||{};if(flag)CAL.cfg['clr'+y]=1;else delete CAL.cfg['clr'+y];CAL.seed=CAL.seed||{};CAL.seed[y]=1;PLANC=null};
+const _pw62=planWeeks;planWeeks=function(){const r=_pw62.apply(this,arguments);try{if(CAL.cfg&&CAL.cfg['clr'+CALY]){const lim=monOf(localToday());return r.map(w=>(w.mon<lim||w.manual||['trip','rest','ski','ski8'].includes(w.t)||(w.t==='easy'&&w.post))?w:{mon:w.mon,t:'empty',k:0})}}catch(e){}return r};
+const ask=(title,txt,yes,fn)=>{if(document.getElementById('rsCf'))return;const o=document.createElement('div');o.id='rsCf';o.innerHTML='<div class="rsb"><h3>'+title+'</h3><div class="small muted" style="margin:0 0 10px">'+txt+'</div><div class="rsr"><button class="btn bad" id="pkY">'+yes+'</button><button class="btn alt" id="pkN">Cancel</button></div></div>';document.body.appendChild(o);
+ o.onclick=e=>{if(e.target===o)o.remove()};o.querySelector('#pkN').onclick=()=>o.remove();o.querySelector('#pkY').onclick=()=>{o.remove();fn()}};
+const wire=()=>{try{const rs=document.getElementById('pbReset'),sg=document.getElementById('pbSug');const y=+CALY;
+ if(rs)rs.onclick=()=>ask('Clear the whole '+y+' plan?','Removes every block, trip and rest week of '+y+' (weeks before today stay). Logged workouts, notes and tango days are kept.','Yes, clear '+y,()=>{clearYear(y,true);saveCal();PLANC=null;renderCal()});
+ if(sg)sg.onclick=()=>ask('Replace the '+y+' plan?','The '+y+' plan is replaced by the suggested year plan (weeks before today stay). Logged workouts, notes and tango days are kept.','Yes, replace',()=>{clearYear(y,false);sugYear(y);saveCal();PLANC=null;renderCal()})}catch(e){}};
+const _rc62=renderCal;renderCal=function(){_rc62.apply(this,arguments);wire();setTimeout(wire,0);setTimeout(wire,60)};
+}catch(e){console.error('v62',e)}
+// ---- v63: Settings backup buttons save through the share sheet (Files / Google Drive); the v45 override could not reach the panel's local helper
+try{const fx=()=>{const P=document.getElementById('setPanel');if(!P)return;const f=P.querySelector('#bkFile'),c=P.querySelector('#bkCsv');
+ if(f&&!f._v63){f._v63=1;f.onclick=()=>saveOut('training-backup-'+todayStr()+'.json',exportAll(),'application/json')}
+ if(c&&!c._v63){c._v63=1;c.onclick=()=>saveOut('training-log-'+todayStr()+'.csv',csvAll(),'text/csv')}};
+ const P0=document.getElementById('setPanel');if(P0)new MutationObserver(fx).observe(P0,{childList:true});fx()}catch(e){console.error('v63',e)}
+
+// ---- v64: Relax trip — a trip type of its own (pauses the program like any trip of 5+ days)
+try{
+TKC.relax='#4fa57a';TKN.relax='Relax trip';
+const rl=()=>{try{document.querySelectorAll('.cd[data-d]').forEach(c=>{const t=tripsOn(c.dataset.d)[0];if(t&&t.kind==='relax'){c.classList.remove('k-ski','k-sport');c.classList.add('k-relax')}});
+ document.querySelectorAll('.ctr[data-t]').forEach(c=>{const t=CAL.trips.find(x=>x.id===c.dataset.t);if(t&&t.kind==='relax'){c.classList.remove('k-ski','k-sport');c.classList.add('k-relax')}})}catch(e){}};
+const _rc64=renderCal;renderCal=function(){_rc64.apply(this,arguments);rl();setTimeout(rl,0);setTimeout(rl,80)};
+// the plan engine treats a relax trip like a rest week (no easy week, no gap before the next ski training) but shows it as its own trip type
+const _pw64=planWeeks;planWeeks=function(){const ids=new Set();let r;const orig=CAL&&CAL.trips;
+ try{if(orig){CAL.trips=orig.map(t=>{if(t.kind==='relax'){ids.add(t.id);return Object.assign({},t,{kind:'rest'})}return t})}r=_pw64.apply(this,arguments)}finally{if(orig)CAL.trips=orig}
+ if(ids.size)r.forEach(w=>{if(w.t==='rest'&&ids.has(w.tid)){w.t='trip';w.kind='relax'}});return r};
+const _ot64=openTrip;openTrip=function(id){_ot64.apply(this,arguments);try{const sel=document.getElementById('tK');if(!sel||sel.querySelector('option[value="relax"]'))return;loadCal();const t=id?CAL.trips.find(x=>x.id===id):null;
+ const o=document.createElement('option');o.value='relax';o.textContent='Relax trip';const sp=sel.querySelector('option[value="sport"]');if(sp&&sp.nextSibling)sel.insertBefore(o,sp.nextSibling);else sel.appendChild(o);if(t&&t.kind==='relax')sel.value='relax';const P=document.getElementById('calPanel');const sync=()=>P.querySelectorAll('.tft,.pack').forEach(e=>{e.style.display=sel.value==='relax'?'none':''});sel.addEventListener('change',sync);sync()}catch(e){}};
+}catch(e){console.error('v64',e)}
+// ---- v65: calendar — drag a planned day onto another day of the same block and the two days' workouts switch
+try{
+let st=null,sup=0,ghost=null,over=null;
+const cellOf=el=>el&&el.closest?el.closest('.cd[data-d]'):null;
+const items=d=>{try{return planItems()[d]||[]}catch(e){return[]}};
+const blockOf=d=>{try{planItems();return planBlocks().find(k=>k.start<=d&&d<=k.end)||null}catch(e){return null}};
+const tripDay=d=>{try{return tripsOn(d).some(t=>!['other','easyw','cardio'].includes(t.kind))}catch(e){return false}};
+const canDrag=d=>{const it=items(d);return it.length>0&&!it.some(x=>x.done)};
+const okTarget=(a,b)=>{if(!b||a===b)return false;if(items(b).some(x=>x.done)||tripDay(b))return false;const k=blockOf(a);return !!k&&b>=k.start&&b<=k.end};
+const swapDays=(a,b)=>{loadCal();const P=planItems(),A=(P[a]||[]).slice(),B=(P[b]||[]).slice();CAL.moves=CAL.moves||{};A.forEach(x=>{CAL.moves[x.key]=b});B.forEach(x=>{CAL.moves[x.key]=a});saveCal();PLANC=null;renderCal()};
+const pt=e=>{const t=(e.touches&&e.touches[0])||(e.changedTouches&&e.changedTouches[0])||e;return{x:t.clientX,y:t.clientY}};
+const clear=()=>{if(st&&st.timer)clearTimeout(st.timer);if(st&&st.cell)st.cell.classList.remove('dnd-src');if(over){over.classList.remove('dnd-over');over=null}if(ghost){ghost.remove();ghost=null}st=null};
+const activate=()=>{if(!st||st.active)return;st.active=true;const c=st.cell,r=c.getBoundingClientRect();c.classList.add('dnd-src');ghost=c.cloneNode(true);ghost.classList.add('dnd-ghost');ghost.removeAttribute('data-d');ghost.style.cssText='position:fixed;left:'+r.left+'px;top:'+r.top+'px;width:'+r.width+'px;height:'+r.height+'px;margin:0;pointer-events:none;z-index:9999';document.body.appendChild(ghost);try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}};
+const start=e=>{if(st)return;if(e.type==='mousedown'&&e.button!==0)return;const c=cellOf(e.target);if(!c||!canDrag(c.dataset.d))return;const p=pt(e);st={cell:c,d:c.dataset.d,x:p.x,y:p.y,active:false,touch:e.type==='touchstart'};if(st.touch)st.timer=setTimeout(activate,300)};
+const move=e=>{if(!st)return;const p=pt(e);if(!st.active){const dd=Math.hypot(p.x-st.x,p.y-st.y);if(st.touch){if(dd>10)clear();return}if(dd>6)activate();else return}
+ if(e.cancelable)e.preventDefault();const r=st.cell.getBoundingClientRect();if(ghost){ghost.style.left=(p.x-r.width/2)+'px';ghost.style.top=(p.y-r.height/2)+'px'}
+ let tg=null;try{ghost&&(ghost.style.display='none');tg=cellOf(document.elementFromPoint(p.x,p.y))}catch(x){}finally{ghost&&(ghost.style.display='')}
+ const ok=tg&&okTarget(st.d,tg.dataset.d)?tg:null;if(over&&over!==ok)over.classList.remove('dnd-over');over=ok;if(ok)ok.classList.add('dnd-over')};
+const end=e=>{if(!st)return;if(st.active){sup=1;setTimeout(()=>{sup=0},450);const a=st.d,b=over&&over.dataset.d;const good=b&&okTarget(a,b);clear();if(good)swapDays(a,b);return}clear()};
+document.addEventListener('touchstart',start,{passive:true});document.addEventListener('touchmove',move,{passive:false});document.addEventListener('touchend',end);document.addEventListener('touchcancel',()=>clear());
+document.addEventListener('mousedown',start);document.addEventListener('mousemove',move);document.addEventListener('mouseup',end);
+document.addEventListener('click',e=>{if(sup){e.stopPropagation();e.preventDefault();sup=0}},true);
+document.addEventListener('contextmenu',e=>{if(st&&st.active)e.preventDefault()});
+}catch(e){console.error('v65',e)}
+
+// ---- v66: mark past workouts as done (one workout, whole week, or block up to a day)
+try{
+const blockOf=d=>{try{planItems();return planBlocks().find(k=>k.start<=d&&d<=k.end)||null}catch(e){return null}};
+const ask=(title,txt,yes,fn)=>{if(document.getElementById('rsCf'))return;const o=document.createElement('div');o.id='rsCf';o.innerHTML='<div class="rsb"><h3>'+title+'</h3><div class="small muted" style="margin:0 0 10px">'+txt+'</div><div class="rsr"><button class="btn bad" id="pkY">'+yes+'</button><button class="btn alt" id="pkN">Cancel</button></div></div>';document.body.appendChild(o);
+ o.onclick=e=>{if(e.target===o)o.remove()};o.querySelector('#pkN').onclick=()=>o.remove();o.querySelector('#pkY').onclick=()=>{o.remove();fn()}};
+const markList=(list)=>{const by={};list.forEach(x=>{(by[x.p]=by[x.p]||[]).push(x)});
+ Object.keys(by).forEach(p=>withProg(p,()=>{S.days=S.days||{};S.hist=S.hist||{};
+  by[p].forEach(x=>{const k=x.key2,dt=x.date;const L=S.days[dt]||(S.days[dt]={});
+   L[k]={done:1,of:1,dur:0,fin:true,mode:'',cmin:'',manual:1};
+   if(!S.hist[k])S.hist[k]={dur:0,date:dt,pain:null,notes:'',items:[],done:1,of:1,fin:true,manual:1}});
+  try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}try{syncSoon();mirrorSoon()}catch(e){}}));
+ PLANC=null};
+const unmark=(x,dt)=>{withProg(x.p,()=>{const k=x.key2;if(S.days&&S.days[dt]&&S.days[dt][k]&&S.days[dt][k].manual){delete S.days[dt][k];if(!Object.keys(S.days[dt]).length)delete S.days[dt]}
+  if(S.hist&&S.hist[k]&&S.hist[k].manual)delete S.hist[k];try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}try{syncSoon();mirrorSoon()}catch(e){}});PLANC=null};
+const tagItem=(x,date)=>{const o=Object.assign({},x);o.key2=x.wi+'|'+x.sid;o.date=date;return o};
+const _od66=openDay;openDay=function(d){_od66.apply(this,arguments);try{
+ const P=document.getElementById('calPanel');if(!P)return;const today=localToday();const all=planItems();
+ const rows=[...P.querySelectorAll('.cev')].filter(r=>r.querySelector('[data-o]'));const pl=all[d]||[];
+ const reopen=()=>{PLANC=null;renderCal();openDay(d)};
+ rows.forEach((r,ix)=>{const x=pl[ix];if(!x)return;
+  if(!x.done&&d<=today){const b=document.createElement('button');b.className='ctr';b.textContent='Done';b.dataset.md=ix;
+   b.onclick=e=>{e.stopPropagation();markList([tagItem(x,d)]);reopen()};r.appendChild(b)}
+  else if(x.done){const h=withProg(x.p,()=>S.hist&&S.hist[x.wi+'|'+x.sid]);const dd=withProg(x.p,()=>S.days&&S.days[d]&&S.days[d][x.wi+'|'+x.sid]);
+   if((h&&h.manual&&h.date===d)||(dd&&dd.manual)){const b=document.createElement('button');b.className='ctr';b.textContent='Undo';
+    b.onclick=e=>{e.stopPropagation();unmark(tagItem(x,d),d);reopen()};r.appendChild(b)}}});
+ // week and block buttons
+ const mon=monOf(d),wk=[];for(let i=0;i<7;i++){const dt=addD(mon,i);if(dt>today)continue;(all[dt]||[]).forEach(x=>{if(!x.done&&!x.opt)wk.push(tagItem(x,dt))})}
+ const bk=blockOf(d);const bl=[];if(bk){const end=d<today?d:today;Object.keys(all).sort().forEach(dt=>{if(dt<bk.start||dt>end||dt>bk.end)return;all[dt].forEach(x=>{if(!x.done&&!x.opt)bl.push(tagItem(x,dt))})})}
+ if(!wk.length&&!bl.length)return;
+ const w=document.createElement('div');w.className='crow mdw';w.style.margin='8px 0';
+ const fm=s=>new Date(s+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+ if(wk.length){const b=document.createElement('button');b.className='btn alt';b.textContent='Mark this week done ('+wk.length+')';
+  b.onclick=()=>ask('Mark this week as done?',wk.length+' planned workout'+(wk.length>1?'s':'')+' from '+fm(mon)+' up to today will be marked as done.','Yes, mark done',()=>{markList(wk);reopen()});w.appendChild(b)}
+ if(bl.length&&bl.length>wk.length){const b=document.createElement('button');b.className='btn alt';b.textContent='Mark block done up to here ('+bl.length+')';
+  b.onclick=()=>ask('Mark the block as done?',bl.length+' planned workouts from '+fm(bk.start)+' up to '+fm(d<today?d:today)+' will be marked as done.','Yes, mark done',()=>{markList(bl);reopen()});w.appendChild(b)}
+ const anchor=P.querySelector('#cLogD');if(anchor)anchor.before(w);else P.appendChild(w);
+ // label manual logs
+ P.querySelectorAll('[data-lo]').forEach(b=>{const x=(dayInfo(d,calEvents()).e||[])[+b.dataset.lo];if(x&&x.h&&x.h.manual){const sm=b.parentNode.querySelector('small.muted');if(sm)sm.textContent='Marked as done'}});
+}catch(e){console.error('v66',e)}};
+}catch(e){console.error('v66',e)}
+
+// ---- v67: tell the Sheet how many sessions are finished, so it saves a Drive backup after each one
+try{const _sp67=syncPayload;syncPayload=function(){const p=_sp67.apply(this,arguments);try{let n=0;PORDER.forEach(id=>{if(id==='protocol')return;withProg(id,()=>{Object.keys(S.hist||{}).forEach(k=>{const h=S.hist[k];if(h&&(h.fin||h.manual)&&h.done>0)n++})})});p.sessFin=n}catch(e){}return p};}catch(e){console.error('v67',e)}
 
 /*END V21*/
 renderAll();
