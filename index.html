@@ -1281,6 +1281,118 @@ html:root:root:root:root body #setPanel{background:linear-gradient(180deg,#e8f6f
 #setPanel.in>div:nth-of-type(3)>h2,#setPanel.in>div:nth-of-type(3)>.small,#setPanel.in>div:nth-of-type(3)>textarea,#setPanel.in>div:nth-of-type(3)>#bkMsg,#setPanel.in>div:nth-of-type(4)>h2,#setPanel.in>div:nth-of-type(4)>.small,#setPanel.in>div:nth-of-type(4)>label,#setPanel.in>div:nth-of-type(4)>input{grid-column:1/-1}
 #setPanel.in>div:nth-of-type(3)>.btn,#setPanel.in>div:nth-of-type(4)>.btn{width:100%;margin:0!important;padding:0 6px!important;font-size:13px!important}
 #setPanel.in>div:nth-of-type(6) .btn,#setPanel.in>div:nth-of-type(6) button{min-width:0}
+/* bigger timer */
+html:root:root:root:root body .tmr{padding:14px 16px 12px;border-radius:20px}
+html:root:root:root:root body .tmr .big{font-size:60px!important;line-height:1}
+html:root:root:root:root body .tmr .s{font-size:18px!important;font-weight:600}
+html:root:root:root:root body .tmr .l{font-size:14px!important}
+html:root:root:root:root body .tmr button{padding:12px 18px;font-size:16px;border-radius:12px}
+/* Settings in dark mode */
+@media (prefers-color-scheme:dark){
+html:root:root:root:root:not([data-theme="light"]) body #setPanel{background:linear-gradient(180deg,#1b2a2a,#2a2420)!important}
+html:root:root:root:root:not([data-theme="light"]) body #setPanel .card{background:color-mix(in srgb,var(--tn,#4fbbbc) 16%,#1e2b2b)!important;border-color:color-mix(in srgb,var(--tn,#4fbbbc) 40%,#1e2b2b)!important}
+html:root:root:root:root:not([data-theme="light"]) body #setPanel .pfh[data-pc='3']{background:#0f1616!important;color:#e2dac2!important}
+html:root:root:root:root:not([data-theme="light"]) body #setPanel input:not([type=checkbox]):not([type=radio]),html:root:root:root:root:not([data-theme="light"]) body #setPanel select,html:root:root:root:root:not([data-theme="light"]) body #setPanel textarea{background:#16201f!important;color:#e2dac2!important;border-color:#8fb8b8!important}
+html:root:root:root:root:not([data-theme="light"]) body #setPanel label,html:root:root:root:root:not([data-theme="light"]) body #setPanel .small,html:root:root:root:root:not([data-theme="light"]) body #setPanel .muted{color:#b9c9c4!important}
+html:root:root:root:root:not([data-theme="light"]) body #setPanel .btn,html:root:root:root:root:not([data-theme="light"]) body #setPanel .ichip{background:#2f5a5a!important;color:#e2dac2!important}
+html:root:root:root:root:not([data-theme="light"]) body #setPanel .btn:not(.alt){background:#2b8f91!important;color:#fff!important}
+html:root:root:root:root:not([data-theme="light"]) body #setPanel .ichip.on{background:#4fbbbc!important;color:#0e3335!important}
+html:root:root:root:root:not([data-theme="light"]) body #setPanel>h2,html:root:root:root:root:not([data-theme="light"]) body #setPanel h2:not(.card h2){color:#e2dac2}
+}
+html:root:root:root:root body .tmr::before{display:none!important}
+/* backup card: Save group then Import group */
+.bkcard .bkg{grid-column:1/-1;font:700 13px Oswald,sans-serif;letter-spacing:1px;text-transform:uppercase;color:#fff;border-radius:8px;padding:4px 10px}
+.bkcard .bkg.bks{background:#2b8f91;order:1}.bkcard .bkg.bki{background:#ec4624;order:5}
+.bkcard #bkFile{order:2}.bkcard #bkCsv{order:3}.bkcard #bkSki{order:4}.bkcard #bkExp{order:4}
+.bkcard #bkOpen{order:6}.bkcard #bkImp{order:7}
+.bkcard #bkMsg{order:9}
+/* timer: bigger */
+html:root:root:root:root body .tmr{left:6px;right:6px;padding:18px 18px 16px;border-radius:22px}
+html:root:root:root:root body .tmr .big{font-size:104px!important;line-height:.95}
+html:root:root:root:root body .tmr .s{font-size:22px!important}
+html:root:root:root:root body .tmr .l{font-size:16px!important}
+html:root:root:root:root body .tmr button{padding:16px 22px;font-size:19px;border-radius:14px}
+/* timer buttons: stacked with a gap */
+html:root:root:root:root body .tmr .r>div:last-child{display:flex;flex-direction:column;gap:14px;align-items:stretch}
+html:root:root:root:root body .tmr .r>div:last-child button{margin:0!important;min-width:112px}
+html:root:root:root:root body .tmr .s .rn{display:block;font:700 64px/1 Oswald,sans-serif;color:#f39120;letter-spacing:1px}
+html:root:root:root:root body .tmr .s .rt{display:block;font:600 24px/1.2 Oswald,sans-serif;color:#e2dac2;margin-top:2px}
+html:root:root:root:root body .tmr>.s{display:none!important}
+html:root:root:root:root body .tmr .r>div:first-child{text-align:center;flex:1}
+html:root:root:root:root body .tmr .s .rn,html:root:root:root:root body .tmr .s .rt{text-align:center}
+.tl i[data-pbi],.tl i[data-tid]{cursor:grab;touch-action:pan-x}
+.tl i.tdrag{z-index:5;opacity:.85;outline:2px solid #124f53;box-shadow:0 4px 12px #0006}
+#tdTip{position:fixed;z-index:50;background:#124f53;color:#fff;font:700 14px Oswald,sans-serif;padding:4px 10px;border-radius:10px;pointer-events:none}
+.tl{overflow:visible!important}.tlsc{overflow-x:auto}
+.pcx{display:flex;flex-direction:column;gap:3px;min-width:0}
+.pcx .pcy{width:100%}
+
+.kgr:has(.kgu){flex-direction:column;align-items:center;gap:2px}
+.kgu{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mut,#5b7a7a);white-space:nowrap}
+#pbGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+#pbGrid .btn{width:100%;min-width:0;padding-left:8px;padding-right:8px;white-space:normal;line-height:1.15}
+#rsCf{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px}
+#rsCf .rsb{background:var(--card,#fff);color:var(--ink,#16363a);border-radius:22px;padding:20px;width:100%;max-width:340px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+#rsCf h3{margin:0 0 14px;font-size:22px}
+#rsCf .rsr{display:flex;flex-direction:column;gap:8px}
+@media (prefers-color-scheme:dark){html:root:root:root:root:not([data-theme="light"]) body .blk>.sec,html:root:root:root:root:not([data-theme="light"]) body .blk>.sec *{color:#f1f7f6!important}html:root:root:root:root:not([data-theme="light"]) body .blk>.sec .cnt,html:root:root:root:root:not([data-theme="light"]) body .blk>.sec>.cnt{color:#f1f7f6!important}}
+
+#setPanel.in>div#setAct{order:9!important;display:flex;gap:8px;background:none!important;border:0!important;box-shadow:none!important;padding:0!important;margin:4px 0 0!important}
+#setPanel.in>div#setAct>.btn{flex:1 1 0;min-width:0;width:auto;margin:0!important}
+
+#setPanel.in>h2{background:#4fbdbf!important;color:#fff!important;border:0!important;border-radius:10px;padding:8px 12px!important;margin:0 0 6px!important;font-size:18px;letter-spacing:.05em;text-transform:uppercase}
+
+#setPanel.in>h2{order:-2!important}
+#setPanel.in>div:nth-of-type(6){order:-1!important}
+
+html:root:root:root:root body #setPanel.in>h2{background:none!important;color:var(--ink,#16302f)!important;padding:4px 4px 10px!important;font-size:30px!important;letter-spacing:.5px;text-shadow:2px 2px 0 #4fbbbc,4px 4px 0 #f39120,6px 6px 0 #ec4624,8px 8px 0 #222a2a!important}
+
+.ex .circ{display:inline-block;margin:4px 0 2px;padding:3px 10px;border-radius:999px;background:#ec4624;color:#fff;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.sets6:has(.setn) .sfd:only-of-type{max-width:none}
+
+.ex .f4l{display:flex;gap:10px;margin:8px 0 2px}
+.ex .f4l .sfd{flex:1 1 0;min-width:0}
+.ex .f4l .sfd span{display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.ex .f4l .sfd input{width:100%;box-sizing:border-box}
+
+.ex .f4l .sfd{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:4px;margin:0!important}
+.ex .f4l .sfd input{text-align:center;height:46px;margin:0!important}
+
+.ex .f4l .sfd input{width:100%!important;max-width:none!important;min-width:0!important}
+
+html:root:root:root:root body .ex .f4l .sfd,html:root:root:root:root body .ex .f4l .sfd input{width:100%!important;max-width:none!important;flex:1 1 0!important;box-sizing:border-box!important}
+html:root:root:root:root body .ex .f4l .sfd{flex:1 1 0!important}
+
+.ex .f4l{flex-wrap:wrap}
+html:root:root:root:root body .ex .f4l .sfd{flex:1 1 calc(50% - 10px)!important;width:auto!important;min-width:0}
+html:root:root:root:root body .ex .f4l .sfd span{white-space:normal;line-height:1.2;min-height:30px}
+
+.ex .rxb{margin:6px 0 8px;padding:10px 12px;border-radius:12px;background:rgba(79,187,188,.14);font-size:16px;line-height:1.35}
+.ex .rxb .rxh{font-weight:700;font-size:18px;margin-bottom:4px}
+.ex .rxb .rxn{font-weight:600}
+.ex .rxb>div+div{margin-top:3px}
+/*DARKX-START*/
+html[data-theme="dark"]{background-color:#10302f}
+:root[data-theme="dark"] .ex.added .nm{color:#8ab4ff}:root[data-theme="dark"] .ex.added{border-left-color:#8ab4ff}
+:root:root:root:root[data-theme="dark"] #weeks button{--m0:#26393a;--m1:#2b5557;--m2:#2f7a7d;--m3:#3fa5a8;--m4:#67d0d3;--m5:#a6ecee;}:root:root:root:root[data-theme="dark"] #weeks button.m0{color:#e2dac2!important}:root:root:root:root[data-theme="dark"] #weeks button.m1{color:#e2dac2!important}:root:root:root:root[data-theme="dark"] #weeks button.m2{color:#e2dac2!important}:root:root:root:root[data-theme="dark"] #weeks button.m3{color:#10201f!important}:root:root:root:root[data-theme="dark"] #weeks button.m4{color:#10201f!important}:root:root:root:root[data-theme="dark"] #weeks button.m5{color:#10201f!important}
+:root:root:root:root[data-theme="dark"] #tabs button{--m0:#40362a;--m1:#6a4a22;--m2:#a46a18;--m3:#e5801a;--m4:#ffa947;--m5:#ffd08a;}:root:root:root:root[data-theme="dark"] #tabs button.m0{color:#e2dac2!important}:root:root:root:root[data-theme="dark"] #tabs button.m1{color:#e2dac2!important}:root:root:root:root[data-theme="dark"] #tabs button.m2{color:#e2dac2!important}:root:root:root:root[data-theme="dark"] #tabs button.m3{color:#10201f!important}:root:root:root:root[data-theme="dark"] #tabs button.m4{color:#10201f!important}:root:root:root:root[data-theme="dark"] #tabs button.m5{color:#10201f!important}
+:root[data-theme="dark"] .ex.kswap .nm,:root[data-theme="dark"] .kso{color:#c4a1f0}
+:root[data-theme="dark"]{--vcard:#24403fcc}html:root:root:root:root[data-theme="dark"] body .blk,html:root:root:root:root[data-theme="dark"] body .card,html:root:root:root:root[data-theme="dark"] body .add{border-color:#ffffff1a;box-shadow:0 8px 24px #00000040}
+html:root:root:root:root[data-theme="dark"] body .blk>.sec{background:#2f7f80!important}html:root:root:root:root[data-theme="dark"] body .blk:first-of-type>.sec{background:#1f5557!important}html:root:root:root:root[data-theme="dark"] body .blk:first-of-type>.sec *{color:#fff!important}
+html:root:root:root:root[data-theme="dark"] body .blk[data-bc]{background:color-mix(in srgb,var(--tn) 16%,#1e2b2b)!important;border-color:color-mix(in srgb,var(--tn) 35%,#1e2b2b)!important}
+
+html:root:root:root:root[data-theme="dark"] body #setPanel{background:linear-gradient(180deg,#1b2a2a,#2a2420)!important}
+html:root:root:root:root[data-theme="dark"] body #setPanel .card{background:color-mix(in srgb,var(--tn,#4fbbbc) 16%,#1e2b2b)!important;border-color:color-mix(in srgb,var(--tn,#4fbbbc) 40%,#1e2b2b)!important}
+html:root:root:root:root[data-theme="dark"] body #setPanel .pfh[data-pc='3']{background:#0f1616!important;color:#e2dac2!important}
+html:root:root:root:root[data-theme="dark"] body #setPanel input:not([type=checkbox]):not([type=radio]),html:root:root:root:root[data-theme="dark"] body #setPanel select,html:root:root:root:root[data-theme="dark"] body #setPanel textarea{background:#16201f!important;color:#e2dac2!important;border-color:#8fb8b8!important}
+html:root:root:root:root[data-theme="dark"] body #setPanel label,html:root:root:root:root[data-theme="dark"] body #setPanel .small,html:root:root:root:root[data-theme="dark"] body #setPanel .muted{color:#b9c9c4!important}
+html:root:root:root:root[data-theme="dark"] body #setPanel .btn,html:root:root:root:root[data-theme="dark"] body #setPanel .ichip{background:#2f5a5a!important;color:#e2dac2!important}
+html:root:root:root:root[data-theme="dark"] body #setPanel .btn:not(.alt){background:#2b8f91!important;color:#fff!important}
+html:root:root:root:root[data-theme="dark"] body #setPanel .ichip.on{background:#4fbbbc!important;color:#0e3335!important}
+html:root:root:root:root[data-theme="dark"] body #setPanel>h2,html:root:root:root:root[data-theme="dark"] body #setPanel h2:not(.card h2){color:#e2dac2}
+
+html:root:root:root:root[data-theme="dark"] body .blk>.sec,html:root:root:root:root[data-theme="dark"] body .blk>.sec *{color:#f1f7f6!important}html:root:root:root:root[data-theme="dark"] body .blk>.sec .cnt,html:root:root:root:root[data-theme="dark"] body .blk>.sec>.cnt{color:#f1f7f6!important}
+/*DARKX-END*/
 
 </style>
 
@@ -2370,8 +2482,8 @@ function openTrip(id,d,kind){loadCal();const t=id?CAL.trips.find(x=>x.id===id):{
   if(id)$('tD').onclick=()=>{CAL.trips=CAL.trips.filter(x=>x.id!==id);saveCal();PLANC=null;closeSheet('sheetCal');renderCal()};
   openSheet('sheetCal')}
 function timelineHtml(){const y0=new Date(CALY+'-01-01T12:00:00'),n=((CALY%4===0&&CALY%100!==0)||CALY%400===0)?366:365;const pos=d=>Math.max(0,Math.min(n,Math.round((new Date(d+'T12:00:00')-y0)/864e5)));
-  let h='<div class="tl">';planBlocks().forEach(b=>{const a=pos(b.start),z=pos(addD(b.end,1));if(z<=a)return;h+=`<i title="${esc(b.tx)}" style="left:${100*a/n}%;width:${100*(z-a)/n}%;background:${BCOL[b.t]||'#999'}"></i>`});
-  CAL.trips.forEach(t=>{const a=pos(t.from),z=pos(addD(t.to||t.from,1));if(z<=a)return;h+=`<u style="left:${100*a/n}%;width:${Math.max(.6,100*(z-a)/n)}%"></u>`});
+  let h='<div class="tl">';planBlocks().forEach((b,pbi)=>{const a=pos(b.start),z=pos(addD(b.end,1));if(z<=a)return;h+=`<i data-pbi="${pbi}" title="${esc(b.tx)}" style="left:${100*a/n}%;width:${100*(z-a)/n}%;background:${BCOL[b.t]||'#999'}"></i>`});
+  CAL.trips.forEach(t=>{const a=pos(t.from),z=pos(addD(t.to||t.from,1));if(z<=a)return;h+=`<u data-tid="${t.id}" style="left:${100*a/n}%;width:${Math.max(.6,100*(z-a)/n)}%"></u>`});
   return h+'</div><div class="tlm">'+'JFMAMJJASOND'.split('').map(x=>`<span>${x}</span>`).join('')+'</div>'}
 const _openDay=openDay;openDay=function(d){_openDay(d);const ct=$('cTrip');if(ct&&!$('cRest')){const b=document.createElement('button');b.className='btn alt';b.id='cRest';b.textContent='+ Rest from this day';ct.after(b);b.onclick=()=>{closeSheet('sheetCal');openTrip(null,d,'rest')}}};
 /*END V19b*/
@@ -2687,7 +2799,7 @@ function cardioZoneLine(sid,type){const z=zones();const k=sid==='Z2'?'z2':sid===
   const off=(type==='Run'||type==='Walk')?0:7;return 'Target heart rate: '+(z[k][0]-off)+'–'+(z[k][1]-off)+' bpm'+(sid==='VO2'?' (it lags behind: judge hard reps by effort, RPE 8–9)':'')}
 function cardioCardHtml(){return ''}
 const _vis21=visibleEx;
-visibleEx=function(sess,wi){if(PLAN.id==='cardio')return [{t:'sec',text:'Today'},{t:'ex',id:sess.id+'-ALL',n:'1',name:'Session',unit:'',rest:'—',tempo:null,w:PLAN.weeks.map(()=>({s:'1',kg:null})),kind:'AER',focus:null,note:'',syn:true}];return _vis21(sess,wi)};
+visibleEx=function(sess,wi){if(PLAN.id==='cardio')return [{t:'sec',text:'Session'},{t:'ex',id:sess.id+'-ALL',n:'1',name:'Session',unit:'',rest:'—',tempo:null,w:PLAN.weeks.map(()=>({s:'1',kg:null})),kind:'AER',focus:null,note:'',syn:true}];return _vis21(sess,wi)};
 function cardioNewHtml(wi,ex){const sess=curSess();const mk=wi+'|'+sess.id,key=wi+'|'+ex.id;S.mode=S.mode||{};S.cq=S.cq||{};S.cmin=S.cmin||{};
   const cur=S.mode[mk]||'Run',q=S.cq[mk]||{},M=numv(S.cmin[mk])||((sess.id==='Z2'||sess.id==='TH')?45:0),done=(S.done[key]||[])[0];
   const km=numv(q.km);let pace='';if(km&&M){if(cur==='Swim'){const p=(M*60)/(km*10);pace=Math.floor(p/60)+':'+String(Math.round(p%60)).padStart(2,'0')+' /100 m'}else if(cur==='Bike'||cur==='Elliptical'){pace=(km/(M/60)).toFixed(1)+' km/h'}else{const p=M/km;pace=Math.floor(p)+':'+String(Math.round((p%1)*60)).padStart(2,'0')+' /km'}}
@@ -2900,8 +3012,8 @@ planWire=function(){_planWire22();
 // ---- one bar: blocks and trips together
 timelineHtml=function(){const y0=new Date(CALY+'-01-01T12:00:00'),n=((CALY%4===0&&CALY%100!==0)||CALY%400===0)?366:365;const pos=d=>Math.max(0,Math.min(n,Math.round((new Date(d+'T12:00:00')-y0)/864e5)));
   const bk={},tk={};let h='<div class="tl">';
-  planBlocks().forEach(b=>{if(b.t==='trip'||b.t==='rest')return;const a=pos(b.start),z=pos(addD(b.end,1));if(z<=a)return;bk[b.t]=1;h+=`<i title="${esc(b.tx)}" style="left:${100*a/n}%;width:${100*(z-a)/n}%;background:${BCOL[b.t]||'#999'}"></i>`});
-  (CAL.trips||[]).forEach(t=>{if(t.from.slice(0,4)!==String(CALY)&&(t.to||t.from).slice(0,4)!==String(CALY))return;const a=pos(t.from),z=pos(addD(t.to||t.from,1));tk[t.kind]=1;h+=`<i class="tkb" title="${esc(t.name||TKN[t.kind])}" style="left:${100*a/n}%;width:${Math.max(.8,100*(z-a)/n)}%;background:${TKC[t.kind]||'#999'}"></i>`});
+  planBlocks().forEach((b,pbi)=>{if(b.t==='trip'||b.t==='rest')return;const a=pos(b.start),z=pos(addD(b.end,1));if(z<=a)return;bk[b.t]=1;h+=`<i data-pbi="${pbi}" title="${esc(b.tx)}" style="left:${100*a/n}%;width:${100*(z-a)/n}%;background:${BCOL[b.t]||'#999'}"></i>`});
+  (CAL.trips||[]).forEach(t=>{if(t.from.slice(0,4)!==String(CALY)&&(t.to||t.from).slice(0,4)!==String(CALY))return;const a=pos(t.from),z=pos(addD(t.to||t.from,1));tk[t.kind]=1;h+=`<i class="tkb" data-tid="${t.id}" title="${esc(t.name||TKN[t.kind])}" style="left:${100*a/n}%;width:${Math.max(.8,100*(z-a)/n)}%;background:${TKC[t.kind]||'#999'}"></i>`});
   h+='</div><div class="tlm">'+'JFMAMJJASOND'.split('').map(x=>`<span>${x}</span>`).join('')+'</div>';
   const lg=Object.keys(bk).map(k=>`<span><i style="background:${BCOL[k]}"></i>${esc(BT19[k]||k)}</span>`).concat(Object.keys(tk).map(k=>`<span><i style="background:${TKC[k]}"></i>${TKN[k]||k}</span>`));
   return h+(lg.length?`<div class="tlg">${lg.join('')}</div>`:'')};
@@ -3281,7 +3393,7 @@ document.addEventListener('click',e=>{const d=e.target.closest&&e.target.closest
 // ---- v27: names, trip types, THIS WEEK card, knee swaps
 (function(){
 Object.assign(BT19,{athletic:'Power & Stability + Cardio',strength:'Heavy Strength + Cardio',ski8:'Ski Training 7 + Cardio',ski:'Ski Training 5 + Cardio',cond:'F4R Engine + Cardio',cardio:'Cardio & VO₂ block',away:'No-Gym Bodyweight',easy:'Easy week',trip:'Trip'});
-const HN={athletic:'Power & Stability',strength:'Heavy Strength',ski8:'Ski Training · 7 Weeks',ski:'Ski Training · 5 Weeks',conditioning:'F4R Engine Conditioning',cardio:'Cardio & VO₂',mobility:'Mobility',nogym:'No-Gym Bodyweight',protocol:'Protocol'};
+const HN={athletic:'Power & Stability',strength:'Heavy Strength',ski8:'Ski Training · 7 Weeks',ski:'Ski Training · 5 Weeks',conditioning:'F4R Engine Conditioning',cardio:'Cardio & VO₂',mobility:'Mobility',nogym:'No-Gym Bodyweight',protocol:'Protocol',semi:'Half Marathon'};
 const _rh=renderHome;renderHome=function(){_rh.apply(this,arguments);try{
   document.querySelectorAll('.pcard[data-p]').forEach(b=>{const n=HN[b.dataset.p];const t=b.querySelector('.pmid b');if(n&&t){t.textContent=n;const w=b.querySelector('.pwk');if(w)w.remove()}});
   const c=document.getElementById('wkC');if(c&&!c.dataset.v27){c.dataset.v27=1;const s=c.querySelector('.sec0');
@@ -3493,11 +3605,14 @@ const _wk=wkText;wkText=function(w){if(w&&w.t==='easy')return 'Easy week: two Zo
 
 // ================= Protocol: weekly cycle as a compact grid
 (function(){
-const PMAP={'Power & Stability':'athletic','Heavy Strength':'strength','Ski Training 7 Weeks':'ski8','Ski Training 5 Weeks':'ski','F4R Engine Base + Cardio':'conditioning','F4R Engine Complete':'conditioning','No-Gym Bodyweight':'nogym','Mobility':'mobility','Cardio & VO₂ block':'cardio','Easy week':'cardio','Rest':null};
+const PMAP={'Power & Stability':'athletic','Heavy Strength':'strength','Ski Training 7 Weeks':'ski8','Ski Training 5 Weeks':'ski','F4R Engine Base + Cardio':'conditioning','F4R Engine Complete':'conditioning','No-Gym Bodyweight':'nogym','Mobility':'mobility','Cardio & VO₂ block':'cardio','Half Marathon':'semi','Easy week':'cardio','Rest':null};
 const CC={Z2:['#ec4624','#fff'],TH:['#ec4624','#fff'],'VO₂':['#ec4624','#fff']};
-const GC={athletic:['#e58ab0','#3a0f22'],strength:['#d6b02f','#2b2200'],ski8:['#2f6fa8','#fff'],ski:['#7fb2e0','#0f2a40'],conditioning:['#8a6fb3','#fff'],nogym:['#6fa86f','#14301a'],mobility:['#6fa86f','#14301a'],cardio:['#e2dac2','#222a2a']};
+const GC={athletic:['#e58ab0','#3a0f22'],strength:['#d6b02f','#2b2200'],ski8:['#2f6fa8','#fff'],ski:['#7fb2e0','#0f2a40'],conditioning:['#8a6fb3','#fff'],nogym:['#6fa86f','#14301a'],mobility:['#6fa86f','#14301a'],cardio:['#e2dac2','#222a2a'],semi:['#ec4624','#fff']};
 function chip(prog,x){let t=String(x||''),opt=/optional/i.test(t),lab=t,cl='n',link='',bg='',fg='';
   let m;
+  if(prog==='semi'){const R={'Run, Easy':['Easy','E'],'Run, Intervals':['Int','I'],'Run, Tempo':['Tempo','T'],'Run, Long':['Long','L']};
+    if(R[t])return {lab:R[t][0],cl:'c',opt:false,link:'semi:'+R[t][1],bg:'#ec4624',fg:'#fff'};
+    if(m=/^Strength ([ABC])$/.exec(t))return {lab:m[1],cl:'w',opt:false,link:'strength:'+m[1],bg:GC.strength[0],fg:GC.strength[1]}}
   if(/Cardio, Zone 2/.test(t)){lab='Z2';cl='c';link='cardio:Z2';[bg,fg]=CC.Z2}
   else if(/Cardio, Threshold/.test(t)){lab='TH';cl='c';link='cardio:TH';[bg,fg]=CC.TH}
   else if(/Cardio, VO/.test(t)){lab='VO₂';cl='c';link='cardio:VO2';[bg,fg]=CC['VO₂']}
@@ -3517,13 +3632,13 @@ function chip(prog,x){let t=String(x||''),opt=/optional/i.test(t),lab=t,cl='n',l
   return {lab,cl,opt,link,bg,fg}}
 const _ri=renderInfo;renderInfo=function(){
   if(!PLAN||PLAN.id!=='protocol')return _ri.apply(this,arguments);
-  try{const rr=PLAN.blocks[0].rows;if(rr&&!rr.some(r=>r[0]==='F4R Engine Complete')){const i=rr.findIndex(r=>r[0]==='F4R Engine Base + Cardio');rr.splice(i<0?rr.length:i+1,0,['F4R Engine Complete','Session 1','Session 4 (optional)','Session 2','Session 5 (optional)','Session 3','Session 6 (optional)'])}}catch(e){}
+  try{const rr=PLAN.blocks[0].rows;if(rr&&!rr.some(r=>r[0]==='Half Marathon')){const i=rr.findIndex(r=>r[0]==='Cardio & VO₂ block');rr.splice(i<0?rr.length:i+1,0,['Half Marathon','Run, Intervals','Strength A','Run, Easy','Run, Tempo','Strength C','Run, Long']);PLAN.blocks[0].links&&PLAN.blocks[0].links.splice(i<0?rr.length:i+1,0,[])}if(rr&&!rr.some(r=>r[0]==='F4R Engine Complete')){const i=rr.findIndex(r=>r[0]==='F4R Engine Base + Cardio');rr.splice(i<0?rr.length:i+1,0,['F4R Engine Complete','Session 1','Session 4 (optional)','Session 2','Session 5 (optional)','Session 3','Session 6 (optional)'])}}catch(e){}
   let h='';PLAN.blocks.forEach(b=>{h+=`<div class="card infoc"><h2>${esc(b.title)}</h2>`;
     if(b.kind==='cards'){
       h+=`<div class="pcyc"><div class="pcyc-h"><span></span>${['M','T','W','T','F','S / S'].map(d=>`<span>${d}</span>`).join('')}</div>`;
-      b.rows.forEach(r=>{const prog=PMAP[r[0]];h+=`<div class="pcyc-n">${prog&&GC[prog]?`<i style="background:${GC[prog][0]}"></i>`:'<i></i>'}${esc(r[0])}</div><div class="pcyc-r">`+r.slice(1).map(x=>{const c=chip(prog,x);
+      b.rows.forEach(r=>{const prog=PMAP[r[0]];h+=`<div class="pcyc-n">${prog&&GC[prog]?`<i style="background:${GC[prog][0]}"></i>`:'<i></i>'}${esc(r[0])}</div><div class="pcyc-r">`+r.slice(1).map(X=>`<div class="pcx">`+String(X).split(' + ').map(x=>{const c=chip(prog,x);
         const st=c.bg?` style="background:${c.bg};color:${c.fg}"`:'';
-        return c.link?`<button type="button" class="pcy ${c.cl}${c.opt?' opt':''}" data-pl="${esc(c.link)}"${st}>${esc(c.lab)}</button>`:`<span class="pcy ${c.cl}${c.opt?' opt':''}"${st}>${esc(c.lab)}</span>`}).join('')+`</div>`});
+        return c.link?`<button type="button" class="pcy ${c.cl}${c.opt?' opt':''}" data-pl="${esc(c.link)}"${st}>${esc(c.lab)}</button>`:`<span class="pcy ${c.cl}${c.opt?' opt':''}"${st}>${esc(c.lab)}</span>`}).join('')+`</div>`).join('')+`</div>`});
       h+=`<div class="pcyc-l"><span class="pcy w" style="background:#8a6fb3;color:#fff">Workout</span><span class="pcy c" style="background:#ec4624;color:#fff">Cardio</span><span class="pcy n opt">Optional</span></div></div>`}
     else b.rows.forEach(r=>{h+=`<div class="icard"><b>${esc(r[0])}</b>${r[1]?` <span class="ik">${esc(r[1])}</span>`:''}${r[2]?`<div class="small muted">${esc(r[2])}</div>`:''}</div>`});
     h+='</div>'});
@@ -3683,7 +3798,7 @@ const _rc3=renderCal;renderCal=function(){_rc3.apply(this,arguments);
 // ---- v37: export the ski log for the separate Ski Training app
 (function(){function add(){try{const b=document.getElementById('bkOpen');if(!b||document.getElementById('bkSki'))return;
   const o=document.createElement('button');o.className='btn alt';o.id='bkSki';o.textContent='Save ski log for Ski app';b.parentNode.insertBefore(o,b.nextSibling);
-  o.onclick=()=>{try{const st=getState('ski'),x={};['done','kg','pain','tjt','extra','notes','ov','swap','hist','fin','morn','dur','th','ord'].forEach(f=>{if(st[f]!=null)x[f]=st[f]});{const u=URL.createObjectURL(new Blob([JSON.stringify(x)],{type:'application/json'}));const a=document.createElement('a');a.href=u;a.download='ski5week-backup-'+localToday()+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(u);a.remove()},1500);document.getElementById('bkMsg').textContent='Saved as '+a.download+' (check your Downloads / Files app).'}}catch(e){document.getElementById('bkMsg').textContent='Could not save.'}}}catch(e){}}
+  o.onclick=()=>{try{const st=getState('ski'),x={};['done','kg','pain','tjt','extra','notes','ov','swap','hist','fin','morn','dur','th','ord'].forEach(f=>{if(st[f]!=null)x[f]=st[f]});saveOut('ski5week-backup-'+localToday()+'.json',JSON.stringify(x),'application/json')}catch(e){document.getElementById('bkMsg').textContent='Could not save.'}}}catch(e){}}
   const p=document.getElementById('setPanel');if(p)new MutationObserver(add).observe(p,{childList:true})})();
 
 // ---- v38: a Rest entry is just Rest: no trip type, no hint line
@@ -3709,7 +3824,7 @@ function sugYear(y){
   b.onclick=()=>{loadCal();sugYear(+CALY);saveCal();PLANC=null;renderAll&&renderAll();try{openProg('cal')}catch(e){}}}catch(e){}}})();
 
 // seed the suggested plan once for this year and the next (own trips are never overwritten; a deleted suggested entry stays deleted)
-(function(){const _l=loadCal;let busy=0;loadCal=function(){const r=_l.apply(this,arguments);if(busy||!r)return r;busy=1;try{r.seed=r.seed||{};const y0=new Date().getFullYear();let ch=0;[y0,y0+1].forEach(y=>{if(!r.seed[y]){r.seed[y]=1;sugYear(y);ch=1}});if(ch){PLANC=null;saveCal()}}catch(e){}busy=0;return r}})();
+(function(){const _l=loadCal;let busy=0;loadCal=function(){const r=_l.apply(this,arguments);if(busy||!r)return r;busy=1;try{r.seed=r.seed||{};const y0=new Date().getFullYear();let ch=0;const ys=[];for(let k=0;k<=6;k++)ys.push(y0+k);try{if(typeof CALY==='number'&&CALY>=y0&&!ys.includes(CALY))ys.push(CALY)}catch(e){}ys.forEach(y=>{if(!r.seed[y]){r.seed[y]=1;sugYear(y);ch=1}});if(ch){PLANC=null;saveCal()}}catch(e){}busy=0;return r}})();
 
 // ---- v40: injury work at the START and END of every session, lower volume on the loading exercises
 try{
@@ -3780,6 +3895,294 @@ document.addEventListener('input',e=>{const r=e.target.closest&&e.target.closest
 // ---- v42: colour-code the settings sub-sections
 (function(){function tag(){try{document.querySelectorAll('#setPanel .pfh').forEach(e=>{const t=e.textContent.toLowerCase();e.dataset.pc=/body/.test(t)?'1':/strength/.test(t)?'2':/injury/.test(t)?'3':/training/.test(t)?'4':'0'})}catch(e){}}
 const p=document.getElementById('setPanel');if(p){new MutationObserver(tag).observe(p,{childList:true,subtree:true});tag()}})();
+
+// ---- v43: louder, distinct beep at the start of every EMOM minute
+try{startBeep=function(){beep(1046,0.3,0.7);setTimeout(()=>beep(1568,0.45,0.7),340);buzz([250,80,250])}}catch(e){console.error('v43',e)}
+
+// ---- v44: keep beeps audible with the iPhone silent switch on (silent media element holds the playback audio session)
+try{let SA=null;
+function silentEl(){if(SA)return SA;const n=4000,b=new ArrayBuffer(44+n),v=new DataView(b),w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};
+ w(0,'RIFF');v.setUint32(4,36+n,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,8000,true);v.setUint16(32,1,true);v.setUint16(34,8,true);w(36,'data');v.setUint32(40,n,true);for(let i=0;i<n;i++)v.setUint8(44+i,128);
+ SA=new Audio(URL.createObjectURL(new Blob([b],{type:'audio/wav'})));SA.loop=true;SA.setAttribute('playsinline','');return SA}
+const _ts44=tmStart;tmStart=function(){try{silentEl().play().catch(()=>{})}catch(e){}return _ts44.apply(this,arguments)};
+const _tp44=tmStop;tmStop=function(){try{if(SA)SA.pause()}catch(e){}return _tp44.apply(this,arguments)};
+}catch(e){console.error('v44',e)}
+
+// ---- v45: save through the iPhone share sheet (Google Drive / Files), clear Save and Import groups
+function saveOut(name,text,mime){const msg=document.getElementById('bkMsg');
+ const fallback=()=>{const u=URL.createObjectURL(new Blob([text],{type:mime||'application/octet-stream'}));const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(u);a.remove()},1500);if(msg)msg.textContent='Saved '+name}
+ try{const f=new File([text],name,{type:mime||'application/octet-stream'});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:name}).then(()=>{if(msg)msg.textContent='Saved '+name}).catch(e=>{if(e&&e.name!=='AbortError')fallback()});return}}catch(e){}
+ fallback()}
+try{const _dl45=dl;dl=function(name,text,mime){saveOut(name,text,mime)}}catch(e){console.error('v45',e)}
+(function(){const L={bkFile:'Backup to Drive',bkCsv:'Excel log (CSV)',bkSki:'Ski app log',bkExp:'Copy text',bkOpen:'From Drive / Files',bkImp:'From pasted text'};
+ function fix(){try{for(const k in L){const e=document.getElementById(k);if(e&&e.textContent!==L[k])e.textContent=L[k]}
+  const bk=document.getElementById('bkFile');if(!bk)return;const card=bk.parentNode;card.classList.add('bkcard');
+  if(!card.querySelector('.bkg')){const mk=(t,c)=>{const d=document.createElement('div');d.className='bkg '+c;d.textContent=t;return d};card.insertBefore(mk('Save · Google Drive or Files','bks'),bk);const o=document.getElementById('bkOpen');if(o)card.insertBefore(mk('Import · Google Drive or Files','bki'),o)}}catch(e){}}
+ const p=document.getElementById('setPanel');if(p){new MutationObserver(fix).observe(p,{childList:true,subtree:true});fix()}})();
+
+// ---- v46: EMOM timer shows the round as a big "n/N"
+try{const _tt46=tmTick;tmTick=function(){_tt46.apply(this,arguments);try{if(!TM||TM.done)return;const g=TM.segs[TM.i];if(!g||!g.tot)return;const s=document.querySelector('#tmr .s');if(!s||s.dataset.r===TM.i+'')return;s.dataset.r=TM.i;const m=/^(\d+)\s*reps/.exec(g.sub||'');s.innerHTML='<span class="rn">'+TM.i+'/'+g.tot+'</span>'+(m?'<span class="rt">'+m[1]+' reps</span>':'')}catch(e){}};
+}catch(e){console.error('v46',e)}
+
+// ---- v47: hold a block or trip on the year bar and drag it left or right (snaps to whole weeks)
+(function(){let st=null,tmr=null,sx=0,sy=0;
+ const xy=e=>{const t=(e.touches&&e.touches[0])||(e.changedTouches&&e.changedTouches[0])||e;return {x:t.clientX,y:t.clientY}};
+ const tgt=e=>e.target&&e.target.closest&&e.target.closest('.tl i[data-pbi],.tl i[data-tid]');
+ const down=e=>{const el=tgt(e);if(!el)return;const p=xy(e);sx=p.x;sy=p.y;clearTimeout(tmr);
+  tmr=setTimeout(()=>{const tl=el.closest('.tl'),n=((CALY%4===0&&CALY%100!==0)||CALY%400===0)?366:365;st={el,tl,pw:tl.getBoundingClientRect().width*7/n,x0:sx,k:0};el.classList.add('tdrag');if(navigator.vibrate)try{navigator.vibrate(15)}catch(x){}},380)};
+ const move=e=>{const p=xy(e);if(!st){if(Math.abs(p.x-sx)>8||Math.abs(p.y-sy)>8)clearTimeout(tmr);return}
+  if(e.cancelable)e.preventDefault();const k=Math.round((p.x-st.x0)/st.pw);st.k=k;st.el.style.transform='translateX('+(k*st.pw)+'px)';
+  const tip=document.getElementById('tdTip')||Object.assign(document.createElement('div'),{id:'tdTip'});tip.textContent=(k>0?'+':'')+k+' wk';document.body.appendChild(tip);tip.style.left=Math.min(p.x,innerWidth-70)+'px';tip.style.top=(p.y-46)+'px'};
+ const up=e=>{clearTimeout(tmr);if(!st)return;const d=st;st=null;d.el.classList.remove('tdrag');d.el.style.transform='';const tip=document.getElementById('tdTip');if(tip)tip.remove();
+  if(!d.k)return;const days=7*d.k;
+  try{loadCal();
+   if(d.el.dataset.tid){const t=CAL.trips.find(x=>x.id===d.el.dataset.tid);if(!t)return;t.from=addD(t.from,days);if(t.to)t.to=addD(t.to,days)}
+   else{const b=planBlocks()[+d.el.dataset.pbi];if(!b)return;
+    if(b.manual&&b.bi!=null&&CAL.blocks[b.bi]){CAL.blocks[b.bi].from=addD(CAL.blocks[b.bi].from,days)}
+    else if(b.t==='ski'||b.t==='ski8'||b.t==='easy'){return}
+    else{const wk=Math.max(1,Math.round(dDiff(b.start,b.end)/7+1/7));CAL.blocks=CAL.blocks||[];CAL.blocks.push({type:b.t,from:addD(b.start,days),weeks:wk})}}
+   PLANC=null;saveCal();renderCal()}catch(err){console.error('drag',err)}};
+ document.addEventListener('touchstart',down,{passive:true});document.addEventListener('touchmove',move,{passive:false});document.addEventListener('touchend',up);document.addEventListener('touchcancel',up);
+ document.addEventListener('mousedown',down);window.addEventListener('mousemove',e=>{if(e.buttons||st)move(e)});window.addEventListener('mouseup',up);
+ document.addEventListener('click',e=>{if(tgt(e)&&st==null&&Date.now()-(window.__tdEnd||0)<400){e.stopPropagation();e.preventDefault()}},true);
+})();
+
+// ---- v48: Treadmill type for Cardio & VO2 with incline (slope) options
+try{
+CTYPES.splice(1,0,'Treadmill');
+const _co=cardioOpts;
+cardioOpts=function(sid,type,M){if(type!=='Treadmill')return _co.apply(this,arguments);
+ const out=[],o=(id,t,x)=>out.push({id,title:t,text:x});M=M||45;
+ if(sid==='Z2'){const r=M>=50?10:8,b=M>=50?10:8,nb=Math.max(2,Math.floor((M-r-4)/b));
+  o('A','Incline ramp',`${M} min at one easy pace. Start at 1 % incline and add 0.5 % every 10 min, up to 4 %. Last 3 min back to 0–1 %. If heart rate drifts above Zone 2, lower the incline, not the pace.`);
+  o('B','Flat and slope blocks',`${r} min at 1 %, then ${nb} blocks of ${b} min alternating 1 % and 3 % incline at the same pace. ${Math.max(0,M-r-nb*b)} min at 1 % to finish.`);
+  o('C','Rolling hills',`${M} min at one easy pace. Incline wave every 6 min: 1 – 2 – 3 – 4 – 3 – 2 %. Keep breathing conversational throughout.`);
+  o('D','Incline walk',`${M-3} min brisk walk at 6–10 % incline, speed 5–6 km/h, heart rate in Zone 2. 3 min at 0–1 % to finish.`)}
+ else if(sid==='TH'){const w=M<=30?8:10,c=M<=30?5:8,core=M-w-c,a=core>=28?7:5,n=Math.max(2,Math.floor((core+2)/(a+2))),used=n*a+(n-1)*2;
+  o('A','Incline cruise intervals',`${w} min easy at 1 %. ${n} × ${a} min at threshold effort (RPE 7–8), 2 min easy at 0–1 % between. Raise the incline 1 % on each interval, starting at 1 %. ${M-w-used} min cool-down.`);
+  o('B','Tempo with incline wave',`${w} min easy at 1 %. ${core} min at threshold effort: incline 1 % rising to 3 % over the first half, then back to 1 % over the second half. ${c} min cool-down.`);
+  o('C','Steady tempo, steep finish',`${w} min easy at 1 %. ${core-5} min at threshold at 1 %, then 5 min at 4–5 % incline, same effort. ${c} min cool-down.`)}
+ else{const w=M<=30?8:10,c=M<=30?5:M<=40?5:8,core=M-w-c;
+  const mk=(ws,rs)=>{let n=Math.floor((core*60+rs)/(ws+rs));if(n<2)n=2;const used=(n*ws+(n-1)*rs)/60;return {n,cool:Math.max(3,Math.round(M-w-used))}};
+  let q=mk(240,180);o('A','Long reps, incline steps',`${w} min easy at 1 %. ${q.n} × 4 min hard (RPE 8–9) at a steady speed, 3 min walk or easy jog at 0–1 % between. Incline 4 % on the first rep, +1 % on each next rep (maximum 8 %). ${q.cool} min cool-down.`);
+  q=mk(60,90);o('B','Hill repeats',`${w} min easy at 1 %. ${q.n} × 1 min hard (RPE 8–9) at 6 % incline, +1 % every two reps up to 10 %, 90 s at 0–1 % between. ${q.cool} min cool-down.`);
+  q=mk(30,30);o('C','30 / 30 on slope',`${w} min easy at 1 %. ${q.n} × 30 s fast at 5–7 % incline, 30 s easy at 0 %. ${q.cool} min cool-down.`)}
+ return out};
+const _cz=cardioZoneLine;cardioZoneLine=function(sid,type){return _cz.call(this,sid,type==='Treadmill'?'Run':type)};
+}catch(e){console.error('v48',e)}
+// ---- v49: Half Marathon preparation (12 weeks, 4 runs + 2 heavy lifts from Heavy Strength)
+try{
+const W12=[...Array(8)].map((_,i)=>({label:'W'+(i+1)}));
+const EX=(id,n,name,unit,arr,note,kind,vid)=>({t:'ex',id,n:String(n),name,unit,rest:'—',tempo:null,w:arr.map(s=>({s,kg:null})),kind:kind||'AER',focus:null,note:note||'',video:vid||('https://www.youtube.com/results?search_query='+encodeURIComponent(name))});
+const SEC=t=>({t:'sec',text:t}),K=v=>Array(8).fill(v);
+const wu=(id)=>EX(id,1,'Easy jog warm-up','RPE 2-3',K('10 min'),'Easy pace, then 4 short leg swings each side before the first rep.');
+const cd=(id)=>EX(id,9,'Easy jog cool-down','RPE 2',K('5-10 min'),'');
+const S=[
+ {id:'E',tab:'Easy',pre:'Wed · ',heading:'Easy Run',meta:'Run, outdoors or treadmill · 25-45 min',opt:false,items:[
+  SEC('EASY RUN'),
+  EX('HE-1',1,'Easy run','Zone 2, RPE 3-4, conversational pace',['35 min','35 min','40 min','30 min','40 min','45 min','35 min','25 min'],'Slow enough to talk in full sentences. Treadmill: 1 % incline.'),
+  SEC('STRIDES'),
+  EX('HE-2',2,'Strides','Fast and relaxed, walk back to recover',['4 × 15 s','4 × 20 s','6 × 20 s','4 × 15 s','6 × 20 s','6 × 20 s','4 × 20 s','4 × 15 s'],'Run tall, quick feet, about 90 % effort. Not a sprint.')]},
+ {id:'I',tab:'Intervals',pre:'Mon · ',heading:'Interval Run',meta:'Run · 40-55 min',opt:false,items:[
+  SEC('WARM-UP'),wu('HI-1'),
+  SEC('INTERVALS'),
+  EX('HI-2',2,'Run intervals','5 K effort, RPE 8-9, equal jog recovery',['8 × 400 m · 90 s jog','5 × 800 m · 2 min jog','4 × 1000 m · 2 min jog','5 × 400 m · 90 s jog','5 × 1000 m · 2 min jog','4 × 1200 m · 2:30 jog','4 × 800 m · 2 min jog','4 × 400 m · 90 s jog'],'Same pace on every rep; the last rep should feel like the first. Treadmill: 1 % incline.'),
+  SEC('COOL-DOWN'),cd('HI-3')]},
+ {id:'T',tab:'Tempo',pre:'Thu · ',heading:'Tempo Run',meta:'Run · 40-60 min',opt:false,items:[
+  SEC('WARM-UP'),wu('HT-1'),
+  SEC('TEMPO'),
+  EX('HT-2',2,'Tempo run','Threshold, RPE 7, comfortably hard',['3 × 10 min · 3 min jog','25 min continuous','30 min continuous','20 min continuous','3 × 12 min · 3 min jog','40 min continuous','20 min continuous','10 min at race pace'],'Between 10 km and half-marathon pace. You can say a few words, not a sentence.'),
+  SEC('COOL-DOWN'),cd('HT-3')]},
+ {id:'L',tab:'Long',pre:'Sat · ',heading:'Long Run',meta:'Run · 10-21 km',opt:false,items:[
+  SEC('LONG RUN'),
+  EX('HL-1',1,'Long run','Zone 2, RPE 3-4, steady and relaxed',['12 km','14 km','16 km','12 km','18 km','20 km','14 km','Race · 21.1 km'],'Start slower than feels right. Take water or a gel from 45 min.'),
+  SEC('RACE PACE'),
+  EX('HL-2',2,'Half-marathon pace finish','At target race pace, RPE 6-7',['—','—','3 km','—','4 km','6 km','—','—'],'Last kilometres of the long run, after the easy part.')]}
+];
+S.forEach(x=>{x.items.forEach(it=>{if(it.t==='ex'&&it.w.every(o=>o.s==='—'))return})});
+S.unshift(S.splice(1,1)[0]);
+PROGS.semi={id:'semi',name:'Cardio & VO₂ · Half Marathon',short:'HM',tag:'8 weeks · 4 runs + 2 Heavy Strength',knee:false,weeks:W12,sessions:S,version:'1',head:'Half Marathon',tjt:null};
+if(typeof PORDER!=='undefined'&&!PORDER.includes('semi'))PORDER.splice(PORDER.indexOf('cardio')+1,0,'semi');
+if(typeof MPROGS!=='undefined'&&!MPROGS.includes('semi'))MPROGS.push('semi');
+try{PCOL.semi='#ec4624'}catch(e){}
+try{applyInj()}catch(e){console.error('v49 inj',e)}
+try{const _em=exMin;exMin=function(x,wi){try{if(x&&/^H[EITL]-/.test(x.id)){const t=String((x.w[wi]||x.w[0]||{}).s||''),f=v=>parseFloat(String(v).replace(',','.'));let m;
+ if(m=/^(?:Race · )?([\d.]+) km/.exec(t))return f(m[1])*(/Race/.test(t)?5.5:6.3)*60;
+ if(m=/^(\d+) × (\d+) m · ([\d:]+) (?:min )?jog/.exec(t)){const j=/:/.test(m[3])?(+m[3].split(':')[0]*60+ +m[3].split(':')[1]):(+m[3]*60);return +m[1]*(+m[2]/1000*5*60+j)}
+ if(m=/^(\d+) × (\d+) min · (\d+) min jog/.exec(t))return +m[1]*(+m[2]+ +m[3])*60;
+ if(m=/^(\d+) × (\d+) s/.exec(t))return +m[1]*(+m[2]+60);
+ if(m=/^(\d+)-(\d+) min/.exec(t))return (+m[1]+ +m[2])/2*60;
+ if(m=/^(\d+) min/.exec(t))return +m[1]*60;
+ if(m=/^(\d+) × (\d+) m/.exec(t))return +m[1]*(+m[2]/1000*5*60+90)}}catch(e){}return _em.apply(this,arguments)}}catch(e){console.error('v49b',e)}
+}catch(e){console.error('v49',e)}
+// ---- v50: cardio — 30/45/60 chips, session block as its own card (like Ski)
+try{
+const _cn=cardioNewHtml;cardioNewHtml=function(wi,ex){let h=_cn.apply(this,arguments);try{const sess=curSess();if(sess.id==='Z2'||sess.id==='TH'){const mk=wi+'|'+sess.id,M=numv((S.cmin||{})[mk])||45;
+ h=h.replace(/<div class="cqq">[\s\S]*?<\/div>/,`<div class="cqq">${[30,45,60].map(m=>`<button data-qm="${m}" class="${M===m?'on':''}">${m} min</button>`).join('')}</div>`).replace('placeholder="45-60"','placeholder="30-60"')}}catch(e){}return h};
+const fixHero=()=>{try{const m=document.getElementById('main');if(!m)return;const h=m.querySelector(':scope>.hero');const b=h&&h.querySelector(':scope>.blk');if(b)h.after(b)}catch(e){}};
+const mo=new MutationObserver(fixHero);const mm=document.getElementById('main');if(mm)mo.observe(mm,{childList:true,subtree:true});fixHero();
+}catch(e){console.error('v50',e)}
+// ---- v51: knee injury — first block of Ski / Heavy Strength / Power & Stability replaced by the knee circuit
+try{
+INJD.knee.ex.push(
+ ['Wall Sit — isometric hold','3×45','s','BW','Isometric','REHAB · Patellar tendon','Back flat on the wall, thighs about parallel, shins vertical. Hold 45 s, 15 s rest. Keep the pain under 3/10; sit higher if needed.'],
+ ['Step-Up — fast knee drive','3×6','reps/side','BW','Unilateral Lower','REHAB · Eccentric quad & drive','30 cm box. Drive up hard and lift the free knee high like a tuck. Lower slowly for 3 s (eccentric quad). Knee over the 2nd toe, arch up. Pain under 3/10.'],
+ ['Eccentric Step-Down — forward reach','2×10','reps/side','BW','Unilateral Lower','REHAB · Eccentric control & arch','Lower for 3 s from a low step while the free heel reaches forward to tap the floor. Knee over the 2nd toe, tripod foot (big toe, little toe, heel) with the arch up.'],
+ ['Single-Leg Balance — soft knee','2×30','s/side','BW','Balance','REHAB · Ski stability','Soft knee over the 2nd toe, arch up, hips level. Weaker leg first.']);
+INJD.knee.ex.forEach(x=>{if(/Step-Down — forward reach/.test(x[0]))x[1]='2×10'});
+const SP=INJD.knee.ex.find(x=>x[0]==='Spanish Squat — isometric hold');if(SP){SP[1]='3×45';SP[2]='s, 15 s rest'}
+INJD.knee.ex.push(
+ ['Single-Leg Box Squat — sandbag 10 kg','2×6','reps/side · sandbag',10,'Unilateral Lower','REHAB · Knee control under load','Sandbag (10 kg) held at the chest. Sit back to your box on one leg, 3 s down, knee over the 2nd toe, arch up, stand without a push-off. Weaker leg first. Pain above 3/10: drop the sandbag or raise the box.'],
+ ['Single-Leg Kettlebell Orbit','2×5','orbits each way/side','KB','Balance','REHAB · Knee & arch stability','Stand on one leg, soft knee over the 2nd toe, arch up. Pass the kettlebell around your waist, 5 circles each way, hips level and still. Weaker leg first.']);
+const KB=si=>{const R=['Step-Up — fast knee drive','Eccentric Step-Down — forward reach',si%2?'Pole-Band Knee Extension':'Terminal Knee Extension — band','Single-Leg Balance — soft knee','Single-Leg Box Squat','Single-Leg Box Squat — sandbag 10 kg','Single-Leg Kettlebell Orbit'];const o=(si*3)%7;return [si%2?'Wall Sit — isometric hold':'Spanish Squat — isometric hold'].concat([0,1,2].map(k=>R[(o+k)%7]))};
+// merge Ankle + Achilles into one injury type
+try{
+const AK=INJD.achilles;if(AK&&INJD.ankle){AK.ex.forEach(e=>{if(!INJD.ankle.ex.some(x=>x[0]===e[0]))INJD.ankle.ex.push(e)});INJD.ankle.n='Ankle & Achilles';INJP.ankle={d:['Banded Ankle Mobilisation','Isometric Calf Hold'],r:[['Slow Calf Raise — 3 s down','Tibialis Raise — wall'],['Single-Leg Balance — eyes open','Ankle Alphabet'],['Soleus Raise — bent knee','Calf Stretch — wall']]}}
+const ix=INJK.indexOf('achilles');if(ix>=0)INJK.splice(ix,1);
+const _is=injSel;injSel=function(){const a=_is().map(k=>k==='achilles'?'ankle':k);return a.filter((k,i)=>a.indexOf(k)===i)};
+try{if(PROF&&Array.isArray(PROF.inj)&&PROF.inj.includes('achilles')){PROF.inj=injSel();saveProf()}}catch(e){}
+}catch(e){console.error('v57a',e)}
+// more rehab exercises for the smaller injury types
+INJD.shoulder.ex.push(
+ ['Face Pull — band','2×15','reps','band','Isolation','REHAB · Rear delt & scapula','Band at face height, pull to the forehead with the elbows high and the hands apart. Pause 1 s, shoulders down.'],
+ ['Side-Lying External Rotation — dumbbell','2×12','reps/side','2','Isolation','REHAB · Rotator cuff','Lie on the healthy side, elbow on the ribs with a towel roll, light dumbbell. Rotate the forearm up, 3 s back down. Pain under 3/10.'],
+ ['Scapular Push-Up','2×10','reps','BW','Isolation','REHAB · Serratus','Plank position, arms straight. Let the chest sink between the shoulder blades, then push the floor away and round the upper back.'],
+ ['Isometric External Rotation — wall','3×20','s/side','BW','Isometric','REHAB · Rotator cuff','Stand sideways to a wall, elbow bent 90°, back of the hand against the wall. Press out into the wall, steady, no shrugging.']);
+INJD.back.ex.push(
+ ['McGill Curl-Up','2×8','reps (hold 8 s)','BW','Core','REHAB · Spine stability','Lie on your back, one knee bent, hands under the lower back. Lift only the head and shoulders a little, brace, hold 8 s, lower slowly.'],
+ ['Pallof Press — half-kneeling','2×10','reps/side','band','Anti-Rotation','REHAB · Deep core','Half-kneeling next to a band at chest height. Press out and hold 2 s without the trunk twisting, return slowly.'],
+ ['Prone Cobra Hold','2×20','s','BW','Isometric','REHAB · Back extensors','Lie face down, arms by the sides, lift the chest a few centimetres and turn the thumbs up. Neck long, glutes soft.']);
+INJD.ankle.ex.push(
+ ['Banded Ankle Eversion','2×15','reps/side','band','Isolation','REHAB · Peroneals','Seated, band around the forefoot anchored on the inside. Turn the foot out slowly, 3 s back.'],
+ ['Eccentric Heel Drop — step','3×12','reps/side','BW','Eccentric','REHAB · Achilles load','Rise on both feet, shift onto one, lower the heel below the step for 3 s. Keep the pain under 3/10.']);
+INJD.hip.ex.push(
+ ['Single-Leg Glute Bridge','2×10','reps/side','BW','Unilateral Lower','REHAB · Glutes','Heel under the knee, lift the hips level and hold 2 s. Do not let the pelvis rotate.'],
+ ['Copenhagen Plank — short lever','2×15','s/side','BW','Isometric','REHAB · Adductors','Side plank with the top knee on a bench and the lower leg hanging. Lift the hips and hold.'],
+ ['Fire Hydrant','2×12','reps/side','BW','Isolation','REHAB · Glute Medius','On all fours, lift the knee out to the side with the hips square. Slow, no trunk rotation.']);
+const POOL={shoulder:['Band External Rotation','Scapular Wall Slide','Band Pull-Apart','Prone Y-T Raise','Face Pull — band','Side-Lying External Rotation — dumbbell','Scapular Push-Up','Isometric External Rotation — wall'],
+ back:['Bird Dog','Dead Bug','McGill Curl-Up','Side Plank','Glute Bridge','Pallof Press — half-kneeling','Cat–Camel','Prone Cobra Hold'],
+ ankle:['Isometric Calf Hold','Banded Ankle Mobilisation','Slow Calf Raise — 3 s down','Tibialis Raise — wall','Single-Leg Balance — eyes open','Banded Ankle Eversion','Soleus Raise — bent knee','Eccentric Heel Drop — step'],
+ hip:['Glute Bridge','Clamshell — band','Side-Lying Hip Abduction','90/90 Hip Switch','Single-Leg Glute Bridge','Copenhagen Plank — short lever','Fire Hydrant','Couch Stretch']};
+const WX={knee:/jump|hop|bound|skater|lunge|box/i,shoulder:/press|push|dip|pull-?up|raise|fly|bench|row|chin|hang/i,back:/deadlift|good morning|rdl|swing|row|squat|hinge|clean|bear crawl|inchworm/i,ankle:/jump|hop|skip|run|calf|lunge|bound|box/i,hip:/squat|lunge|split|deadlift|thrust|step|skater|bound|cossack/i};
+const namesFor=(k,si)=>{if(k==='knee')return KB(si);const P=POOL[k];if(!P)return [];const o=(si*2)%P.length;return [0,1,2,3].map(q=>P[(o+q)%P.length])};
+const _ai51=applyInj;
+applyInj=function(){_ai51();const a=injSel();if(!a.length)return;
+ ['ski','ski8','strength','athletic'].forEach(id=>{const p=PROGS[id];if(!p||!p.sessions)return;const nw=p.weeks.length;
+  p.sessions.forEach((s,si)=>{try{const it=s.items;if(!it||!it.length)return;const st=it.findIndex(x=>x.t==='sec'&&/^WARM-UP \+ REHAB/.test(x.text));if(st<0)return;let en=st+1;while(en<it.length&&it[en].t!=='sec')en++;
+   const per=a.length===1?4:a.length===2?3:2;const picked=[];
+   a.forEach(k=>{namesFor(k,si).slice(0,per).forEach(n=>{const e=INJD[k].ex.find(x=>x[0]===n);if(e&&!picked.some(y=>y.e[0]===n))picked.push({k,e})})});
+   const names=picked.map(y=>y.e[0]);
+   const wx=new RegExp(a.map(k=>(WX[k]||/$^/).source).concat(['jump|hop']).join('|'),'i');const nb=names.map(n=>n.split(' — ')[0].toLowerCase());
+   let warm=it.slice(st+1,en).filter(x=>x.t==='ex'&&!/^RH-/.test(x.id||'')&&!wx.test(x.name||'')&&!nb.includes(String(x.name).split(' — ')[0].toLowerCase())).slice(0,3);
+   const rehab=picked.map((y,n)=>injEx(p,s,y,n+1,nw));
+   // combination: program warm-up exercise, rehab exercise, warm-up, rehab ... then the remaining rehab
+   const mk=w=>{const m=[];const n=Math.max(w.length,rehab.length);for(let q=0;q<n;q++){if(w[q])m.push(w[q]);if(rehab[q])m.push(rehab[q])}
+    return it.slice(0,st).concat([{t:'sec',text:'WARM-UP + REHAB — '+a.map(INJS).join(' + ')}],m,it.slice(en))};
+   const cap=/^ski/.test(id)?66:88;let rest=mk(warm);while(warm.length>1&&estSess(p,si,rest)>cap){warm=warm.slice(0,-1);rest=mk(warm)}
+   // the finishing rehab block must not repeat the first block
+   const fi=rest.findIndex(x=>x.t==='sec'&&/^REHAB FINISH/.test(x.text));
+   if(fi>=0){const head=rest.slice(0,fi),tail=rest.slice(fi+1).filter(x=>x.t!=='ex'||!names.includes(x.name));
+    const left=tail.filter(x=>x.t==='ex').length;rest=left?head.concat([rest[fi]],tail):head}
+   s.items=rest}catch(e){console.error('v51',id,si,e)}})});
+ try{LIBC=null;PLANC=null}catch(e){}};
+try{applyInj()}catch(e){console.error('v51 run',e)}
+}catch(e){console.error('v51',e)}
+
+// ---- v52: dumbbell loads say whether the kg is for both hands or one hand
+try{
+const dbl=n=>{n=String(n||'');if(/kettlebell|\bKB\b/i.test(n)&&!/dumbbell|\bDB\b/i.test(n))return '';if(!/dumbbell|\bDB\b/i.test(n))return '';
+ if(/(one|single)[- ]arm|goblet|y-balance|single-leg reach|side-lying/i.test(n))return 'one hand';
+ if(/lateral raise|curl|fly/i.test(n))return 'each hand';
+ return 'both hands'};
+const tag=()=>{try{document.querySelectorAll('#main .ex').forEach(e=>{const k=e.querySelector('.kgr');if(!k||k.querySelector('.kgu'))return;const nm=e.querySelector('.nm');const t=nm&&dbl(nm.textContent);if(t){const sp=document.createElement('span');sp.className='kgu';sp.textContent='kg · '+t;k.appendChild(sp)}})}catch(e){}};
+const mo=new MutationObserver(tag);const mm=document.getElementById('main');if(mm)mo.observe(mm,{childList:true,subtree:true});tag();
+}catch(e){console.error('v52',e)}
+// ---- v53: Plan rows show the block length in weeks
+try{
+const _rc53=renderCal;renderCal=function(){_rc53.apply(this,arguments);try{const y=(typeof CALY==='number'?CALY:new Date().getFullYear());
+ document.querySelectorAll('#main small.muted').forEach(e=>{if(e.dataset.wk)return;const m=/^(\d{1,2} [A-Za-z]{3}) – (\d{1,2} [A-Za-z]{3})$/.exec(e.textContent.trim());if(!m)return;
+  const a=new Date(m[1]+' '+y+' 12:00'),b=new Date(m[2]+' '+y+' 12:00');if(b<a)b.setFullYear(y+1);const w=Math.max(1,Math.round(((b-a)/864e5+1)/7));
+  e.textContent=e.textContent.trim()+' ('+w+(w===1?' week)':' weeks)');e.dataset.wk='1'})}catch(e){}};
+}catch(e){console.error('v53',e)}
+// ---- v54: Trip and Rest live inside "Add block"; the separate buttons are removed
+try{
+const _rc54=renderCal;renderCal=function(){_rc54.apply(this,arguments);try{['pbTrip','pbRest'].forEach(id=>{const b=document.getElementById(id);if(b)b.remove()})}catch(e){}};
+const _ob54=openBlock;openBlock=function(i){_ob54.apply(this,arguments);try{const sel=$('bT');if(!sel||i!=null)return;
+ if(!sel.querySelector('option[value="rest"]')){const op=document.createElement('option');op.value='rest';op.textContent='Rest';const tr=sel.querySelector('option[value="trip"]');if(tr&&tr.nextSibling)sel.insertBefore(op,tr.nextSibling);else sel.appendChild(op)}
+ sel.addEventListener('change',()=>{if(sel.value==='rest'){const f=$('bF');openTrip(null,(f&&f.value)||localToday(),'rest')}})}catch(e){}};
+}catch(e){console.error('v54',e)}
+// ---- v55: day sheet — one "Add block from this day" button (Trip and Rest are types inside it)
+try{
+const _od55=openDay;openDay=function(d){_od55.apply(this,arguments);try{const ct=$('cTrip'),cr=$('cRest');if(cr)cr.remove();
+ if(ct){const b=document.createElement('button');b.className='btn';b.id='cBlk';b.textContent='+ Add block from this day';ct.after(b);ct.remove();
+  b.onclick=()=>{closeSheet('sheetCal');openBlock(null);setTimeout(()=>{try{const f=$('bF');if(f){f.value=monOf(d);f.dispatchEvent(new Event('change'))}}catch(e){}},30)}}}catch(e){}};
+}catch(e){console.error('v55',e)}
+// ---- v56: Plan actions in two rows of two; Reset plan asks first
+try{
+const arrange=()=>{try{const d=document.getElementById('planD');if(!d)return;const add=d.querySelector('#pbAdd'),rs=d.querySelector('#pbReset'),sg=d.querySelector('#pbSug'),ics=d.querySelector('#pbIcs');if(!add||!rs||!sg||!ics)return;if(d.querySelector('#pbGrid'))return;
+ const g=document.createElement('div');g.id='pbGrid';const row=add.parentNode;row.before(g);[add,rs,sg,ics].forEach(b=>{b.style.marginTop='';g.appendChild(b)});ics.textContent='Export (.ics)';
+ const orig=rs.onclick;rs.onclick=()=>{if(document.getElementById('rsCf'))return;const o=document.createElement('div');o.id='rsCf';o.innerHTML='<div class="rsb"><h3>Are you sure?</h3><div class="rsr"><button class="btn" id="rsY">Yes, reset the plan</button><button class="btn alt" id="rsN">Cancel</button></div></div>';document.body.appendChild(o);
+  o.onclick=e=>{if(e.target===o)o.remove()};o.querySelector('#rsN').onclick=()=>o.remove();o.querySelector('#rsY').onclick=()=>{o.remove();try{orig&&orig()}catch(e){}}}}catch(e){}};
+const _rc56=renderCal;renderCal=function(){_rc56.apply(this,arguments);arrange();setTimeout(arrange,0)};
+}catch(e){console.error('v56',e)}
+// ---- v58: Settings — no Install / Start over cards; Clear everything + Close on one row, Clear asks first
+try{
+const arr=()=>{try{const P=document.getElementById('setPanel');if(!P||P.querySelector('#setAct'))return;const w=P.querySelector('#wipe'),c=P.querySelector('#closeSet');if(!w||!c)return;
+ P.querySelectorAll(':scope>div.card').forEach(d=>{const h=d.querySelector('h2');if(h&&/^(install on your phone|start over)$/i.test(h.textContent.trim()))d.remove()});
+ const row=document.createElement('div');row.id='setAct';P.appendChild(row);row.appendChild(w);row.appendChild(c);w.textContent='Clear everything';
+ w.onclick=()=>{if(document.getElementById('rsCf'))return;const o=document.createElement('div');o.id='rsCf';o.innerHTML='<div class="rsb"><h3>Are you sure?</h3><div class="rsr"><button class="btn bad" id="wpY">Yes, clear everything</button><button class="btn alt" id="wpN">Cancel</button></div></div>';document.body.appendChild(o);
+  o.onclick=e=>{if(e.target===o)o.remove()};o.querySelector('#wpN').onclick=()=>o.remove();
+  o.querySelector('#wpY').onclick=()=>{o.remove();PORDER.forEach(id=>{try{localStorage.removeItem(keyFor(id))}catch(e){}});try{localStorage.removeItem('trn.cal')}catch(e){}IDB.set('snap',null).catch(()=>{}).then(()=>location.reload())}}}catch(e){}};
+const P0=document.getElementById('setPanel');if(P0){new MutationObserver(arr).observe(P0,{childList:true});arr()}
+}catch(e){console.error('v58',e)}
+// ---- v59: Leg Blasters = rounds only (no Reps box), shown as one circuit with Scotty Bob
+try{
+const isLB=ex=>ex&&ex.unit==='rounds'&&/Leg Blaster/i.test(ex.name), isSB=ex=>ex&&/^Scotty Bob$/i.test(ex.name);
+const _ec59=exCard;
+exCard=function(ex,wi){let h=_ec59.apply(this,arguments);
+ try{ if(isLB(ex)||isSB(ex))h=h.replace(/<div class="tjt"><label>Reps done[\s\S]*?<\/label><\/div>/,'');
+  if(isLB(ex)){h=h.replace(/<label class="sfd"><span>Reps<\/span>[\s\S]*?<\/label>/,'');h=h.replace(/(<div class="sets)/,'<div class="circ">⟲ Circuit with Scotty Bob</div>$1')}
+  else if(isSB(ex)){h=h.replace(/<label class="sfd"><span>Reps<\/span>[\s\S]*?<\/label>/,'');let nm='Leg Blaster';try{const se=typeof curSess==='function'?curSess():PLAN.sessions.find(z=>z.id===S.sess);const L=se.items.filter(x=>isLB(x)&&/^\d+$/.test(String(x.w[wi].s))).map(x=>/^Mini/i.test(x.name)?'Mini':/^Full/i.test(x.name)?'Full':'');if(L.length>1)nm=L.join(' + ')+' Leg Blaster'}catch(e){}h=h.replace(/(<div class="sets)/,'<div class="circ">⟲ Circuit with '+nm+'</div>$1')}}catch(e){}
+ return h};
+}catch(e){console.error('v59',e)}
+// ---- v60: F4R cards — the plan's own prescription (from the F4R PDFs) + done-vs-target boxes per movement
+try{
+const F4RX={"0|C1-1-8":"Assistance Work\nTo start this week we have some assistance for you, So complete 3 Rounds of 30 Seconds Skipping (or cardio) 12 x Alternating Cossack Squats 30 Seconds Skipping (or cardio) 6-8 x Dive Bomber Push Ups 30 Seconds Skipping (or cardio) 12 x Alternating Curtsey Squats 30 Seconds Skipping (or cardio) Assistance Work 30 Seconds Active Hang From a Bar\nRest as needed","0|C1-1-9":"Forward and Back Step Elevated Split Squats\nComplete 3 x Sets of 8-10 x Forward and Back Step Elevated Split Squats* (each side)\nRest 2 minutes between sets Split Squat *With one foot raised 5-10 inches step forwards and backwards with the opposite leg in a split stance position, if you get comfortable with the movement, try adding some weight and see how it feels this week. 1 Rep = 1 x Forward + 1 x Backwards Step.","0|C1-1-10":"OMEM 10\nSet a timer for 12 Minutes\nThen at the start of each minute complete the reps of each exercise before moving onto the next movement at the start of the following minute.\n1. 15 x Hang/Dirty Clean\n2. 10 x Pull Ups\n3. 50 seconds Lateral Box Jumps","0|C1-1-11":"21,15,9\nComplete\n21 x Thrusters\n21 x Over Bar Burpees\n15 x Thrusters\n15 x Over Bar Burpees\n9 x Thrusters\n9 x Over Bar Burpees 21,15,9 as quickly as you can.","0|C1-1-12":"Hollow Hanging Extensions\nSet a timer for 5 Minutes\nThen spend as long as you can coming in and out of a Hollow Hanging Extensions Hollow Extension Hanging from a Bar","1|C2-1-32":"Assistance Work\nTo start this week we have some assistance for you, So complete 3 Rounds of 30 Seconds Skipping (or cardio) 12 x Alternating Cossack Squats 30 Seconds Skipping (or cardio) 6-8 x Dive Bomber Push Ups 30 Seconds Skipping (or cardio) 12 x Alternating Curtsey Squats 30 Seconds Skipping (or cardio) Assistance Work 30 Seconds Active Hang From a Bar\nRest as needed","1|C2-1-33":"Forward and Back Step Elevated Split Squats\nComplete 3 x Sets of 8-10 x Forward and Back Step Elevated Split Squats* (each side)\nRest 2 minutes between sets Split Squat *With one foot raised 5-10 inches step forwards and backwards with the opposite leg in a split stance position, if you get comfortable with the movement, try adding some weight and see how it feels this week. 1 Rep = 1 x Forward + 1 x Backwards Step.","1|C2-1-34":"OMEM 12\nSet a timer for 12 Minutes\nThen at the start of each minute complete the reps of each exercise before moving onto the next movement at the start of the following minute.\n1. 5 x Heavy Deadlifts (60-70% 3RM)\n2. 10 x Toes To Bar\n3. 50 seconds Lateral Step Over with Jump","1|C2-1-36":"Hollow Hanging Extensions\nSet a timer for 5 Minutes\nThen spend as long as you can coming in and out of a Hollow Hanging Hollow Extension Hanging from a Bar Extensions","2|C3-1-56":"Assistance Work\nTo start this week we have some assistance for you, So complete 3 Rounds of 30 Seconds Skipping (or cardio) 12 x Alternating Cossack Squats 30 Seconds Skipping (or cardio) 6-8 x Dive Bomber Push Ups 30 Seconds Skipping (or cardio) 12 x Alternating Curtsey Squats 30 Seconds Skipping (or cardio) Assistance Work 30 Seconds Active Hang From a Bar\nRest as needed","2|C3-1-57":"Forward and Back Step Elevated Split Squats\nComplete 3 x Sets of 8-10 x Forward and Back Step Elevated Split Squats* (each side)\nRest 2 minutes between sets Split Squat *With one foot raised 5-10 inches step forwards and backwards with the opposite leg in a split stance position, if you get comfortable with the movement, try adding some weight and see how it feels this week. 1 Rep = 1 x Forward + 1 x Backwards Step.","2|C3-1-58":"OMEM 15\nSet a timer for 15 Minutes\nThen at the start of each minute complete the reps of each exercise before moving onto the next movement at the start of the following minute.\n1. 3 x Heavy Deadlifts (80-85% 3RM) into 5 Tall Jumps\n2. 5-10 x Toes To Bar\n3. 50 seconds Ski Sit","2|C3-1-59":"21,15,9\nComplete\n21 x Devils Press\n21 x Double Dumbbell Thrusters\n15 x Devils Press\n15 x Double Dumbbell Thrusters\n9 x Devils Press\n9 x Double Dumbbell Thrusters as quickly as you can. 21,15,9","2|C3-1-60":"Hollow Hanging Extensions\nSet a timer for 5 Minutes\nThen spend as long as you can coming in and out of a Hollow Hanging Hollow Extension Hanging from a Bar Extensions","3|C4-1-81":"DAY 1 Tempo Back Squats\nComplete 5 x Sets of 5 x Tempo Back Squats (60-70% 3RM) The Tempo is 3 seconds DOWN/1 second UP Tempo Back\nSpend today loading and feeling out the movement. Squats","3|C4-1-82":"DAY 1 Assistance Work\nSet a timer for 12 Minute\nThen every minute on the minute complete exercise 1 or 2\n1: 15 x Kettlebell Swing\n2: 10-16 x Archer Push Ups Assistance Alternate between exercise 1 & 2 Work","3|C4-1-83":"DAY 1 Workout\nSet a timer for 12 Minutes\nIn that time complete as many round of 12 x Dumbbell Thrusters 12 x Renegade Rows 12 x Devils Press 12 x Box Jumps as you can in that time","7|C8-1-176":"3 Rounds Not For Time\nTo start this week we have some mobility exercises for you, So complete 3 x Rounds of 10-15 x Rig Assisted Squats 20 x 90/90 Stretch Rotations 6 x Dive Bomber Push Ups\nRest as needed in-between rounds Mobility Work","7|C8-1-177":"Turkish Get Ups\nComplete 6-10 x Sets of 3 x Turkish Get Ups (each side) *Alternate arms/side to help with balance and fatigue during your sets.\nRest as needed TGU's","7|C8-1-178":"TGU's. OMEM 21\nSet a timer for 21 Minutes then at the start of every minute complete movement 1, 2 or 3 for the duration of the minute.\n1: Walkouts\n2: Squat & Lunge (Left) , Squat & Lunge (Right)\n3: Banded Rotations (30 seconds each side) After the end of each minute move onto the next exercise for the duration of the 21 minutes.","8|C9-1-199":"3 Rounds Not For Time\nTo start this week we have some mobility exercises for you, So complete 3 x Rounds of 10-15 x Rig Assisted Squats 20 x 90/90 Stretch Rotations 6 x Dive Bomber Push Ups\nRest as needed in-between rounds Mobility Work","8|C9-1-200":"Bench and Back Squat\nSet a timer for 10 Minutes and at the start of every minute alternate between exercise 1 &\n2.\n1: 5-8 x Bench Press (heavy)\n2: Back Squat (50-70% 3RM) *so complete 5 Rounds total maintaining good form throughout.","8|C9-1-201":"AMRAP 25\nSet a timer for 25 Minutes and complete as many rounds as possible of the following exercises in that time. 20 x Calorie Bike 10 x Over Box Burpees 20 x Dumbbell Thrusters 10 x Toes To Bar *maintain a good pace throughout with as little rest as possible.","8|C9-1-202":"3 Rounds Not For Time\nTo start todays session we have 3 x Rounds of 10 x Scapula Pull Ups 10 x Alternating Archer Push Ups 6 x Runners Lunge (each side)\nRest as needed in between rounds Mobility Work","9|C10-1-221":"3 Rounds\nTo start this week we have some assistance for you, So complete 3 x Rounds of 2 x 2 Minutes Cardio 10 Meter Walking Lunge 10 Meter Bear Crawl Assistance Work 10 Meter Inchworm\nRest as needed in-between rounds","9|C10-1-222":"Superset\nComplete 5 x Supersets of 8-12 x 90 Degree Pistol Squat Off Bench or Box into 12-15 x Light Lateral Raise To The Top Superset","9|C10-1-224":"Plank & Side Plank\nSpend 5 Minutes alternating between Plank and Side Plank Core *move slowly between movements, count 10-15 second between movements and hold each pose for 5 seconds","10|C11-1-244":"Assistance Work\nTo start this week we have some assistance for you, So complete 3 x Rounds of 2 Minutes Cardio 6 x Runners Lunge 6 x Bootstrap Stretch 6 x Dive Bomber Push Ups 6 x Shoulder Pass Throughs (each side)\nRest as needed in-between rounds","10|C11-1-245":"Superset\nComplete 4 x Supersets of 7-9 x Heavy Dumbbell Incline Bench Press into 7 x Deadlift Superset\nRest as needed in-between these movements/sets.","10|C11-1-246":"AMRAP 20\nSet a timer for 20 Minutes and complete as many rounds as possible of the following exercises in that time. Pull Ups* 10 x Push Ups 15 x Air Squats 5 x Clean and Press/Jerk *25% of 2 Minute Max or 10 Reps whichever is least","10|C11-1-247":"Suit Case Carries\nComplete 5-10 x Sets of 10 Meter Suitcase Carry (Out on Left hand Right on way back) Grip *Add Band for Extra Credit","0|C1-2-17":"Bench & Deadlifts\nComplete 3-4 x Rounds of 15-20 Dumbbell Bench Press straight into 30-45 seconds Attack Position Hold\nThen complete 6 x Deadlift with a 2 second pause at the Knee\nRest as needed between rounds Bench & Deadlifts","0|C1-2-18":"3 x 5 AMRAP\nSet a timer for 5 Minutes\nThen complete as many rounds of 6 x Renegade Rows 3 x Devils Press 3 x Thrusters as you can in that time resting as little as possible.\nThen rest 3 minutes and repeat for a total of Workout 3 x Rounds","0|C1-2-19":"Banded Plank and Twists\nComplete 3 x Rounds of 20-30 x Banded Rotations (each side) & 15-20 x Banded Plank Twists","1|C2-2-41":"Bench & Deadlifts\nComplete 3-4 x Rounds of 15-20 Dumbbell Bench Press straight into 30-45 seconds Attack Position Hold\nThen complete 6 x Deadlift with a 2 second pause at the Knee\nRest as needed between rounds","1|C2-2-42":"3 x 5 AMRAP\nSet a timer for 5 Minutes\nThen complete as many rounds of 6 x Renegade Rows with a Reach 12 x Mountain Climbers 18 x Alternating Split Squat (with or without a DB) as you can in that time resting as little as possible. Workout\nThen rest 3 minutes and repeat for a total of 3 x Rounds","1|C2-2-43":"Banded Plank and Twists\nComplete 3 x Rounds of 20-30 x Banded Rotations (each side) & 15-20 x Banded Plank Twists","2|C3-2-65":"Bench & Deadlifts\nComplete 3-4 x Rounds of 15-20 Dumbbell Bench Press straight into 30-45 seconds Attack Position Hold\nThen complete 6 x Deadlift with a 2 second pause at the Knee\nRest as needed between rounds","2|C3-2-66":"3 x 5 AMRAP\nSet a timer for 5 Minutes\nThen complete as many rounds of 10 x Alternating Rows on Dumbbells 5 x Push Ups on Dumbbells 20 x Mountain Climbers on Dumbbells 10 x Alternating Lunge Thrusters as you can in that time resting as little as possible.\nThen rest 3 minutes Workout and repeat for a total of 3 x Rounds","2|C3-2-67":"Banded Plank and Twists\nComplete 3 x Rounds of 20-30 x Banded Rotations (each side) & 15-20 x Banded Plank Twists","3|C4-2-88":"DAY 2 Warm Up\nTo start todays complete a steady 3 x Rounds of 2 x Rounds of 12-16 x Alternating Dumbbell Press 12-16 x Alternating Dumbbell Bent Over Rows 12-16 x Goblet Squats\nThen into 3 x Rounds of DAY 2 10 x Lateral Raise to Front Raise 12 x Alternating Curtsey Squats 10-12 x Push Ups (with alternating Hand Positions every 2 reps) 10 x Bootstrap Stretch","3|C4-2-89":"DAY 2 Supersets\nComplete 3 x Supersets of 12-16 x Elevated Dumbbell Alternating Bench Press into 16-20 x Gorilla Rows\nRest as needed after your superset and this week go as heavy as you can while maintaining good form. Supersets","3|C4-2-90":"DAY 2 Workout\nSet a timer for 3 Minutes In that complete 10-15 Assault Bike Calories (1 Minute HARD cardio) 5 x Pull Ups 5 x Double Push Up Burpee 5 x Pull Ups\nRest the remaining time in the 3 minutes and the reset the timer and complete Workout 5-8 x Rounds Total","3|C4-2-91":"DAY 2 Core/Grip\nSpend 10 Minutes on 2 x 10 Meter Split Leg Carries (Left and Right Hand) Alternate between Suitcase Carry (single arm) Core/Grip & Front Rack (single arm)","7|C8-2-183":"3 Rounds Not For Time\nTo start todays session we have 3 x Rounds of 10 x Scapula Pull Ups 10 x Alternating Archer Push Ups 6 x Runners Lunge (each side)\nRest as needed in between rounds Mobility Work","7|C8-2-184":"Pull Ups & Toes To Bar\nComplete 6-10 x Sets of Max Effort Pull Up into Toes To Bar If you are unable to complete this complicated and difficult movement then perform 5 x Sets of 12 x Assisted Pull Ups 12+ V-ups or Tucks","7|C8-2-185":"Skipping and Bike\nComplete 10-15 x Rounds of 1 minute 20 seconds of Skipping Workout into 40 seconds Bike (8 out of 10 effort)","7|C8-2-186":"Banded Plank\nComplete 5 Sets of Banded Plank with a Twist Banded Plank","8|C9-2-206":"10 minutes then every 2 minutes complete a set of 12 x Deadlift 9 x Hang Clean 6 x Front Squat for a.total of 5 Rounds Barbell Work *choose a heavy weight you can move with good form","8|C9-2-207":"workout 3 Rounds For Time\nComplete 3 Rounds as quickly as possible of 400m Run 21 x Kettlebell Swings 12 x Pull Ups Workout *aim to rest as little as possible.","8|C9-2-208":"Tabata Core\nComplete 3 Rounds (20 seconds WORK/10 seconds REST) of Russian Twist Sit Up to Press (Left Arm) Pass Throughs Sit Up to Press (Right Arm) Tabata","9|C10-2-229":"Curtsey Squats & Single Arm Rows\nComplete 5 x Supersets of 12-15 x Elevated Curtsey Squat (each side) into 12-15 x Single Arm Rows with Rotation Superset","9|C10-2-230":"AMRAP 20\nSet a timer for 20 Minutes and complete as many rounds as possible of the following exercises in that time. 10 x Burpees 10 x Goblet Squat 10 x Kettlebell Swings","9|C10-2-231":"Mobility\nComplete 3-5 x Rounds of Bird Dog (each side) into Hollow Rocks into Side Plank Pumps (each side)\nSet a timer and complete 40 seconds work on each movement and resting for 2o seconds in-between exercises. Mobility","10|C11-2-251":"5 Rounds\nTo start todays session complete 5 Rounds of 4 x Deadlifts 4 x Cleans 4 x Front Squat 4 x Press 4 x Back Squats with Knee Down\nRest as needed in between rounds","10|C11-2-254":"Banded Rotations & Hollow Rocks\nComplete 3-5 x Rounds of 15-20 x Banded Rotations (each side) into 30-40 seconds Hollow Rocks","0|C1-3-24":"Strengthening Work\nComplete 3-4 x Rounds of 1 Max Set of Pull Ups into a 90 Degree Pull Up Hold into 3-5 x Wall Climbs into 12-15 x Elevated Curtsey Squats (each side) Strengthening Work\nRest as needed","1|C2-3-48":"Strengthening Work\nComplete 3-4 x Rounds of 1 Max Set of Pull Ups into a 90 Degree Pull Up Hold into 3-5 x Wall Climbs into 12-15 x Elevated Curtsey Squats (each side)\nRest as needed Strengthening Work","1|C2-3-50":"Banded Kettlebell Pull Down\nPerform 3 x Rounds of 10-15 x Banded Kettlebell Pull Downs in a Plank Position (each side)\nRest as needed between rounds","2|C3-3-72":"Strengthening Work\nComplete 3-4 x Rounds of 1 Max Set of Pull Ups into a 90 Degree Pull Up Hold into 3-5 x Wall Climbs into 12-15 x Elevated Curtsey Squats (each side) Strengthening Work\nRest as needed","2|C3-3-73":"Workout\nComplete 3-5 x Rounds of 3 Minutes on a Turbo/Bike into 3 minutes of working up the ladder on the following movements 1 x Split Squat Jump (Left) 1 x Burpee 1 x Split Squat Jump (Right) 1 x Burpee into 2,2,2,2 Reps of each Workout\nThen 3,3,3,3 Reps of each and so on before jumping back on the bike at 3 minutes for the start of the 2nd round.","2|C3-3-74":"Assistance work\nTo start the day we would like you to complete 4-6 x Rounds of 4-6 x Split Squat Jumps (both sides) into Max Time in a Attack Position Push Up Hold\nRest as needed between each movement. Assistance work","3|C4-3-95":"DAY 3 DAY 3 Warm Up\nTo start todays complete 1000 meter Easy Pace Row (4 minute)\nThen into: 3 x Rounds of 20 x Band Pull A-Parts 10/10 x Banded Split Leg Deadlifts 10 x Box Jumps Warm Up","3|C4-3-96":"DAY 3 OMEM Workouts\nSet a timer for 10 Minutes\nThen at the start of each minute complete exercise 1 or 2\n1: 5-7 x Split Leg Clean (Left Side)\n2: 5-7 x Split Leg Clean (Right Side)\nRest the remaining time in the minute OMEM Workouts *This week increase the weight if you can, to a load which is as heavy as you can manage while maintaining good form.","3|C4-3-97":"DAY 3 Workout\nSet a timer for 7 Minutes\nThen work up the ladder adding 1 x push press and 2 x Front squats each round. So the workout is: 1 x Push Press + 2 x Front Squats 3 x Over Bar Burpees 2 x Push Press + 4 x Front Squat 3 x Over Bar Burpees and so on.... until the 7 Minutes is up\nThen rest 3 Minutes and return back down the ladder until you get to Workout 1 x Push Press + 2 x Front Squats","7|C8-3-190":"3 Rounds Not For Time\nComplete 3 x Rounds of 12-15 x Banded Hip Lunge Stretch 20 x Step Ups 10-15 x Internal and External Rotator Cuff Rotations with a band(each side) *Complete these rounds at a steady pace this is not a workout.","7|C8-3-191":"Rest Pause Bench Press\nComplete 1 x Sets of Max Effort\nRest Pause Bench Press Set Using an empty 15/20kg Barbell. Bench Press *Rest Pause Set -\nPerform a max effort set then take a short rest (5 x deep breaths), and complete another max effort set then finally take one final short rest before a final max effort set.","7|C8-3-192":"Ladder Workout\nComplete this Ladder Workout of 2,2,2,4,4,4,6,6,6,8,8,8... Ring Row Lateral Over Box Jumps Drop Lunge and Press So, complete 2 x Ring rows into 2 x Lateral Over Box Jumps and 2 x Drop Lunge and Press , then 4 x reps of each and so on adding 2 reps each round until you have completed 8 minutes .\nThen rest 3 minutes Workout and work back down the Ladder until you finish 2 x reps of each movement.","8|C9-3-212":"3 Rounds Not For Time\nComplete 3 x Rounds of 30-60 seconds of Banded Hip Lunge Stretch (each side) 20 x Step Ups 10-15 x Internal and External Rotator Cuff Rotations with a band(each side) 10 x Scapular Pull Ups *Complete these rounds at a steady pace this is not a workout.","8|C9-3-213":"Pull Up Toes to Bar\nComplete 100 x Pull Up into Toes To Bar *if you need to scale down this workout then the alternative option is to complete the 100 x reps alternating between small sets of 5 pull ups using a band or lat pull down machine and V-ups or tucks.","8|C9-3-214":"Ladder Workout\nComplete this 4 Minute Ladder Workout of 1,1,1,2,2,2,3,3,3,4,4,4... Burpee Box Jump Deck Squat So, complete 1 x Burpee into 1 x Box Jumps and 1 x Deck Squat , then 2 x reps of each and so on, adding 1 reps each round until you have completed 4 minutes .\nThen rest 2 minutes Workout and repeat 3-5 times.","9|C10-3-236":"5 Rounds\nComplete 5 x Rounds of 4 x 4 Point Lunge 6-8 x Dive Bomber Push Ups 10 x Side To Side Pull Ups Work through the movements with purpose and rest as needed. Strength Work","9|C10-3-238":"Curtsey Squat and Dive Bomber Push Ups\nComplete 3-5 x Supersets of 12-15 x Curtsey Squat without Touching Foot To Ground (each side) into 6-8 x Dive Bomber Push Ups Superset\nRest 2 Minutes between sets","10|C11-3-260":"Sprints\nSet a timer for 10 Minutes Sprints\nThen at the start of every minute complete a 10 Seconds MAX EFFORT Assault Bike Sprint","0|C1-4-1":"AMRAP Workout\nSet a timer for 15/20/25 Minutes and then complete as many rounds as possible of 60 x Single Skips (or 30 Double Unders) 20 x Squat Hop Twists 15 x Mountain Climbers 10 x Burpees (Split Leg Landing)\nChoose your time and rest as little as possible during the workout. AMRAP","1|C2-4-3":"Assistance work\nTo start the day we would like you to complete 4 x Max Effort Rounds of Squat + Squat Jump into Dive Bomber Push Ups into Lateral Lunge Jumps\nRest 30 seconds between each movement. Assistance workout","1|C2-4-4":"Workout 2\nComplete 10 x Rounds 0f 200m Run 5 x Burpees 10 x Box Jumps\nRest as little as possible during this workout Workout 2","1|C2-4-5":"Butterfly Sit Ups\nComplete 50/100/150 x Reps of Butterfly Sit Ups Core\nChoose the number of reps you would like to achieve and complete them in as little time as possible.","2|C3-4-6":"Set a timer for 20 Minutes\nComplete as many round of 10 x Air Squats 5 x Push Ups 10 x Lunges 5 x Burpees as you can in that time.\nRest as little as possible during this workout","2|C3-4-7":"Tabata Core\nComplete 3 Rounds of 20 seconds WORK/10 seconds REST on the following movements Flutter Kicks Single Side V-Ups (left hand to Right Foot) Tabata Core Hollow Rocks Single Side V-Ups (Right hand to Left Foot)","3|C4-4-8":"Supersets\nTo start the day we would like you to complete 3-5 x Supersets of 12-16 x Elevated Curtsey Squats (All on one side then repeat on the other) into Max Attack Position Plank Shoulder Taps Supersets\nRest as needed","3|C4-4-9":"AMRAP Workout\nSet a timer for 5 Minutes\nThen complete as many rounds of 3 x Dive Bomber Push Ups 10 x Mountain Climbers 10 x Jumping Air Squats\nThen rest 2 minutes and repeat for a total of AMRAP 3-5 x Rounds","3|C4-4-10":"Core\nSet a timer for 5 Minutes\nThen spend as long as possible in an L-Sit Position\nRest as little as you can.","7|C8-4-18":"12 OMEM\nSet a timer for 12 Minutes then at the start of every minute complete movement 1 or 2 for the duration of the minute.\n1: Plank Walk Overs\n2: Skipping OMEM Workout After the end of each minute move onto the next exercise for the duration of the 12 minutes.","8|C9-4-21":"21 OMEM\nSet a timer for 21 Minutes\nThen at the start of each minute complete as many of exercise 1,2 or 3 as you can in that minute before moving onto the next movement at the start of the next minute\n1: Push Up Twist\n2: Curtsey Squat\n3: Alternating V-Ups\nComplete 7 rounds total OMEM","8|C9-4-22":"of 50 x Butterfly Sit Ups 50 x Seconds Plank Hold 40 x Butterfly Sit Ups 40 x Seconds Plank Hold 30 x Butterfly Sit Ups 30 x Seconds Plank Hold Core Workout 20 x Butterfly Sit Ups 20 x Seconds Plank Hold 10 x Butterfly Sit Ups 10 x Seconds Plank Hold","9|C10-4-23":"Curtsey Squat variation. 3 x AMRAP 8\nSet a timer for 8 Minutes\nThen complete as many rounds as possible of 10 x Split Stance Ski Hops or Jumping Lunges 5 x Burpees 20 x Mountain Climbers 5 x V-Ups as you can in that time, then\nRest 2 Minutes and repeat AMRAP Workout One More Time.","10|C11-4-27":"Core\nComplete 150-250 x Reps of Butterfly Sit Ups Side Plank Pumps (each side) Bird Dog (each side) *You choose the number of reps you complete on each movement to reach your target no. of reps","0|C1-5-1":"Workout As quickly as possible complete 5 x Rounds of 6 x Lateral Jumping Step Overs 3 x Burpee Lateral Jump Overs 6 x Alternating Elevated Curtsey Squats 12 x Raised Mountain Climbers\nRest 1 Minute\nComplete 4 x Rounds Workout\nRest 1 Minute\nComplete 3 Rounds,\nThen 2 x Rounds and 1 x Round Resting 1 minute between each.","0|C1-5-2":"OMEM 9\nSet a timer for 9 Minutes\nThen at the start of each minute complete the reps of each exercise before moving onto the next movement at the start of the following minute.\n1. Walking Glute Bridge\n2. Superman Sweeps\n3. Deck Pistols/Squats","1|C2-5-3":"Assistance work\nComplete 3-5 x Rounds of 12-16 x Alternating Single Leg Deadlifts & 12-16 x Alternating Pistol Squats (to seated if needed)\nRest as needed","1|C2-5-4":"Core Workout\nComplete 3-5 x Rounds of 20 x V-Ups (scaled to tucks if needed) 20 x Side Plank Pumps (Left) 20 x Alternating V-Ups 20 x Side Plank Pumps (Right) Core\nRest as little as possible","2|C3-5-5":"Assistance work\nComplete 3-5 x Rounds of 3 x Slow Push Ups (round 3s down, 3s up, no pauses at the bottom or top) into 4-6 x Explosive Push Ups into Assistance Work 12-15 x Single Leg Deadlifts (each side)\nRest as needed","2|C3-5-6":"AMRAP 15\nSet a timer for 20 Minutes\nThen complete as many rounds of 50 x Single Skips (or 30 Double Unders) 10 x Burpee Over Rope 50 x Single Skips (or 30 Double Unders) 10 x Split Squat Jumps Over Rope 50 x Single Skips (or 30 Double Unders) Workout 10 x 180 Squat Jumps Over Rope\nRest as little as possible during this workout.","2|C3-5-7":"Core\nComplete 5-8 x Sets of Max L-Hold (between boxes, bench or chairs) Straight into Max Efforts L-Crunches\nRest 1 minute between sets","3|C4-5-10":"Core 1\nComplete 3-5 x Rounds of Max Butterfly Sit Ups Resting 30 seconds between sets Core 1","7|C8-5-19":"Ski Sits & Tall Jumps\nComplete 6 x Sets of 60 seconds Ski Sit into Workout 6 x Tall Jumps\nRest 1 minute between sets","8|C9-5-20":"Reverse Push Up & Attack Position Hold\nPerform 5 x Superset of 5-10 x Reverse Push Up into Max Effort Attack Position Push Up Hold Superset\nRest as needed between supersets","9|C10-5-22":"Superset\nComplete 3-5 x Supersets of 12-15 x Cossack Squats (each side) into 10-15 x Superman Sweeps into Max Time Attack Position Push Up Holds Superset\nRest as needed in-between Supersets","9|C10-5-23":"AMRAP 20\nSet a timer for 20 Minutes and complete as many rounds as possible of the following exercises in that time. 400 Meter Run 21 x Box Jumps 15 x Box Dips 9 x Burpees","9|C10-5-24":"3 Rounds\nComplete 3 x Rounds of Alternating V-Ups Hollow Rocks Over Target Wipers\nRest as little as possible during this core workout","10|C11-5-25":"Superset\nComplete 3-5 x Supersets of 2-3 x4 Position Lunge (each side) into Max Reps Elevated Archer Push Ups into 20+ Reverse Fly Supersets\nRest as needed in-between Supersets","10|C11-5-26":"3 x AMRAP\nSet a timer for 5 Minutes and complete as many rounds as possible of the following exercises in that time. 400 Meter Run 6 x Box Jumps 6 x Burpees 10 x Box Dips then\nRest 2 Minutes and Repeat for another 2 Rounds","10|C11-5-27":"Plank Toe Taps\nSet a timer for 5 Minutes\nComplete as many Plank Toe Taps (No Push Up) Core\nRest as little as possible during this core workout","2|C3-6-3":"Workout of the Week For this week workout of the week we would like you work between a Rate of Perceived Exertion (RPE) of 1-10\nComplete 5-10 Rounds of 30 Seconds Bike at 8-9 RPE 2 Minute Bike at 4-6 RPE 30 Seconds Bike at 8-9 RPE into 6 x Alternating Split Squat Jumps (staying low) 2 x Burpees Workout of the 6 x Alternating Split Squat Jumps (staying low) Week 4 x Burpees 6 x Alternating Split Squat Jumps (staying low) 6 x Burpees then jump back on the bike for the start of the next round.","7|C8-6-8":"Big AMRAP This week for your final session we would like you to complete this Big AMRAP Workout\nSet a timer for 20-40 minutes and complete as many rounds as possible of the following movements. 20 x Alternating Lunges 20 x Push Ups 20 x Air Squats 20 x Butterfly Sit Ups 200 x Single Skips"};
+
+const esc60=x=>String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const hi=v=>{const m=/(\d+)(?:\s*[-–]\s*(\d+))?/.exec(String(v));return m?+(m[2]||m[1]):0};
+const _ec60=exCard;
+exCard=function(ex,wi){let h=_ec60.apply(this,arguments);
+ try{if(!(PLAN&&PLAN.id==='conditioning')||ex.t!=='ex')return h;
+  const key=wi+'|'+ex.id,RX=F4RX[key]||'';
+  if(RX){const L=RX.split('\n');const hd=(L[0].length<42&&!/^\d/.test(L[0])&&L.length>1)?L.shift():'';
+   h=h.replace(/<div class="spec">[\s\S]*?<\/div>/,'<div class="rxb">'+(hd?'<div class="rxh">'+esc60(hd)+'</div>':'')+L.map(l=>'<div'+(/^\d[.:]/.test(l)?' class="rxn"':'')+'>'+esc60(l)+'</div>').join('')+'</div>')}
+  const txt=RX||(String((ex.w[wi]&&ex.w[wi].s)||'')+' '+(ex.name||''));
+  if(/as long as you can|spend 5 minutes/i.test(txt)&&!/rounds/i.test(txt))return h;
+  const names=[];const re=/<ol class="mv25">([\s\S]*?)<\/ol>/.exec(h);
+  if(re)re[1].replace(/<li><i>\d+<\/i><span>([^<]*)<\/span>/g,(a,n)=>{names.push(n.replace(/&amp;/g,'&'))});
+  const segs=[];txt.replace(/(?:^|\s)(?:\d[.:]\s*)?(\d+(?:-\d+)?)\s*(x|seconds|second|sec)\s+([A-Za-z][^\n\d]{2,70})/g,(a,n,u,t)=>{if(!/^(rounds?|sets?|supersets?|reps)\b/i.test(t))segs.push({n:n,u:u==='x'?'x':'s',t:t.toLowerCase()})});
+  let R='',m;const tm=/Set a timer for (\d+) Minute/i.exec(txt);
+  if(/OMEM|every minute/i.test(txt)&&tm&&names.length>1&&!/exercise 1 or 2/i.test(txt)){const r=+tm[1]/names.length;if(Number.isInteger(r))R=String(r)}
+  if(!R&&(m=/(\d+(?:\s*[-–]\s*\d+)?)\s*(?:x\s*)?(?:rounds|blocks)\b/i.exec(txt)))R=m[1].replace(/\s+/g,'');
+  const ladder=/21-15-9|21,15,9/.test(ex.name+' '+txt)&&/21 x/.test(txt);
+  const e=x=>esc60(x),box=[],kgf=[];
+  const fld=(k,lab,tg,ph)=>`<label class="sfd"><span>${e(lab)}${tg?' · '+e(tg):''}</span><input class="kg" type="number" inputmode="decimal" data-f4="${e(key+'|'+k)}" placeholder="${e(ph||'')}" value="${e(S.th[key+'|'+k]||'')}"></label>`;
+  if(R&&!ladder)box.push(fld('fs','Rounds done','of '+R,R));
+  const STOPW=/^(with|into|over|alternating|double|single)$/;
+  if(names.length>1){names.forEach((n,i)=>{const tk=(n.toLowerCase().match(/[a-z]{4,}/g)||[]).filter(w=>!STOPW.test(w)).map(w=>w.replace(/s$/,''));
+    const sg=segs.find(g=>tk.some(w=>g.t.indexOf(w)>=0));let tg='',ph='';
+    if(ladder){tg='of 45 (21-15-9)';ph='45'}
+    else if(sg){const rr=hi(R);if(sg.u==='s'){tg=sg.n+' s each round';ph=''}else if(rr&&!/AMRAP/i.test(txt)){ph=String(hi(sg.n)*rr);tg=sg.n+' × '+rr+' = '+ph}else{tg=sg.n+(/AMRAP/i.test(txt)?' / round':'');ph=String(hi(sg.n))}}
+    box.push(fld('m'+i,n,tg,ph));
+    if(/hang|dirty clean/i.test(n)){let rk=0,bw=0;try{rk=+PROF.rm.squat||0;const lb=lastOf(PROF.bw);bw=lb?numv(lb.v)||0:0}catch(x){};const rec=rk?Math.round(rk*0.4/2.5)*2.5:(bw?Math.round(bw*0.35/2.5)*2.5:0);kgf.push(fld('m'+i+'kg','Hang/Dirty Clean kg',rec?'rec. '+rec+(rk?' (40% of squat 1RM)':' (35% of body weight)'):'',rec?String(rec):''))}});box.push(...kgf)}
+  else{const mm=/(\d+(?:\s*[-–]\s*\d+)?)\s*(?:x\s*)?(?:reps\b|[A-Z])/.exec(txt);const sg=segs[0];const p=sg&&sg.u==='x'?sg.n:'';box.push(fld('fr','Reps done',p?'of '+p:'',p))}
+  if(!box.length)return h;
+  h=h.replace(/(<div class="links">)/,`<div class="f4l">${box.join('')}</div>$1`)}catch(e){console.error('v60b',e)}
+ return h};
+document.addEventListener('input',e=>{const t=e.target;if(!t.matches||!t.matches('input[data-f4]'))return;S.th[t.dataset.f4]=t.value;try{save()}catch(x){}});
+}catch(e){console.error('v60',e)}
 
 /*END V21*/
 renderAll();
