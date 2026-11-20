@@ -4677,6 +4677,26 @@ try{
     a.forEach(e=>{if(!e.x.done&&free.length){e.x.done=true;free.shift()}})})}}catch(e){console.error('v84',e)}
   return o};
 }catch(e){console.error('v84',e)}
+// ---- v85: one list "Other sessions this week": unfinished sessions on other days AND removed ones can be brought to this day
+try{
+ const _od85=openDay;openDay=function(d){_od85.apply(this,arguments);
+  try{const P=document.getElementById('calPanel');if(!P||P.querySelector('#osBox'))return;loadCal();const pi=planItems();
+   const mon=monOf(d),w=(PLANC.weeks||[]).find(x=>x.mon===mon);if(!w)return;
+   const os=[];Object.keys(pi).sort().forEach(dt=>{if(dt===d||monOf(dt)!==mon)return;pi[dt].forEach(x=>{if(!x.done&&x.mon===mon)os.push({dt,x,rm:0})})});
+   const seen={};weekSess(w).forEach(([dow,p,sid,wi,opt])=>{const sk=p+'|'+sid;seen[sk]=(seen[sk]||0)+1;const key=w.mon+'|'+sk+(seen[sk]>1?'#'+dow:'');
+    if(!(CAL.skip||{})[key]||loggedIn(p,wi,sid,w.mon))return;
+    os.push({dt:null,rm:1,x:{key,p,name:PROGS[p].name,label:sessLabel(PROGS[p],wi,sid)+(opt?' · optional':'')}})});
+   const old=P.querySelector('#rmBox');const at0=old?old.nextSibling:null;if(old)old.remove();
+   if(!os.length)return;
+   const dn=t=>new Date(t+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+   const box=document.createElement('div');box.id='osBox';
+   box.innerHTML='<div class="small muted" style="margin:10px 0 4px;letter-spacing:1px;text-transform:uppercase">Other sessions this week</div>'+
+    os.map((o,ix)=>`<div class="cev"><i style="background:${o.rm?'transparent;border:2px dashed '+DC(o.x.p):DC(o.x.p)}"></i><span><b>${esc(o.x.name)}</b><span class="rl">${esc(o.x.label)} · ${o.rm?'removed':dn(o.dt)}</span></span><div class="cact"><button class="ctr" data-os="${ix}">${o.rm?'Add here':'Bring here'}</button></div></div>`).join('');
+   const at=P.querySelector('#cLogD');if(at)at.before(box);else P.appendChild(box);
+   box.querySelectorAll('[data-os]').forEach(b=>b.onclick=()=>{const o=os[+b.dataset.os];CAL.moves=CAL.moves||{};CAL.skip=CAL.skip||{};if(o.rm)delete CAL.skip[o.x.key];CAL.moves[o.x.key]=d;saveCal();PLANC=null;closeSheet('sheetCal');renderCal();setTimeout(()=>openDay(d),50)});
+  }catch(e){console.error('v85',e)}};
+}catch(e){console.error('v85',e)}
+
 /*END V21*/
 renderAll();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
