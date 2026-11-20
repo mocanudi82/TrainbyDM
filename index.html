@@ -2330,7 +2330,8 @@ $('btnSet').onclick=()=>{
   $('bkExp').onclick=()=>{const t=exportAll();$('bk').value=t;$('bk').select();
     let ok=false;try{navigator.clipboard.writeText(t).then(()=>{$('bkMsg').textContent='Copied.'},()=>{});ok=true}catch(e){}
     $('bkMsg').textContent=ok?'Copied to the clipboard. If not, select the text and copy it.':'Select the text and copy it.'};
-  const dl=(name,txt,type)=>{try{const u=URL.createObjectURL(new Blob([txt],{type}));const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(u);a.remove()},1500);$('bkMsg').textContent='Saved as '+name+' (check your Downloads / Files app).'}catch(e){$('bkMsg').textContent='Could not save a file here. Use Copy text instead.'}};
+  const dl0=(name,txt,type)=>{try{const u=URL.createObjectURL(new Blob([txt],{type}));const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(u);a.remove()},1500);$('bkMsg').textContent='Saved as '+name+' (check your Downloads / Files app).'}catch(e){$('bkMsg').textContent='Could not save a file here. Use Copy text instead.'}};
+  const dl=(name,txt,type)=>{if(typeof saveOut==='function')saveOut(name,txt,type);else dl0(name,txt,type)};
   $('bkFile').onclick=()=>dl('training-backup-'+todayStr()+'.json',exportAll(),'application/json');
   $('bkCsv').onclick=()=>dl('training-log-'+todayStr()+'.csv',csvAll(),'text/csv');
   $('bkImp').onclick=()=>{try{importAll($('bk').value);if(CUR)useProg(CUR);renderAll();$('bkMsg').textContent='Restored.'}catch(e){$('bkMsg').textContent='That text is not a valid backup.'}};
@@ -3950,7 +3951,7 @@ function saveOut(name,text,mime){const msg=document.getElementById('bkMsg');
  try{const f=new File([text],name,{type:mime||'application/octet-stream'});
   if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:name}).then(()=>{if(msg)msg.textContent='Saved '+name}).catch(e=>{if(e&&e.name!=='AbortError')fallback()});return}}catch(e){}
  fallback()}
-try{const _dl45=dl;dl=function(name,text,mime){saveOut(name,text,mime)}}catch(e){console.error('v45',e)}
+
 (function(){const L={bkFile:'Backup to Drive',bkCsv:'Excel log (CSV)',bkSki:'Ski app log',bkExp:'Copy text',bkOpen:'From Drive / Files',bkImp:'From pasted text'};
  function fix(){try{for(const k in L){const e=document.getElementById(k);if(e&&e.textContent!==L[k])e.textContent=L[k]}
   const bk=document.getElementById('bkFile');if(!bk)return;const card=bk.parentNode;card.classList.add('bkcard');
@@ -4526,6 +4527,8 @@ try{
  // year plan from the sheet
  function planApply(pl){loadCal();let n=0;
   const old=CAL.trips||[];
+  const nd=x=>{const m=String(x==null?'':x).trim().match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);return m?m[1]+'-'+m[2].padStart(2,'0')+'-'+m[3].padStart(2,'0'):null};
+  pl={blocks:(pl.blocks||[]).filter(r=>r[0]&&nd(r[1])).map(r=>[r[0],nd(r[1]),r[2]]),trips:(pl.trips||[]).filter(r=>nd(r[1])).map(r=>[r[0],nd(r[1]),nd(r[2])||nd(r[1]),r[3],r[4],r[5]])};
   CAL.blocks=(pl.blocks||[]).filter(r=>r[0]&&r[1]).map(r=>({type:nm(r[0]),from:nm(r[1]),weeks:Math.max(1,parseInt(r[2])||1)}));
   CAL.trips=(pl.trips||[]).filter(r=>r[1]).map((r,i)=>{const name=nm(r[0]),from=nm(r[1]),to=nm(r[2])||from;const ex=old.find(t=>(t.name||'')===name&&t.from===from);
    const t=Object.assign({},ex||{},{id:(ex&&ex.id)||('t'+from.slice(0,4)+'_'+Date.now()+i),name,from,to,kind:nm(r[3])||'other'});
@@ -4582,10 +4585,98 @@ try{
      if(keep.length){const it=sess.items.slice(),at=it[0]&&it[0].t==='sec'?1:0;it.splice(at,0,...keep);return _v80.call(this,Object.assign({},sess,{items:it}),wi)}}}}catch(e){}
   return _v80.apply(this,arguments)};
  // no pain-driven swap, pink chip or lighter load on the cards of a finished workout
- const _ec80=exCard;exCard=function(ex,wi){const k=painKey(S.week,S.sess);let sv=null;
-  try{if(fin80(S.week,S.sess)&&S.pain&&S.pain[k]!=null){sv=S.pain[k];delete S.pain[k]}}catch(e){}
-  try{return _ec80.apply(this,arguments)}finally{if(sv!=null)S.pain[k]=sv}};
+ const _ec80=exCard;exCard=function(ex,wi){let k=null,sv=null;
+  try{k=painKey(S.week,S.sess);if(fin80(S.week,S.sess)&&S.pain&&S.pain[k]!=null){sv=S.pain[k];delete S.pain[k]}}catch(e){}
+  try{return _ec80.apply(this,arguments)}finally{if(sv!=null&&k!=null)S.pain[k]=sv}};
 }catch(e){console.error('v80',e)}
+
+// ---- v81: sessions removed from a week (skipped, or replaced by a move) can be put back on any day of that week
+try{
+ const _od81=openDay;openDay=function(d){_od81.apply(this,arguments);
+  try{const P=document.getElementById('calPanel');if(!P||P.querySelector('#rmBox'))return;loadCal();planItems();
+   const mon=monOf(d),w=(PLANC.weeks||[]).find(x=>x.mon===mon);if(!w)return;
+   const seen={},rm=[];
+   weekSess(w).forEach(([dow,p,sid,wi,opt])=>{const sk=p+'|'+sid;seen[sk]=(seen[sk]||0)+1;const key=w.mon+'|'+sk+(seen[sk]>1?'#'+dow:'');
+    if(!(CAL.skip||{})[key])return;if(loggedIn(p,wi,sid,w.mon))return;
+    rm.push({key,p,sid,wi,label:sessLabel(PROGS[p],wi,sid)+(opt?' · optional':''),name:PROGS[p].name})});
+   if(!rm.length)return;
+   const box=document.createElement('div');box.id='rmBox';
+   box.innerHTML='<div class="small muted" style="margin:10px 0 4px;letter-spacing:1px;text-transform:uppercase">Removed this week</div>'+
+    rm.map((x,ix)=>`<div class="cev"><i style="background:transparent;border:2px dashed ${DC(x.p)}"></i><span style="flex:1"><b>${esc(x.name)}</b> · ${esc(x.label)}</span><button class="ctr" data-ra="${ix}">Add here</button></div>`).join('');
+   const at=P.querySelector('#cLogD');if(at)at.before(box);else P.appendChild(box);
+   box.querySelectorAll('[data-ra]').forEach(b=>b.onclick=()=>{const x=rm[+b.dataset.ra];CAL.skip=CAL.skip||{};CAL.moves=CAL.moves||{};delete CAL.skip[x.key];CAL.moves[x.key]=d;saveCal();PLANC=null;closeSheet('sheetCal');renderCal()});
+  }catch(e){console.error('v81',e)}};
+}catch(e){console.error('v81',e)}
+
+// ---- v82: "Next week" in the Move panel: moves the workout to the nearest free day of next week (nothing gets cancelled)
+try{
+ const _od82=openDay;openDay=function(d){_od82.apply(this,arguments);
+  try{const P=document.getElementById('calPanel');if(!P)return;
+   P.querySelectorAll('button.mv24').forEach(bm=>bm.addEventListener('click',()=>{
+    const row=bm.closest('.cev'),box=row&&row.nextElementSibling;if(!box||!box.classList.contains('mvbox24')||box.hidden)return;
+    const cr=box.querySelector('.crow');if(!cr||box.querySelector('.mvnw82'))return;
+    const nb=document.createElement('button');nb.className='btn alt mvnw82';nb.textContent='Next week';cr.appendChild(nb);
+    nb.onclick=()=>{loadCal();const ev=calEvents(),pi=planItems(),nm=addD(monOf(d),7),want=addD(d,7);
+     const free=t=>!(pi[t]||[]).length&&!(dayInfo(t,ev).e||[]).length&&!tripsOn(t).some(x=>!['other','easyw','cardio'].includes(x.kind));
+     const cand=[0,1,2,3,4,5,6].map(i=>addD(nm,i)).sort((a,b)=>Math.abs(new Date(a)-new Date(want))-Math.abs(new Date(b)-new Date(want))||(a<b?1:-1));
+     const t=cand.find(free)||want;const inp=box.querySelector('.mvd24');inp.value=t;inp.dispatchEvent(new Event('change'));
+     if(free(t)){const g=box.querySelector('.mvgo24');if(g&&!g.disabled)g.click()}}}))}catch(e){console.error('v82',e)}};
+}catch(e){console.error('v82',e)}
+
+// ---- v83: cleaner day sheet: workout rows with a title block and one tidy action row, calmer Move panel
+try{
+ const st=document.createElement('style');
+ const Q='html:root:root:root:root body #calPanel ';
+ st.textContent=
+ Q+'.cev{display:grid!important;grid-template-columns:14px 1fr;column-gap:12px;row-gap:10px;align-items:center;padding:12px 14px 12px!important;margin:0 0 8px;border-radius:18px!important}'+
+ Q+'.cev>i{width:12px!important;height:12px!important;align-self:start;margin-top:5px}'+
+ Q+'.cev>span{min-width:0!important;display:block}'+
+ Q+'.cev>span>b{display:block;font-size:17px!important;line-height:1.15;letter-spacing:.2px}'+
+ Q+'.cev>span>.rl,'+Q+'.cev>span>small{display:block;font-size:13px!important;opacity:.75;margin-top:2px}'+
+ Q+'.cact{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:6px}'+
+ Q+'.cact .ctr{height:36px;padding:0 8px!important;font-size:13px!important;letter-spacing:.6px;text-transform:uppercase;border-radius:12px!important;font-weight:600;display:flex;align-items:center;justify-content:center;white-space:nowrap}'+
+ Q+'.cact .ctr[data-o],'+Q+'.cact .ctr[data-lo]{background:linear-gradient(135deg,#2b8f91,#4fbbbc)!important;border-color:transparent!important;color:#fff!important}'+
+ Q+'.cact .ctr.mv24{border-color:#2b8f91!important;color:#1f6f71}'+
+ Q+'.cact .ctr.dn66,'+Q+'.cact .ctr[data-dn]{border-color:#4a9a48!important;color:#3a7d38}'+
+ Q+'.cact .ctr.dl24{border-color:#d9482b55!important;color:#d9482b;background:transparent}'+
+ Q+'.mvbox24{background:transparent!important;border:1.5px dashed #2b8f9188;border-radius:16px;padding:12px;margin:-2px 0 10px;display:grid;gap:8px}'+
+ Q+'.mvbox24>.small{letter-spacing:1px;text-transform:uppercase;opacity:.7}'+
+ Q+'.mvbox24 .crow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}'+
+ Q+'.mvbox24 .crow:last-child{grid-template-columns:1fr 1fr}'+
+ Q+'.mvbox24 .btn{height:42px;padding:0 12px;min-width:0;font-size:14px!important;letter-spacing:.8px;border-radius:14px}'+
+ Q+'.mvbox24 .mvn24{font-size:14px;line-height:1.3}'+
+ Q+'#rmBox{margin:6px 0 10px}'+
+ Q+'#rmBox>.small{margin:12px 2px 6px!important}'+
+ Q+'#rmBox .cev{grid-template-columns:14px 1fr auto}'+
+ Q+'#rmBox .cev .ctr{height:36px;padding:0 14px!important;border-radius:12px!important;border-color:#2b8f91!important;color:#1f6f71;text-transform:uppercase;letter-spacing:.6px;font-size:13px!important;font-weight:600}'+
+ (()=>{const sel=['.cact .ctr.mv24','#rmBox .cev .ctr'],col='#7fd6d7';const dk=pre=>sel.map(x=>pre+' body #calPanel '+x+'{color:'+col+'!important}').join('')+pre+' body #calPanel .cact .ctr[data-dn]{color:#9ad88f!important}';
+  return dk('html:root:root:root:root[data-theme="dark"]')+'@media (prefers-color-scheme:dark){'+dk('html:root:root:root:root:not([data-theme="light"])')+'}'})();
+ document.head.appendChild(st);
+ const _od83=openDay;openDay=function(d){_od83.apply(this,arguments);
+  try{const P=document.getElementById('calPanel');if(!P)return;
+   P.querySelectorAll('.cev').forEach(r=>{if(r.dataset.v83)return;const sp=r.querySelector(':scope>span'),bs=[...r.querySelectorAll(':scope>button.ctr')];if(!sp||!bs.length)return;r.dataset.v83=1;
+    const b=sp.querySelector('b');
+    if(b){let rest='';let n=b.nextSibling;while(n){rest+=n.nodeType===3?n.textContent:(n.outerHTML||'');n=n.nextSibling}
+     rest=rest.replace(/^\s*·\s*/,'').replace(/^(<br>)+/,'');const nm=b.outerHTML;sp.innerHTML=nm+'<small class="rl">'+rest+'</small>'}
+    const rank=t=>/^open$/i.test(t)?0:/^move$/i.test(t)?1:/^(done|undo)$/i.test(t)?2:3;
+    bs.forEach(x=>{if(/^(done|undo)$/i.test(x.textContent.trim()))x.dataset.dn=1});
+    bs.sort((a,c)=>rank(a.textContent.trim())-rank(c.textContent.trim()));
+    const g=document.createElement('div');g.className='cact';bs.forEach(x=>g.appendChild(x));r.appendChild(g)})}catch(e){console.error('v83',e)}};
+}catch(e){console.error('v83',e)}
+
+// ---- v84: when a week has the same cardio session twice (e.g. two Zone 2), one logged session only ticks one of them
+try{
+ const _pi84=planItems;planItems=function(){const o=_pi84.apply(this,arguments);
+  try{if(PLANC&&!PLANC.fx84){PLANC.fx84=1;const grp={};
+   Object.keys(o).forEach(d=>o[d].forEach(x=>{if(!PROGS[x.p]||!PROGS[x.p].single)return;const g=x.mon+'|'+x.p+'|'+x.wi+'|'+x.sid;(grp[g]=grp[g]||[]).push({d,x})}));
+   Object.keys(grp).forEach(g=>{const a=grp[g];if(a.length<2)return;const [mon,p,wi,sid]=g.split('|');const st=getState(p),k=wi+'|'+sid,end=addD(mon,6),dates=new Set();
+    Object.entries(st.days||{}).forEach(([d,L])=>{if(L[k]&&L[k].done>0&&d>=mon&&d<=end)dates.add(d)});
+    const h=st.hist&&st.hist[k];if(h&&h.done>0&&h.date&&h.date>=mon&&h.date<=end)dates.add(h.date);
+    a.sort((u,v)=>u.d<v.d?-1:1);const free=[...dates];a.forEach(e=>{e.x.done=false});
+    a.forEach(e=>{const i=free.indexOf(e.d);if(i>=0){e.x.done=true;free.splice(i,1)}});
+    a.forEach(e=>{if(!e.x.done&&free.length){e.x.done=true;free.shift()}})})}}catch(e){console.error('v84',e)}
+  return o};
+}catch(e){console.error('v84',e)}
 /*END V21*/
 renderAll();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
