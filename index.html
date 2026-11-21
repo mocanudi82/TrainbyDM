@@ -3263,12 +3263,12 @@ openDay=function(d){_openDay24(d);
    const inp=box.querySelector('.mvd24'),note=box.querySelector('.mvn24');
    const target=()=>{const t=inp.value;const all=planItems()[t]||[];const P=all.filter(x=>x.key!==item.key&&!x.done);
      const D=[...all.filter(x=>x.key!==item.key&&x.done),...(dayInfo(t,ev).e||[]).filter(x=>x.key!==item.key)];return {t,P,D}};
-   const upd=()=>{const {t,P,D}=target();const list=P.map(x=>x.name+' · '+x.label);const go=box.querySelector('.mvgo24');go.disabled=!!D.length||!t||t===d;go.style.opacity=go.disabled?.4:1;
-     note.innerHTML=!t||t===d?'Pick another day.':D.length?'<b>'+nice(t)+'</b> already has a completed workout ('+D.map(x=>esc(x.name+' · '+x.label)).join(', ')+'). You cannot move onto it.':list.length?'<b>'+nice(t)+'</b> already has '+list.map(esc).join(', ')+'. It will be <b>cancelled</b>.':'<b>'+nice(t)+'</b> is free.'};
+   const upd=()=>{const {t,P,D}=target();const list=P.map(x=>x.name+' · '+x.label);const go=box.querySelector('.mvgo24');go.disabled=!t||t===d;go.style.opacity=go.disabled?.4:1;
+     note.innerHTML=!t||t===d?'Pick another day.':(D.length||list.length)?'<b>'+nice(t)+'</b> already has '+D.concat(P).map(x=>esc(x.name+' · '+x.label)).join(', ')+'. Both will be on that day.':'<b>'+nice(t)+'</b> is free.'};
    inp.oninput=inp.onchange=upd;upd();
    box.querySelector('.mvno24').onclick=()=>{box.hidden=true};
-   box.querySelector('.mvgo24').onclick=()=>{const {t,P,D}=target();if(!t||t===d||D.length)return;
-    if(kind==='p'){CAL.skip=CAL.skip||{};CAL.moves=CAL.moves||{};P.forEach(x=>{CAL.skip[x.key]=1;delete CAL.moves[x.key]});CAL.moves[item.key]=t;saveCal()}
+   box.querySelector('.mvgo24').onclick=()=>{const {t,P,D}=target();if(!t||t===d)return;
+    if(kind==='p'){CAL.moves=CAL.moves||{};CAL.moves[item.key]=t;saveCal()}
     else moveLog(item,d,t)
     closeSheet('sheetCal');renderCal()}}};
  rows.forEach(r=>{if(r.querySelector('[data-o]')){const x=pl[+r.querySelector('[data-o]').dataset.o];wrapRow(r,'p',0,x)}
@@ -4293,9 +4293,9 @@ const cellOf=el=>el&&el.closest?el.closest('.cd[data-d]'):null;
 const items=d=>{try{return planItems()[d]||[]}catch(e){return[]}};
 const blockOf=d=>{try{planItems();return planBlocks().find(k=>k.start<=d&&d<=k.end)||null}catch(e){return null}};
 const tripDay=d=>{try{return tripsOn(d).some(t=>!['other','easyw','cardio'].includes(t.kind))}catch(e){return false}};
-const canDrag=d=>{const it=items(d);return it.length>0&&!it.some(x=>x.done)};
-const okTarget=(a,b)=>{if(!b||a===b)return false;if(items(b).some(x=>x.done)||tripDay(b))return false;const k=blockOf(a);return !!k&&b>=k.start&&b<=k.end};
-const swapDays=(a,b)=>{loadCal();const P=planItems(),A=(P[a]||[]).slice(),B=(P[b]||[]).slice();CAL.moves=CAL.moves||{};A.forEach(x=>{CAL.moves[x.key]=b});B.forEach(x=>{CAL.moves[x.key]=a});saveCal();PLANC=null;renderCal()};
+const canDrag=d=>items(d).some(x=>!x.done);
+const okTarget=(a,b)=>{if(!b||a===b)return false;if(tripDay(b))return false;const k=blockOf(a);return !!k&&b>=k.start&&b<=k.end};
+const swapDays=(a,b)=>{loadCal();const P=planItems(),A=(P[a]||[]).filter(x=>!x.done),B=(P[b]||[]).filter(x=>!x.done);CAL.moves=CAL.moves||{};A.forEach(x=>{CAL.moves[x.key]=b});B.forEach(x=>{CAL.moves[x.key]=a});saveCal();PLANC=null;renderCal()};
 const pt=e=>{const t=(e.touches&&e.touches[0])||(e.changedTouches&&e.changedTouches[0])||e;return{x:t.clientX,y:t.clientY}};
 const clear=()=>{if(st&&st.timer)clearTimeout(st.timer);if(st&&st.raf)cancelAnimationFrame(st.raf);if(st&&st.cell)st.cell.classList.remove('dnd-src');if(over){over.classList.remove('dnd-over');over=null}if(ghost){ghost.remove();ghost=null}st=null};
 const activate=()=>{if(!st||st.active)return;st.active=true;const c=st.cell,r=c.getBoundingClientRect();c.classList.add('dnd-src');ghost=c.cloneNode(true);ghost.classList.add('dnd-ghost');ghost.removeAttribute('data-d');ghost.style.cssText='position:fixed;left:0;top:0;width:'+r.width+'px;height:'+r.height+'px;margin:0;pointer-events:none;z-index:9999;will-change:transform;transform:translate3d('+r.left+'px,'+r.top+'px,0) scale(1.1)';st.w=r.width;st.h=r.height;document.body.appendChild(ghost);try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}};
@@ -4930,15 +4930,29 @@ const _pw112=profileWire;profileWire=function(){_pw112.apply(this,arguments);
 try{const q=sessionStorage.getItem('inj112');if(q){sessionStorage.removeItem('inj112');const o=JSON.parse(q);setTimeout(()=>{try{const d=document.createElement('div');d.className='tst112';d.innerHTML='<span>'+esc(o.n)+(o.on?' rehab on':' rehab off')+'</span><button type="button">Undo</button>';document.body.appendChild(d);
  const kill=setTimeout(()=>d.remove(),7000);d.querySelector('button').onclick=()=>{clearTimeout(kill);d.remove();try{let a=injSel().slice();a=o.on?a.filter(x=>x!==o.k):a.concat(o.k);if(a.length)PROF.inj=a;else delete PROF.inj;saveProf();const q2=(CUR&&CUR!=='cal')?JSON.stringify({id:CUR,sess:S.sess,week:S.week}):null;if(q2)sessionStorage.setItem('reopen96',q2);location.reload()}catch(e){}}}catch(e){}},700)}}catch(e){}
 }catch(e){console.error('v112',e)}
-/* v114: a day that already has a finished workout from a sister program never gets a second planned strength session */
+/* v118: calendar sync — sister ski programs share progress; a day with a finished workout never also carries a second planned one (it moves to the next free day of that week) */
 try{
-const _pi114=planItems;planItems=function(){const o=_pi114.apply(this,arguments);
- try{if(PLANC&&!PLANC.fx114){PLANC.fx114=1;const FAM=['athletic','strength','ski','ski8','conditioning','nogym'];const st={};FAM.forEach(p=>{try{st[p]=getState(p)}catch(e){st[p]={days:{}}}});
-  Object.keys(o).forEach(d=>{const logged=new Set();FAM.forEach(p=>{const L=(st[p].days||{})[d]||{};Object.keys(L).forEach(k=>{if(L[k]&&L[k].done>0)logged.add(p)})});
-   if(!logged.size)return;
-   o[d]=o[d].filter(x=>x.done||!FAM.includes(x.p)||logged.has(x.p))})}}catch(e){console.error('v114',e)}
+const _pi118=planItems;planItems=function(){const o=_pi118.apply(this,arguments);
+ try{if(PLANC&&!PLANC.fx118){PLANC.fx118=1;const FAM=['athletic','strength','ski','ski8','conditioning','nogym'],SK=['ski','ski8'];const st={};PORDER.forEach(p=>{if(p==='protocol'||!PROGS[p])return;try{st[p]=getState(p)}catch(e){st[p]={days:{}}}});
+  const logs=(d,fam)=>{const r=[];(fam||Object.keys(st)).forEach(p=>{const L=((st[p]||{}).days||{})[d]||{};Object.keys(L).forEach(k=>{if(L[k]&&L[k].done>0)r.push({p,k,sid:k.split('|')[1]})})});return r};
+  // 1) a ski session finished in the sister program counts for the next open planned ski session of that week (by order)
+  {const wk={};Object.keys(o).sort().forEach(d=>o[d].forEach(x=>{if(SK.includes(x.p))(wk[x.mon]=wk[x.mon]||[]).push({d,x})}));
+   Object.keys(wk).forEach(mon=>{const used=new Set();const plan=wk[mon].sort((u,v)=>u.d<v.d?-1:u.d>v.d?1:0);
+    for(let n=0;n<7;n++){const dd=addD(mon,n);SK.forEach(q=>{const L=((st[q]||{}).days||{})[dd]||{};Object.keys(L).forEach(k=>{if(!(L[k]&&L[k].done>0))return;const own=plan.find(e=>e.x.p===q&&e.x.wi+'|'+e.x.sid===k);if(own)return;
+      const t=plan.find(e=>!e.x.done&&!used.has(e)&&e.x.p!==q);if(t){used.add(t);t.x.done=true;t.x.credit=q}})})}})}
+  // 2) one workout per day: move unfinished planned strength sessions off days that already hold a finished workout
+  const td=localToday(),busy=d=>logs(d).length>0||(o[d]||[]).some(x=>x.done||x.mv118),
+   free=d=>d>=td&&!busy(d)&&!(o[d]||[]).length&&!tripsOn(d).some(t=>!['other','easyw','cardio'].includes(t.kind));
+  Object.keys(o).sort().forEach(d=>{if(!logs(d).length&&!o[d].some(x=>x.done))return;
+   o[d].filter(x=>!x.done&&!(CAL.moves||{})[x.key]).forEach(x=>{const mon=monOf(d);let to=null;
+    for(let n=1;n<7&&!to;n++){const t=addD(d,n);if(t>addD(mon,6))break;if(free(t))to=t}
+    for(let n=1;n<7&&!to;n++){const t=addD(d,-n);if(t<mon)break;if(free(t))to=t}
+    if(to){o[d]=o[d].filter(y=>y!==x);x.mv118=1;(o[to]=o[to]||[]).push(x)}})});
+  // 3) sessions of this week that were missed roll forward into the free days that are left (never onto a busy day)
+  {const mw=monOf(td);Object.keys(o).sort().forEach(d=>{if(d>=td||monOf(d)!==mw)return;o[d].filter(x=>!x.done&&!x.opt&&!(CAL.moves||{})[x.key]).forEach(x=>{let to=null;for(let n=0;n<7&&!to;n++){const t=addD(td,n);if(t>addD(mw,6))break;if(free(t))to=t}
+    if(to){o[d]=o[d].filter(y=>y!==x);x.mv118=1;x.rolled=1;(o[to]=o[to]||[]).push(x)}})})}}}catch(e){console.error('v118',e)}
  return o};
-}catch(e){console.error('v114',e)}
+}catch(e){console.error('v118',e)}
 /*END V21*/
 renderAll();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
