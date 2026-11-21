@@ -2101,6 +2101,12 @@ function renderCal(){loadCal();const ev=calEvents();const today=localToday();if(
   $('main').querySelectorAll('.ctr[data-t]').forEach(b=>b.onclick=()=>openTrip(b.dataset.t));
   $('addTrip').onclick=()=>openTrip(null,today.slice(0,4)===String(CALY)?today:CALY+'-01-01')}
 function moveLog(x,from,to){withProg(x.p,()=>{S.days=S.days||{};const L=S.days[from];if(L&&L[x.key]){(S.days[to]=S.days[to]||{})[x.key]=L[x.key];delete L[x.key];if(!Object.keys(L).length)delete S.days[from]}if(S.hist[x.key]&&S.hist[x.key].date===from)S.hist[x.key].date=to;try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}})}
+function delLog(x,d){withProg(x.p,()=>{const k=x.key,sp=k.split('|'),wi=sp[0],sid=sp[1];const sess=(PROGS[x.p].sessions||[]).find(z=>z.id===sid);
+  if(S.days&&S.days[d]){delete S.days[d][k];if(!Object.keys(S.days[d]).length)delete S.days[d]}
+  if(S.hist&&S.hist[k]&&(!S.hist[k].date||S.hist[k].date===d))delete S.hist[k];
+  if(sess)for(const it of sess.items)if(it.t==='ex'){const q=wi+'|'+it.id;delete S.done[q];delete S.kg[q];delete S.th[q];delete S.th[q+'|r'];delete S.ov[q];delete S.swap[q]}
+  [S.ord,S.sdate,S.fin,S.pain,S.morn,S.dur,S.t0,S.extra,S.notes].forEach(o=>{if(o)delete o[k]});
+  try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}});PLANC=null}
 function openDay(d){loadCal();const ev=calEvents(),i=dayInfo(d,ev),tr=tripsOn(d);
   const dt=new Date(d+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   const pl=planItems()[d]||[];
@@ -3246,11 +3252,11 @@ openDay=function(d){_openDay24(d);
   const bm=document.createElement('button');bm.className='ctr mv24';bm.textContent='Move';
   const bd=document.createElement('button');bd.className='ctr dl24';bd.textContent='Delete';
   if(kind==='p'&&item.done){return}
-  row.appendChild(bm);if(kind==='p')row.appendChild(bd);
+  row.appendChild(bm);row.appendChild(bd);
   const box=document.createElement('div');box.className='mvbox24';box.hidden=true;row.after(box);
   let armed=0;
   bd.onclick=()=>{if(!armed){armed=1;bd.textContent='Tap to confirm';bd.classList.add('arm');setTimeout(()=>{armed=0;bd.textContent='Delete';bd.classList.remove('arm')},3500);return}
-   if(kind==='p'){CAL.skip=CAL.skip||{};CAL.skip[item.key]=1;saveCal()}
+   if(kind==='p'){CAL.skip=CAL.skip||{};CAL.skip[item.key]=1;saveCal()}else delLog(item,d);
    closeSheet('sheetCal');renderCal()};
   bm.onclick=()=>{box.hidden=!box.hidden;if(box.hidden)return;
    box.innerHTML='<div class="small muted">Move to</div><div class="crow"><input type="date" class="mvd24" value="'+addD(d,1)+'"></div><div class="mvn24"></div><div class="crow" style="margin-top:6px"><button class="btn mvgo24">Move here</button><button class="btn alt mvno24">Cancel</button></div>';
@@ -4859,7 +4865,7 @@ const st=document.createElement('style');st.id='st112';st.textContent=`
 .prg112{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:8px 0 2px;padding:9px 12px;border-radius:14px;background:rgba(29,143,147,.12);font-size:15px;color:var(--ink,#16363a)}
 .prg112 b{font-size:20px}.prg112 .nx{flex:1;min-width:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.8}
 .prg112 .bar{position:absolute}
-.kgs{width:36px;height:36px;border-radius:50%;border:2px solid #1d8f93;background:#fff;color:#1d8f93;font:600 20px/1 Oswald,sans-serif;padding:0;flex:0 0 auto}
+.kgs{display:none!important;width:36px;height:36px;border-radius:50%;border:2px solid #1d8f93;background:#fff;color:#1d8f93;font:600 20px/1 Oswald,sans-serif;padding:0;flex:0 0 auto}
 .kgs:active{background:#1d8f93;color:#fff}
 .blk.afold>.ex,.blk.afold>.bnote,.blk.afold>.add{display:none}
 .blk.afold>.sec .cnt::after{content:" ✓";color:#2e9e5b}
@@ -4887,7 +4893,7 @@ const stepList=(nm,cur)=>{nm=String(nm||'');
  if(/kettlebell|\bkb\b|swing|orbit|turkish/i.test(nm)){const a=[];for(let v=4;v<=24;v+=2)a.push(v);a.push(32);return a}
  if(/dumbbell|\bdb\b|scotty|slasher|crawl|renegade|spectacular|goblet|suitcase|single[- ]arm|one[- ]arm|farmer/i.test(nm)){const a=[];for(let v=2;v<=60;v+=2)a.push(v);return a}
  return null};
-const steppers=()=>{try{$$('.ex[data-k] .kgr .kg').forEach(inp=>{const kr=inp.closest('.kgr');if(kr.querySelector('.kgs'))return;const ex=inp.closest('.ex');const nm=(ex.querySelector('.nm')||{}).textContent||'';
+const steppers=()=>{try{return;$$('.ex[data-k] .kgr .kg').forEach(inp=>{const kr=inp.closest('.kgr');if(kr.querySelector('.kgs'))return;const ex=inp.closest('.ex');const nm=(ex.querySelector('.nm')||{}).textContent||'';
   const list=stepList(nm);const ph=parseFloat(inp.placeholder);if(!list&&!(ph>0))return;
   const mk=d=>{const b=document.createElement('button');b.type='button';b.className='kgs';b.textContent=d<0?'−':'+';b.setAttribute('aria-label',d<0?'Lighter':'Heavier');
    b.onclick=ev=>{ev.stopPropagation();let v=parseFloat(inp.value);if(!(v>=0))v=parseFloat(inp.placeholder);if(!(v>=0)){const l=ex.querySelector('.lastk');v=l?parseFloat(l.textContent.replace(/[^\d.]/g,'')):NaN}
