@@ -4953,6 +4953,16 @@ const _pi118=planItems;planItems=function(){const o=_pi118.apply(this,arguments)
     if(to){o[d]=o[d].filter(y=>y!==x);x.mv118=1;x.rolled=1;(o[to]=o[to]||[]).push(x)}})})}}}catch(e){console.error('v118',e)}
  return o};
 }catch(e){console.error('v118',e)}
+/* v121: one-time catch-up of Dani's week 16-22 Nov: Ski 5 Day 1 on Mon 16 and Day 2 on Thu 19 were trained but never ticked */
+try{
+if(!localStorage.getItem('trn.fix1121')){
+ withProg('ski',()=>{S.days=S.days||{};S.hist=S.hist||{};
+  [['2026-11-16','1|D1'],['2026-11-19','1|D2']].forEach(([dt,k])=>{const own=Object.values(S.days).some(L=>L&&L[k]&&L[k].done>0);if(own)return;
+   (S.days[dt]=S.days[dt]||{})[k]={done:1,of:1,dur:0,fin:true,mode:'',cmin:'',manual:1};
+   if(!S.hist[k])S.hist[k]={dur:0,date:dt,pain:null,notes:'',items:[],done:1,of:1,fin:true,manual:1}});
+  try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}});
+ localStorage.setItem('trn.fix1121','1');PLANC=null}
+}catch(e){console.error('v121',e)}
 /*END V21*/
 renderAll();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
