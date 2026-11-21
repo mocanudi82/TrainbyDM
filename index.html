@@ -2112,8 +2112,8 @@ function openDay(d){loadCal();const ev=calEvents(),i=dayInfo(d,ev),tr=tripsOn(d)
   const pl=planItems()[d]||[];
   $('calPanel').innerHTML=`<h2 style="margin:0 0 4px">${dt}</h2>`+(pl.length?`<div class="small muted" style="margin-top:6px">PLANNED</div>`+pl.map((x,ix)=>`<div class="cev"><i style="background:transparent;border:2px solid ${DC(x.p)}"></i><span style="flex:1"><b>${esc(x.name)}</b> · ${esc(x.label)}${x.done?' <small>✓ done</small>':''}</span><button class="ctr" data-o="${ix}">Open</button><button class="ctr" data-m="${ix}|-1">‹</button><button class="ctr" data-m="${ix}|1">›</button><button class="ctr" data-s="${ix}">Skip</button></div>`).join(''):'')+
    (tr.length?tr.map(t=>`<div class="small muted">${t.kind==='ski'?'Ski trip':t.kind==='sport'?'Sport trip':'Trip'}: ${esc(t.name||'')}${t.maybe?' (maybe)':''}</div>`).join(''):'')+
-   (i.e.length?i.e.map(x=>`<div class="cev"><i style="background:${DC(x.p)}"></i><span style="flex:1"><b>${esc(x.name)}</b> · ${esc(x.label)}<br><small class="muted">${x.h.done}/${x.h.of} sets${x.h.dur?' · '+Math.round(x.h.dur/60)+' min':''}${x.h.fin?' · finished':''}</small></span><button class="ctr" data-lo="${i.e.indexOf(x)}">Open</button><button class="ctr" data-lm="${i.e.indexOf(x)}|-1">‹ day</button><button class="ctr" data-lm="${i.e.indexOf(x)}|1">day ›</button></div>`).join(''):'<div class="small muted" style="margin:6px 0">No session logged. Sessions you tick appear here by themselves.</div>')+
-   `<details class="cadd" id="cLogD"><summary>+ Log a workout on this day</summary><select id="lgP">${PORDER.filter(id=>id!=='protocol').map(id=>`<option value="${id}">${esc(PROGS[id].name)}</option>`).join('')}</select><select id="lgW"></select><select id="lgS"></select><button class="btn" id="lgGo">Open it for this date</button></details>`+
+   (i.e.length?i.e.map(x=>`<div class="cev"><i style="background:${DC(x.p)}"></i><span style="flex:1"><b>${esc(x.name)}</b> · ${esc(x.label)}<br><small class="muted">${x.h.done}/${x.h.of} sets${x.h.dur?' · '+Math.round(x.h.dur/60)+' min':''}${x.h.fin?' · finished':''}</small></span><button class="ctr" data-lo="${i.e.indexOf(x)}">Open</button><button class="ctr" data-lm="${i.e.indexOf(x)}|-1">‹ day</button><button class="ctr" data-lm="${i.e.indexOf(x)}|1">day ›</button></div>`).join(''):'<div class="small muted" style="margin:6px 0">No session logged.</div>')+
+   `<details class="cadd" id="cLogD"><summary>+ Log a workout on this day</summary><select id="lgP">${PORDER.filter(id=>id!=='protocol').map(id=>`<option value="${id}">${esc(PROGS[id].name)}</option>`).join('')}</select><select id="lgW"></select><select id="lgS"></select><button class="btn" id="lgGo">Open it for this date</button>${d<=localToday()?'<button class="btn alt" id="lgDone">Done · no details</button>':''}</details>`+
    `<div class="ctog"><button id="cAm" class="${i.am?'on':''}">☀ Morning mobility</button><button id="cPm" class="${i.pm?'on':''}">☾ Evening mobility</button><button id="cTg" class="${i.tango?'on':''}">♪ Tango</button></div>`+
    `<textarea id="cNote" rows="3" placeholder="Comment for this day">${esc(i.c.note||'')}</textarea>`+
    `<div class="crow" style="margin-top:8px"><button class="btn" id="cTrip">+ Trip from this day</button><button class="btn alt" id="cClose">Close</button></div>`;
@@ -2128,6 +2128,10 @@ function openDay(d){loadCal();const ev=calEvents(),i=dayInfo(d,ev),tr=tripsOn(d)
    const fill=()=>{const P=PROGS[lp.value];lw.style.display=P.single?'none':'';lw.innerHTML=P.single?'<option value="0">0</option>':P.weeks.map((w,q)=>`<option value="${q}">${esc(w.label+(w.phase?' · '+w.phase:''))}</option>`).join('');
      ls.innerHTML=P.sessions.map(z=>`<option value="${esc(z.id)}">${esc(P.single?(z.tab||z.id):((z.pre||('Day '+z.id.replace(/\D/g,'')+' · '))+z.heading))}</option>`).join('')};
    lp.onchange=fill;fill();
+   if($('lgDone'))$('lgDone').onclick=()=>{const p=lp.value,P=PROGS[p],wi=P.single?0:+lw.value,sid=ls.value,k=wi+'|'+sid;
+     withProg(p,()=>{S.days=S.days||{};S.hist=S.hist||{};(S.days[d]=S.days[d]||{})[k]={done:1,of:1,dur:0,fin:true,mode:'',cmin:'',manual:1};
+      if(!S.hist[k])S.hist[k]={dur:0,date:d,pain:null,notes:'',items:[],done:1,of:1,fin:true,manual:1};try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}});
+     PLANC=null;closeSheet('sheetCal');renderCal()};
    $('lgGo').onclick=()=>{const p=lp.value,P=PROGS[p],wi=P.single?0:+lw.value,sid=ls.value;
      withProg(p,()=>{S.sdate=S.sdate||{};S.sdate[wi+'|'+sid]=d;try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}});
      closeSheet('sheetCal');useProg(p);S.week=wi;S.sess=sid;save();renderAll();window.scrollTo(0,0)}}
@@ -4919,8 +4923,8 @@ const home=()=>{try{const c=document.getElementById('todayC');if(!c||c.querySele
  b.onclick=()=>{openProg(x.p);if(x.wi!=null&&PLAN.weeks[x.wi]&&PLAN.sessions.find(z=>z.id===x.sid)){S.week=x.wi;S.sess=x.sid;save();renderAll()}scrollTo(0,0)};
  const h=c.querySelector('.sec0');if(h)h.insertAdjacentElement('afterend',b);else c.prepend(b)}catch(e){}};
 
-let _T=null;const soon=()=>{clearTimeout(_T);_T=setTimeout(()=>{fold();steppers();prg();home()},40)};
-new MutationObserver(soon).observe(document.getElementById('main'),{childList:true,subtree:true});
+let _T=null;const MO112=new MutationObserver(()=>soon());const OPT112={childList:true,subtree:true};const soon=()=>{clearTimeout(_T);_T=setTimeout(()=>{MO112.disconnect();try{fold();steppers();prg();home()}finally{MO112.takeRecords();MO112.observe(document.getElementById('main'),OPT112)}},40)};
+MO112.observe(document.getElementById('main'),OPT112);
 document.addEventListener('click',()=>setTimeout(soon,120),true);
 setTimeout(soon,50);
 
