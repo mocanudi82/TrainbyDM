@@ -4785,12 +4785,12 @@ const s92=document.createElement('style');s92.textContent='.ex.swd,.ex.swo{posit
 /* v93/v95: Touch-Jump-Touch EMOM — reps per minute = 25% of the 2-min test, rounded up, + week bump */
 try{
 const tjtPM=wi=>{try{const idx=PLAN.id==='ski'?[0,2,4,5,6][wi]:wi;const bump=[0,1,2,0,1,2,0][idx]||0;
-  const ids=[];PLAN.sessions.forEach(s=>s.items.forEach(x=>{if(x.t==='ex'&&/^TJT to Box/i.test(x.name))ids.push(x.id)}));
-  for(let w=wi;w>=0;w--){for(const id of ids){const v=parseFloat(S.th[w+'|'+id+'|r']);if(v>0)return Math.ceil(v*0.25)+bump}}}catch(e){}return null};
+  const T=PLAN.tjt||{src:[1,1,1,2,2]};let t=NaN;for(let k=T.src[wi]||1;k>=1&&isNaN(t);k--)t=parseFloat(S.tjt['t'+k]);
+  if(!isNaN(t)&&t>0)return Math.ceil(t*0.25)+bump}catch(e){}return null};
 window.tjtPM=tjtPM;
 const _ec93=exCard;exCard=function(ex,wi){let h=_ec93.apply(this,arguments);
  try{if(/rounds × 1 min/.test(h)&&/Touch-Jump-Touch/i.test(ex.name)&&!/\bTEST\b/i.test(ex.name)){const v=tjtPM(wi);
-  h=h.replace(/(<div class="spec"><span><b>[^<]*rounds × 1 min<\/b>(?: <span class="muted">[^<]*<\/span>)?<\/span>)/,'$1<span><b>'+(v==null?'?':v)+' reps / min</b></span>')}}catch(e){}return h};
+  h=h.replace(/(<div class="spec"><span><b>[^<]*rounds × 1 min<\/b>)(?: <span class="muted">[^<]*<\/span>)?(<\/span>)/,'$1$2<span><b>'+(v==null?'?':v)+' reps / min</b></span>')}}catch(e){}return h};
 document.addEventListener('change',e=>{const r=e.target.closest&&e.target.closest('[data-rd]');if(!r)return;const c=r.closest('.ex');if(!c||!/TJT to Box — 2 min test|2 min test/i.test(c.innerText))return;const y=scrollY;try{renderAll()}catch(_){}scrollTo(0,y)});
 }catch(e){console.error('v93',e)}
 
@@ -4809,6 +4809,119 @@ try{if(!sessionStorage.getItem('reopen96')){setTimeout(()=>{try{
  if(!x)return;openProg(x.p);
  if(x.wi!=null&&PLAN&&PLAN.weeks[x.wi]&&PLAN.sessions.find(z=>z.id===x.sid)){S.week=x.wi;S.sess=x.sid;save();renderAll()}
  window.scrollTo(0,0)}catch(e){console.error('v104',e)}},0)}}catch(e){}
+// ---- v107: step-up rep counter (log how many reps are done; +/- buttons)
+try{
+const isSU=ex=>ex&&/^Step-Up — sandbag/i.test(ex.name||'');
+const supT=(ex,wi)=>{try{return parseInt(String(ex.w[wi].s).replace(/\D/g,''))||0}catch(e){return 0}};
+const _ec107=exCard;
+exCard=function(ex,wi){let h=_ec107.apply(this,arguments);
+ try{if(!isSU(ex))return h;const key=wi+'|'+ex.id;const t=supT(ex,wi);if(!t)return h;const n=parseInt(S.th[key+'|sup'])||0;
+  const blk=`<div class="supc" data-supt="${t}"><div class="supn"><b>${n}</b><span> / ${t} reps done</span></div><div class="supb"><button type="button" data-sup="-25">−25</button><button type="button" data-sup="25">+25</button><button type="button" data-sup="50">+50</button><input type="number" inputmode="numeric" class="supi" data-supi="1" aria-label="Reps done" placeholder="reps" value="${n||''}"></div><div class="supbar"><i style="width:${Math.min(100,Math.round(n/t*100))}%"></i></div></div>`;
+  const i=h.indexOf('<div class="links">');if(i>0)h=h.slice(0,i)+blk+h.slice(i)}catch(e){}
+ return h};
+const supSet=(c,v)=>{const key=c.dataset.k;const box=c.querySelector('.supc');if(!box)return;const t=+box.dataset.supt||0;v=Math.max(0,Math.round(v)||0);
+ S.th[key+'|sup']=v;save();box.querySelector('.supn b').textContent=v;const i=box.querySelector('.supi');if(i&&document.activeElement!==i)i.value=v||'';
+ const bar=box.querySelector('.supbar i');if(bar)bar.style.width=Math.min(100,Math.round(v/t*100))+'%';box.classList.toggle('ok',t&&v>=t)};
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-sup]');if(!b)return;const c=b.closest('[data-k]');if(!c)return;e.stopPropagation();supSet(c,(parseInt(S.th[c.dataset.k+'|sup'])||0)+parseInt(b.dataset.sup))},true);
+document.addEventListener('input',e=>{const i=e.target.closest&&e.target.closest('[data-supi]');if(!i)return;const c=i.closest('[data-k]');if(c)supSet(c,parseInt(i.value)||0)});
+const st=document.createElement('style');st.textContent='.supc{margin:10px 0 4px;padding:10px 12px;border-radius:14px;background:rgba(29,143,147,.10)}.supn{font-size:15px;color:var(--muted,#5a7a7c)}.supn b{font-size:30px;color:var(--ink,#16363a);margin-right:4px}.supb{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}.supb button{min-width:56px;height:44px;border-radius:12px;border:2px solid #1d8f93;background:#fff;color:#1d8f93;font:600 17px Oswald,sans-serif}.supb button:active{background:#1d8f93;color:#fff}.supi{width:92px;height:44px;border-radius:12px;border:2px solid rgba(29,143,147,.4);padding:0 10px;font:600 18px Oswald,sans-serif;text-align:center;background:#fff;color:#16363a}.supbar{height:6px;border-radius:3px;background:rgba(29,143,147,.18);margin-top:10px;overflow:hidden}.supbar i{display:block;height:100%;background:#1d8f93}.supc.ok .supbar i{background:#2e9e5b}.supc.ok .supn b{color:#2e9e5b}';document.head.appendChild(st);
+}catch(e){console.error('v107',e)}
+// ---- v108: progress line only on the programs that are in this week's plan
+try{const _rh108=renderHome;renderHome=function(){const r=_rh108.apply(this,arguments);
+ try{const m=planItems(),t=localToday(),mon=monOf(t),on=new Set();for(let i=0;i<7;i++)(m[addD(mon,i)]||[]).forEach(x=>on.add(x.p));
+  document.querySelectorAll('.pcard[data-p]').forEach(b=>{if(!on.has(b.dataset.p)){const q=b.querySelector('.pbar2');if(q)q.style.display='none'}})}catch(e){console.error('v108',e)}
+ return r}}catch(e){console.error('v108',e)}
+// ---- v110: a logged workout is never lowered or erased because the injury choice changed its exercise list
+try{const _snap110=snap;snap=function(wi,sid){
+ let k,sig,oh,od;try{k=wi+'|'+sid;sig=(typeof injSel==='function'?injSel():[]).join(',');oh=S.hist&&S.hist[k]?JSON.parse(JSON.stringify(S.hist[k])):null;od={};Object.keys(S.days||{}).forEach(d=>{if(S.days[d]&&S.days[d][k])od[d]=JSON.parse(JSON.stringify(S.days[d][k]))})}catch(e){return _snap110.apply(this,arguments)}
+ const r=_snap110.apply(this,arguments);
+ try{const nh=S.hist&&S.hist[k];
+  if(oh&&oh.done>0&&(oh.sig||'')!==sig&&(!nh||nh.done<oh.done)){S.hist[k]=oh;Object.keys(od).forEach(d=>{S.days=S.days||{};(S.days[d]=S.days[d]||{})[k]=od[d]})}
+  else if(nh&&nh.done>0)nh.sig=sig}catch(e){}
+ return r}}catch(e){console.error('v110',e)}
+// ---- v111: week and day chips shaded continuously by the share completed
+try{
+const shade=()=>{try{if(!PLAN)return;const wi=S.week;
+ const put=(b,p)=>{if(!(p>0)||p>=.999){b.style.removeProperty('background');return}
+  const u=Math.min(.999,p)*3,i=Math.floor(u),t=Math.round((u-i)*100);b.style.setProperty('background','color-mix(in srgb, var(--m'+(i+2)+') '+t+'%, var(--m'+(i+1)+'))','important')};
+ document.querySelectorAll('#weeks button[data-w]').forEach(b=>put(b,weekP(+b.dataset.w)));
+ document.querySelectorAll('#tabs button[data-s]').forEach(b=>{const s=PLAN.sessions.find(z=>z.id===b.dataset.s);if(!s)return;const t=totals(s,wi);put(b,S.fin[wi+'|'+s.id]?1:(t.t?t.d/t.t:0))})}catch(e){}};
+let _T=null;const soon=()=>{clearTimeout(_T);_T=setTimeout(shade,30)};
+['weeks','tabs'].forEach(id=>{const el=document.getElementById(id);if(el)new MutationObserver(soon).observe(el,{childList:true,subtree:true,attributes:true,attributeFilter:['class']})});
+setTimeout(shade,0);
+}catch(e){console.error('v111',e)}
+// ---- v112: friendlier session screen (fold finished blocks, kg steppers, progress line, injury toast, start button)
+try{
+const $$=(q,r)=>[...(r||document).querySelectorAll(q)];
+const st=document.createElement('style');st.id='st112';st.textContent=`
+.prg112{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:8px 0 2px;padding:9px 12px;border-radius:14px;background:rgba(29,143,147,.12);font-size:15px;color:var(--ink,#16363a)}
+.prg112 b{font-size:20px}.prg112 .nx{flex:1;min-width:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.8}
+.prg112 .bar{position:absolute}
+.kgs{width:36px;height:36px;border-radius:50%;border:2px solid #1d8f93;background:#fff;color:#1d8f93;font:600 20px/1 Oswald,sans-serif;padding:0;flex:0 0 auto}
+.kgs:active{background:#1d8f93;color:#fff}
+.blk.afold>.ex,.blk.afold>.bnote,.blk.afold>.add{display:none}
+.blk.afold>.sec .cnt::after{content:" ✓";color:#2e9e5b}
+.go112{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:10px 0 2px;padding:14px 16px;border:0;border-radius:16px;background:#1d8f93;color:#fff;font:600 19px Oswald,sans-serif;letter-spacing:.5px;text-align:left}
+.go112 small{display:block;font:500 14px Oswald,sans-serif;opacity:.9;letter-spacing:0}
+.tst112{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:99;display:flex;gap:14px;align-items:center;padding:12px 16px;border-radius:16px;background:#16363a;color:#fff;font:500 16px Oswald,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.tst112 button{border:0;background:transparent;color:#f39120;font:600 16px Oswald,sans-serif;padding:4px 6px}`;
+document.head.appendChild(st);
+
+/* 1 — finished blocks fold away; opening a session scrolls to the first thing not done */
+const fold=()=>{try{const m=document.getElementById('main');if(!m)return;
+ $$('.blk',m).forEach(b=>{const c=b.querySelector(':scope>.sec .cnt');if(!c)return;const mm=/^(\d+)\/(\d+)$/.exec(c.textContent.trim());const k=b.dataset.fk;
+  const done=mm&&+mm[2]>0&&+mm[1]>=+mm[2];const manual=G.fold&&G.fold[k]!==undefined;
+  if(done&&!manual&&!b.classList.contains('open112'))b.classList.add('afold');else b.classList.remove('afold')});
+ const sig=CUR+'|'+S.week+'|'+S.sess;if(window.__scr112!==sig){window.__scr112=sig;
+  const all=$$('.ex[data-k]',m).filter(e=>!e.closest('.afold'));const un=all.find(e=>{const n=e.querySelectorAll('.set').length;return n&&!e.querySelectorAll('.set.on,.set.done').length});
+  const any=$$('.set.on,.set.done',m).length;
+  if(any&&un){const y=un.getBoundingClientRect().top+scrollY-150;setTimeout(()=>scrollTo({top:Math.max(0,y),behavior:'auto'}),30)}}}catch(e){}};
+document.addEventListener('click',e=>{const h=e.target.closest&&e.target.closest('.blk>.sec');if(!h||e.target.closest('.bi'))return;const b=h.parentElement;
+ if(b.classList.contains('afold')){e.stopImmediatePropagation();e.preventDefault();b.classList.remove('afold');b.classList.add('open112');h.setAttribute('aria-expanded','true')}},true);
+
+/* 2 — kg steppers that jump by the weights he owns */
+const stepList=(nm,cur)=>{nm=String(nm||'');
+ if(/sandbag|sand bag/i.test(nm))return [10,20,30];
+ if(/kettlebell|\bkb\b|swing|orbit|turkish/i.test(nm)){const a=[];for(let v=4;v<=24;v+=2)a.push(v);a.push(32);return a}
+ if(/dumbbell|\bdb\b|scotty|slasher|crawl|renegade|spectacular|goblet|suitcase|single[- ]arm|one[- ]arm|farmer/i.test(nm)){const a=[];for(let v=2;v<=60;v+=2)a.push(v);return a}
+ return null};
+const steppers=()=>{try{$$('.ex[data-k] .kgr .kg').forEach(inp=>{const kr=inp.closest('.kgr');if(kr.querySelector('.kgs'))return;const ex=inp.closest('.ex');const nm=(ex.querySelector('.nm')||{}).textContent||'';
+  const list=stepList(nm);const ph=parseFloat(inp.placeholder);if(!list&&!(ph>0))return;
+  const mk=d=>{const b=document.createElement('button');b.type='button';b.className='kgs';b.textContent=d<0?'−':'+';b.setAttribute('aria-label',d<0?'Lighter':'Heavier');
+   b.onclick=ev=>{ev.stopPropagation();let v=parseFloat(inp.value);if(!(v>=0))v=parseFloat(inp.placeholder);if(!(v>=0)){const l=ex.querySelector('.lastk');v=l?parseFloat(l.textContent.replace(/[^\d.]/g,'')):NaN}
+    let n;if(list){const cand=d<0?list.filter(x=>x<v-1e-9):list.filter(x=>x>v+1e-9);n=isNaN(v)?list[0]:(cand.length?(d<0?cand[cand.length-1]:cand[0]):v)}else{n=isNaN(v)?0:Math.max(0,v+d*2.5)}
+    inp.value=String(n);inp.dispatchEvent(new Event('input',{bubbles:true}));inp.dispatchEvent(new Event('change',{bubbles:true}))};return b};
+  kr.insertBefore(mk(-1),inp);kr.appendChild(mk(1))})}catch(e){}};
+
+/* 4 — progress line: minutes left and the next exercise */
+const prg=()=>{try{const host=document.getElementById('sclk');if(!host||!PLAN)return;const se=curSess();if(!se)return;const wi=S.week,k=wi+'|'+se.id;
+ const t=totals(se,wi);if(!t.t){const o=document.getElementById('prg112');if(o)o.remove();return}
+ let tot=0;try{tot=fitSess(se,wi,(S.mode&&S.mode[k])||0).min}catch(e){}
+ const p=S.fin[k]?1:t.d/t.t;const left=Math.max(0,Math.round(tot*(1-p)));
+ const nx=$$('.ex[data-k]').filter(e=>!e.closest('.afold')).find(e=>{const n=e.querySelectorAll('.set').length;return n&&e.querySelectorAll('.set.on,.set.done').length<n});
+ const nm=nx?(nx.querySelector('.nm')||{}).textContent:'';
+ let el=document.getElementById('prg112');if(!el){el=document.createElement('div');el.id='prg112';el.className='prg112';host.insertAdjacentElement('afterend',el)}
+ el.innerHTML=(p>=.999?'<b>Done ✓</b>':'<b>≈ '+left+' min left</b>')+'<span class="nx">'+(nm&&p<.999?'Next · '+nm:'')+'</span>'}catch(e){}};
+
+/* 6 — Start today's workout (or the next planned one) on the home page */
+const home=()=>{try{const c=document.getElementById('todayC');if(!c||c.querySelector('.go112'))return;const m=planItems(),t=localToday();
+ let x=(m[t]||[]).filter(z=>PROGS[z.p]).find(z=>!z.done),when='Today';
+ if(!x){const ks=Object.keys(m).filter(d=>d>t).sort();for(const d of ks){const y=(m[d]||[]).find(z=>PROGS[z.p]&&!z.done);if(y){x=y;when=new Date(d+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'});break}}}
+ if(!x)return;const b=document.createElement('button');b.className='go112';b.type='button';b.innerHTML='<span>▶</span><span style="flex:1">Start · '+esc(x.name)+'<small>'+esc(when)+' · '+esc(x.label)+'</small></span>';
+ b.onclick=()=>{openProg(x.p);if(x.wi!=null&&PLAN.weeks[x.wi]&&PLAN.sessions.find(z=>z.id===x.sid)){S.week=x.wi;S.sess=x.sid;save();renderAll()}scrollTo(0,0)};
+ const h=c.querySelector('.sec0');if(h)h.insertAdjacentElement('afterend',b);else c.prepend(b)}catch(e){}};
+
+let _T=null;const soon=()=>{clearTimeout(_T);_T=setTimeout(()=>{fold();steppers();prg();home()},40)};
+new MutationObserver(soon).observe(document.getElementById('main'),{childList:true,subtree:true});
+document.addEventListener('click',()=>setTimeout(soon,120),true);
+setTimeout(soon,50);
+
+/* 3 — injury choice: remembered in a toast with Undo */
+const _pw112=profileWire;profileWire=function(){_pw112.apply(this,arguments);
+ $$('#injChips [data-inj]').forEach(b=>{const o=b.onclick;b.onclick=function(){try{const on=!b.classList.contains('on');sessionStorage.setItem('inj112',JSON.stringify({k:b.dataset.inj,n:b.textContent.trim(),on}))}catch(e){}return o.apply(this,arguments)}})};
+try{const q=sessionStorage.getItem('inj112');if(q){sessionStorage.removeItem('inj112');const o=JSON.parse(q);setTimeout(()=>{try{const d=document.createElement('div');d.className='tst112';d.innerHTML='<span>'+esc(o.n)+(o.on?' rehab on':' rehab off')+'</span><button type="button">Undo</button>';document.body.appendChild(d);
+ const kill=setTimeout(()=>d.remove(),7000);d.querySelector('button').onclick=()=>{clearTimeout(kill);d.remove();try{let a=injSel().slice();a=o.on?a.filter(x=>x!==o.k):a.concat(o.k);if(a.length)PROF.inj=a;else delete PROF.inj;saveProf();const q2=(CUR&&CUR!=='cal')?JSON.stringify({id:CUR,sess:S.sess,week:S.week}):null;if(q2)sessionStorage.setItem('reopen96',q2);location.reload()}catch(e){}}}catch(e){}},700)}}catch(e){}
+}catch(e){console.error('v112',e)}
 /*END V21*/
 renderAll();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
