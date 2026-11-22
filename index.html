@@ -399,7 +399,7 @@ header.top::after{background:linear-gradient(90deg,#ec4624 0 25%,#f39120 25% 50%
 .sclk button{background:#ec4624;color:#fff}
 .card h2{border-bottom-color:#4fbbbc}.card h2::before{color:#ec4624}
 .ex.done{background:#d3ecec!important}
-.mq{background:#e2dac2}.iconbtn{background:#222a2a;color:#f39120}
+.mq{background:#e2dac2;color:#222a2a}.mq,.mq .mrow button{color:#222a2a!important}.iconbtn{background:#222a2a;color:#f39120}
 
 /* ===== compact header + SKI TRAINING ===== */
 :root{--e1:#4fbbbc;--e2:#f39120;--e3:#ec4624;--e4:#222a2a}
@@ -1431,6 +1431,11 @@ html:root:root:root:root[data-theme="dark"] body .blk>.sec,html:root:root:root:r
 /*DARKX-END*/
 
 
+/* v124 dark contrast */
+@media (prefers-color-scheme: dark){html:root:root:root:root:root:not([data-theme="light"]) body .blk[data-bc]>.sec,html:root:root:root:root:root:not([data-theme="light"]) body .blk[data-bc]:first-of-type>.sec{background:var(--bb)!important}html:root:root:root:root:root:not([data-theme="light"]) body .blk[data-bc]>.sec *,html:root:root:root:root:root:not([data-theme="light"]) body .blk[data-bc]:first-of-type>.sec *{color:var(--bt)!important}:root:not([data-theme="light"]) li>a[target="_blank"]{color:#ff8f63}}
+html:root:root:root:root:root[data-theme="dark"] body .blk[data-bc]>.sec,html:root:root:root:root:root[data-theme="dark"] body .blk[data-bc]:first-of-type>.sec{background:var(--bb)!important}html:root:root:root:root:root[data-theme="dark"] body .blk[data-bc]>.sec *,html:root:root:root:root:root[data-theme="dark"] body .blk[data-bc]:first-of-type>.sec *{color:var(--bt)!important}:root[data-theme="dark"] li>a[target="_blank"]{color:#ff8f63}
+@media (prefers-color-scheme: dark){html:root:root:not([data-theme="light"]) body .cd.k-relax,html:root:root:not([data-theme="light"]) body .cd.k-relax *{color:#14352a!important}}html:root:root[data-theme="dark"] body .cd.k-relax,html:root:root[data-theme="dark"] body .cd.k-relax *{color:#14352a!important}
+html:root:root:root:root:root body .hero .sess-row .sess-title{display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important;max-height:none!important}html:root:root:root:root:root body .hero .sess-row .sess-title .opt{display:inline-block!important;vertical-align:middle;margin-left:8px;white-space:nowrap}
 </style>
 
 </head><body>
@@ -4916,8 +4921,10 @@ const prg=()=>{try{const host=document.getElementById('sclk');if(!host||!PLAN)re
  el.innerHTML=(p>=.999?'<b>Done ✓</b>':'<b>≈ '+left+' min left</b>')+'<span class="nx">'+(nm&&p<.999?'Next · '+nm:'')+'</span>'}catch(e){}};
 
 /* 6 — Start today's workout (or the next planned one) on the home page */
-const home=()=>{try{const c=document.getElementById('todayC');if(!c||c.querySelector('.go112'))return;const m=planItems(),t=localToday();
- let x=(m[t]||[]).filter(z=>PROGS[z.p]).find(z=>!z.done),when='Today';
+const home=()=>{try{const c=document.getElementById('todayC');if(!c)return;const m=planItems(),t=localToday();
+ const rowGo=[...c.querySelectorAll('button')].some(b=>!b.classList.contains('go112')&&/^(open|start)$/i.test(b.textContent.trim()));
+ if(rowGo||(m[t]||[]).some(z=>PROGS[z.p])){c.querySelectorAll('.go112').forEach(e=>e.remove());return}
+ if(c.querySelector('.go112'))return;let x=(m[t]||[]).filter(z=>PROGS[z.p]).find(z=>!z.done),when='Today';
  if(!x){const ks=Object.keys(m).filter(d=>d>t).sort();for(const d of ks){const y=(m[d]||[]).find(z=>PROGS[z.p]&&!z.done);if(y){x=y;when=new Date(d+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'});break}}}
  if(!x)return;const b=document.createElement('button');b.className='go112';b.type='button';b.innerHTML='<span>▶</span><span style="flex:1">Start · '+esc(x.name)+'<small>'+esc(when)+' · '+esc(x.label)+'</small></span>';
  b.onclick=()=>{openProg(x.p);if(x.wi!=null&&PLAN.weeks[x.wi]&&PLAN.sessions.find(z=>z.id===x.sid)){S.week=x.wi;S.sess=x.sid;save();renderAll()}scrollTo(0,0)};
@@ -4967,6 +4974,15 @@ if(!localStorage.getItem('trn.fix1121')){
   try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}});
  localStorage.setItem('trn.fix1121','1');PLANC=null}
 }catch(e){console.error('v121',e)}
+// ---- v124: every dumbbell move says whose kg it is (each hand / one dumbbell)
+try{const _ec124=exCard;exCard=function(ex,wi){let h=_ec124.apply(this,arguments);
+ try{const nm=String(ex&&ex.name||'');if(!/dumbbell|\bDBs?\b|goblet|renegade row|devils? press|man maker/i.test(nm))return h;
+  if(/each hand|one hand|both hands|one dumbbell|both dumbbells|per hand|class="kgu"|kgu2/.test(h))return h;
+  let lab='kg in each hand';
+  if(/goblet/i.test(nm)&&!/\bDB\b|dumbbell/i.test(nm.replace(/goblet/ig,'')))lab='kg one dumbbell, held with both hands';
+  else if(/goblet/i.test(nm))lab='kg in each hand (goblet squat: one dumbbell, both hands)';
+  h=h.replace(/(<div class="nm">[\s\S]*?<\/div>)/,'$1<div class="kgu2 muted" style="font-size:13px;margin:2px 0 0">'+lab+'</div>')}catch(e){}
+ return h}}catch(e){console.error('v124',e)}
 /*END V21*/
 renderAll();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
