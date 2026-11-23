@@ -1481,6 +1481,7 @@ html:root:root:root:root:root[data-theme="dark"] body .blk[data-bc]>.sec{--bb:co
 /*V148 back tap*/#btnHome{position:relative;touch-action:manipulation;-webkit-tap-highlight-color:transparent}#btnHome::after{content:"";position:absolute;left:-10px;right:-14px;top:-8px;bottom:-12px}
 /*V150*/.locked .sec,.locked .sec *{pointer-events:auto}
 /*V151*/.pcx .pcy,.pcx .pcy.opt{margin:0!important;width:100%;box-sizing:border-box}.pcy.opt.w,.pcy.opt.c,.pcy.opt{opacity:1}.pcyc-l .pcy{margin:0!important}
+/*V152*/button.cd{display:flex!important;flex-direction:column;align-items:center;justify-content:flex-start!important;padding-top:9px!important}
 </style>
 
 </head><body>
@@ -2138,7 +2139,7 @@ function renderCal(){loadCal();const ev=calEvents();const today=localToday();if(
     for(let i=0;i<off;i++)h+='<div class="cd e"></div>';let wP=0,wD=0,wEnd='';
     const scoreCell=()=>{const past=wEnd&&wEnd<today;const c=wP?(past?(wD>=wP?'#3a9b5c':wD===0?'#d9482b':'#f39120'):'var(--muted)'):'transparent';return `<div class="wsc" style="color:${c}">${wP?wD+'/'+wP:''}</div>`};
     for(let d=1;d<=nd;d++){const ds=dsF(CALY,m,d),i=dayInfo(ds,ev),tr=tripsOn(ds);
-      const pend=(PL[ds]||[]).filter(x=>!x.done||(x.credit&&!i.train.length));const dots=[...new Set(i.train.map(x=>x.p))].map(p=>`<i style="background:${DC(p)}"></i>`).join('')+[...new Set(pend.map(x=>x.p))].filter(p=>!i.train.some(x=>x.p===p)).map(p=>`<i class="pl" style="border-color:${DC(p)}"></i>`).join('');
+      const pend=(PL[ds]||[]).filter(x=>!x.done||!i.train.length);const dots=[...new Set(i.train.map(x=>x.p))].map(p=>`<i style="background:${DC(p)}"></i>`).join('')+[...new Set(pend.map(x=>x.p))].filter(p=>!i.train.some(x=>x.p===p)).map(p=>`<i class="pl" style="border-color:${DC(p)}"></i>`).join('');
       const mk=(i.am?'☀':'')+(i.pm?'☾':'')+(i.tango?'♪':'');
       const allP=(PL[ds]||[]);const cmp=(ds<today&&allP.length)?(allP.every(x=>x.done)?'cok':allP.some(x=>x.done)?'cpa':'cmis'):'';wP+=allP.length;wD+=allP.filter(x=>x.done).length;wEnd=ds;
       h+=`<button class="cd ${cmp} ${ds===today?'td':''} ${tr.length?(tr[0].kind==='other'?'to':'ts'):''} ${tr.length&&tr[0].maybe?'tm':''}" data-d="${ds}">${d}${i.c.note?'<span class="cm">✎</span>':''}<div class="dt">${dots}</div><div class="mk">${mk}</div></button>`;if((off+d)%7===0){h+=scoreCell();wP=0;wD=0}}
