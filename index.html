@@ -1482,6 +1482,7 @@ html:root:root:root:root:root[data-theme="dark"] body .blk[data-bc]>.sec{--bb:co
 /*V150*/.locked .sec,.locked .sec *{pointer-events:auto}
 /*V151*/.pcx .pcy,.pcx .pcy.opt{margin:0!important;width:100%;box-sizing:border-box}.pcy.opt.w,.pcy.opt.c,.pcy.opt{opacity:1}.pcyc-l .pcy{margin:0!important}
 /*V152*/button.cd{display:flex!important;flex-direction:column;align-items:center;justify-content:flex-start!important;padding-top:9px!important}
+/*V153*/html:root:root:root:root:root body .hero #sclk,html:root:root:root:root:root body #sclk{flex-wrap:nowrap!important;gap:4px!important;max-width:100%;min-width:0}html:root:root:root:root:root body #sclk #ckB,html:root:root:root:root:root body #sclk #ckR{flex:0 0 auto;padding:6px 9px!important;font-size:13px}html:root:root:root:root:root body #sclk #ckT{font-size:13px;flex:0 0 auto}html:root:root:root:root:root body #sclk .fe{display:flex;gap:3px;margin:0}html:root:root:root:root:root body #sclk .fe button{width:30px!important;height:30px!important;min-width:30px!important;font-size:15px}html:root:root:root:root:root body #sclk #ckE,html:root:root:root:root:root body #sclk #nxtB{width:30px!important;height:30px!important;flex:0 0 30px}html:root:root:root:root:root body #sclk #ckE::before{font-size:15px}html:root:root:root:root:root body #sclk #nxtB::before{font-size:16px}
 </style>
 
 </head><body>
@@ -5129,6 +5130,7 @@ const _pw=profileWire;profileWire=function(){_pw.apply(this,arguments);setTimeou
 b.addEventListener('touchstart',e=>{const t=e.touches[0];sx=t.clientX;sy=t.clientY;ok=e.touches.length===1},{passive:true});
 b.addEventListener('touchend',e=>{if(!ok)return;ok=0;const t=e.changedTouches[0];if(Math.abs(t.clientX-sx)>12||Math.abs(t.clientY-sy)>12)return;if(e.cancelable)e.preventDefault();ft=Date.now();b.click()});
 b.addEventListener('click',e=>{if(e.isTrusted&&Date.now()-ft<500){e.stopImmediatePropagation();e.preventDefault()}},true)})()}catch(e){}
+/*V154 home scroll guard*/try{(function(){const o=Event.prototype.preventDefault;Event.prototype.preventDefault=function(){try{if(this.type==='touchmove'&&typeof CUR!=='undefined'&&CUR===null&&!document.querySelector('.sheet.on'))return}catch(e){}return o.apply(this,arguments)}})()}catch(e){}
 /*END V21*/
 renderAll();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
