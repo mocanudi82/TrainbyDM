@@ -1478,6 +1478,7 @@ html:root:root:root:root:root[data-theme="dark"] body .blk[data-bc]>.sec{--bb:co
 
 .bmsvg .mp:not(.lit){fill:color-mix(in srgb,var(--sg-chip,#dcefef) 78%,#8fb7b7)!important;opacity:1!important}
 .bmsvg .bml{letter-spacing:6px;font-family:Oswald,sans-serif;font-weight:600}
+/*V148 back tap*/#btnHome{position:relative;touch-action:manipulation;-webkit-tap-highlight-color:transparent}#btnHome::after{content:"";position:absolute;left:-10px;right:-14px;top:-8px;bottom:-12px}
 </style>
 
 </head><body>
@@ -2135,7 +2136,7 @@ function renderCal(){loadCal();const ev=calEvents();const today=localToday();if(
     for(let i=0;i<off;i++)h+='<div class="cd e"></div>';let wP=0,wD=0,wEnd='';
     const scoreCell=()=>{const past=wEnd&&wEnd<today;const c=wP?(past?(wD>=wP?'#3a9b5c':wD===0?'#d9482b':'#f39120'):'var(--muted)'):'transparent';return `<div class="wsc" style="color:${c}">${wP?wD+'/'+wP:''}</div>`};
     for(let d=1;d<=nd;d++){const ds=dsF(CALY,m,d),i=dayInfo(ds,ev),tr=tripsOn(ds);
-      const pend=(PL[ds]||[]).filter(x=>!x.done);const dots=[...new Set(i.train.map(x=>x.p))].map(p=>`<i style="background:${DC(p)}"></i>`).join('')+[...new Set(pend.map(x=>x.p))].filter(p=>!i.train.some(x=>x.p===p)).map(p=>`<i class="pl" style="border-color:${DC(p)}"></i>`).join('');
+      const pend=(PL[ds]||[]).filter(x=>!x.done||(x.credit&&!i.train.length));const dots=[...new Set(i.train.map(x=>x.p))].map(p=>`<i style="background:${DC(p)}"></i>`).join('')+[...new Set(pend.map(x=>x.p))].filter(p=>!i.train.some(x=>x.p===p)).map(p=>`<i class="pl" style="border-color:${DC(p)}"></i>`).join('');
       const mk=(i.am?'☀':'')+(i.pm?'☾':'')+(i.tango?'♪':'');
       const allP=(PL[ds]||[]);const cmp=(ds<today&&allP.length)?(allP.every(x=>x.done)?'cok':allP.some(x=>x.done)?'cpa':'cmis'):'';wP+=allP.length;wD+=allP.filter(x=>x.done).length;wEnd=ds;
       h+=`<button class="cd ${cmp} ${ds===today?'td':''} ${tr.length?(tr[0].kind==='other'?'to':'ts'):''} ${tr.length&&tr[0].maybe?'tm':''}" data-d="${ds}">${d}${i.c.note?'<span class="cm">✎</span>':''}<div class="dt">${dots}</div><div class="mk">${mk}</div></button>`;if((off+d)%7===0){h+=scoreCell();wP=0;wD=0}}
@@ -4649,7 +4650,9 @@ try{
  const _v80=visibleEx;visibleEx=function(sess,wi){
   try{const p=PLAN;if(p&&p.__o&&sess&&Array.isArray(sess.items)){const si=p.sessions.indexOf(sess),base=si>=0?p.__o[si]:null;
     if(base&&base!==sess.items){
-     if(fin80(wi,sess.id))return _v80.call(this,Object.assign({},sess,{items:base}),wi);
+     if(fin80(wi,sess.id)){let same=false;try{const h=S.hist[wi+'|'+sess.id],cs=(typeof injSel==='function'?injSel():[]).join(',');same=!!cs&&(h.sig||'')===cs}catch(e){}
+      if(same)return _v80.apply(this,arguments);
+      return _v80.call(this,Object.assign({},sess,{items:base}),wi)}
      const have=new Set(sess.items.map(x=>x.id).filter(Boolean));
      const keep=base.filter(x=>x.t==='ex'&&x.id&&!have.has(x.id)&&((S.done&&S.done[wi+'|'+x.id])||[]).some(Boolean));
      if(keep.length){const it=sess.items.slice(),at=it[0]&&it[0].t==='sec'?1:0;it.splice(at,0,...keep);return _v80.call(this,Object.assign({},sess,{items:it}),wi)}}}}catch(e){}
@@ -5117,6 +5120,12 @@ const RX=/^(Enter your starting 1RM|Log a weight on a lift|Pick any current inju
 document.addEventListener('click',e=>{const p=P();if(!p||!p.contains(e.target))return;const h2=e.target.closest('h2');if(h2&&h2.parentElement.classList.contains('card')&&h2.parentElement.parentElement===p){h2.parentElement.classList.toggle('fold141');return}const pf=e.target.closest('.pfh');if(pf)setSub(pf,!pf.classList.contains('pc141'))},true);
 const b=document.getElementById('btnSet');if(b)b.addEventListener('click',()=>{setTimeout(init,0);setTimeout(init,300)});
 const _pw=profileWire;profileWire=function(){_pw.apply(this,arguments);setTimeout(init,0)}})()}catch(e){}
+/*V146*/try{(function(){let tm=0;const lock=()=>{const m=document.getElementById('main');if(!m)return;const h=m.offsetHeight;if(h>0)m.style.minHeight=h+'px';clearTimeout(tm);tm=setTimeout(()=>{m.style.minHeight=''},700)};
+['renderMainKeepScroll','renderAll'].forEach(n=>{try{const o=window[n];if(typeof o!=='function')return;window[n]=function(){const y=window.scrollY;if(n==='renderMainKeepScroll'||true)lock();const r=o.apply(this,arguments);if(n==='renderMainKeepScroll'){window.scrollTo(0,y);requestAnimationFrame(()=>window.scrollTo(0,y))}return r}}catch(e){}})})()}catch(e){}
+/*V148*/try{(function(){const b=document.getElementById('btnHome');if(!b)return;let ok=0,sx=0,sy=0,ft=0;
+b.addEventListener('touchstart',e=>{const t=e.touches[0];sx=t.clientX;sy=t.clientY;ok=e.touches.length===1},{passive:true});
+b.addEventListener('touchend',e=>{if(!ok)return;ok=0;const t=e.changedTouches[0];if(Math.abs(t.clientX-sx)>12||Math.abs(t.clientY-sy)>12)return;if(e.cancelable)e.preventDefault();ft=Date.now();b.click()});
+b.addEventListener('click',e=>{if(e.isTrusted&&Date.now()-ft<500){e.stopImmediatePropagation();e.preventDefault()}},true)})()}catch(e){}
 /*END V21*/
 renderAll();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
